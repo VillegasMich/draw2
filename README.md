@@ -96,6 +96,13 @@ Here are the most important options:
 - `--deck-list`: Path to a ydk file containing the list of cards in your deck for better recognition.
 - `--fps`: FPS of the saved video (default is 60).
 - `--language`: Select the language to display the cards names among EN (default), FR, IT, DE, and PT.
+- `--vid-stride`: Process only every Nth frame (faster on CPU).
+- `-v`, `--verbose`: Print every detected card on every frame in the terminal.
+- `--card-info`: Print card details (type, ATK/DEF, text) when a card is first recognized.
+- `--log-json`: Write all detections to a JSON lines file.
+
+📖 See the full **[Usage Guide](USAGE.md)** for examples with images, videos, webcams and other cameras,
+and for running without a graphical interface.
 
 ---
 
