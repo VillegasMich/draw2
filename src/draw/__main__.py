@@ -1,6 +1,7 @@
 import argparse
 import os
 import shutil
+import sys
 import time
 import urllib
 from functools import wraps
@@ -13,6 +14,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 from draw.draw import Draw
+from draw.logger import DetectionLogger
 
 OpenCVImage = cv2.Mat | np.ndarray[Any, np.dtype]
 
@@ -42,6 +44,22 @@ def parse_command_line():
 
     parser.add_argument('--language', default='EN', type=str,
                         help="Language for card names (e.g. EN, FR, DE, IT, PT). Default: EN.")
+
+    parser.add_argument('--vid-stride', default=1, type=int,
+                        help="Process only every Nth video frame (faster on CPU). Default: 1.")
+
+    parser.add_argument('--verbose', '-v', action='store_true',
+                        help="Print every detected card on every frame, including why unrecognized ones were rejected.")
+
+    parser.add_argument('--quiet', '-q', action='store_true',
+                        help="Do not print new-card events and the final summary.")
+
+    parser.add_argument('--card-info', action='store_true',
+                        help="Fetch and print card details (type, ATK/DEF, text) from YGOPRODeck "
+                             "the first time each card is recognized. Requires internet.")
+
+    parser.add_argument('--log-json', default=None, type=str,
+                        help="Write one JSON line per frame with all detections to this file.")
 
     return parser.parse_args()
 
@@ -186,15 +204,15 @@ def main(args):
 
     draw = Draw(
         source=args.source,
-        deck_lists=deck_list
+        deck_lists=[deck_list] if deck_list else None,
+        vid_stride=args.vid_stride
     )
 
-    is_image = False
     image_types = ["bmp", "dng", "HEIC", "jpeg", "jpg", "mpo", "pfm", "png", "tif", "tiff", "webp"]
-    if args.save and args.source is not None and args.source.split('.')[-1] in image_types:
-        is_image = True
+    is_image = args.source is not None and args.source.split('.')[-1] in image_types
+    if args.save and is_image:
         video_writer = False
-        save_path = args.save if args.save.split(".")[-1] in image_types else "output"
+        save_path = ".".join(args.save.split('.')[:-1]) if args.save.split(".")[-1] in image_types else args.save
 
     if args.save and not is_image:
         video_types = ["asf", "avi", "gif", "m4v", "mov", "mp4", "mpeg", "mpg", "ts", "wmv", "webm"]
@@ -203,7 +221,7 @@ def main(args):
         save_path = ".".join(args.save.split('.')[:-1]) if args.save.split(".")[-1] in video_types else "output"
 
         video_writer = cv2.VideoWriter(f'{save_path}.avi', fourcc, args.fps,
-                                       (first_frame.shape[0], first_frame.shape[1]))
+                                       (first_frame.shape[1], first_frame.shape[0]))
 
     requires_detection_loop = bool(args.display_card or args.save_images)
     if requires_detection_loop:
@@ -217,9 +235,23 @@ def main(args):
         for i, label in enumerate(labels):
             label2id[label] = str(i)
 
+    logger = DetectionLogger(
+        verbose=args.verbose,
+        card_info=args.card_info,
+        json_path=args.log_json,
+        vid_stride=args.vid_stride,
+        stream=open(os.devnull, 'w') if args.quiet else sys.stdout,
+    )
+
     try:
-        for result in draw.results:
-            outputs = draw.process(result, show=args.show, display=args.display_card, language=args.language)
+        frame_start = time.time()
+        for frame_idx, result in enumerate(draw.results):
+            outputs = draw.process(result, show=bool(args.show or args.save),
+                                   display=bool(args.display_card or args.save_images),
+                                   language=args.language)
+
+            logger.log_frame(frame_idx, outputs, elapsed=time.time() - frame_start)
+            frame_start = time.time()
 
             if args.show:
                 show(outputs['image'])
@@ -245,15 +277,22 @@ def main(args):
                     on_detected=on_detected
                 )
 
+        logger.summary()
+        if args.show and is_image:
+            print("Press any key in the image window to close it.")
+            cv2.waitKey(0)
         cv2.destroyAllWindows()
         if args.save and not is_image:
             video_writer.release()
         clear_cache()
     except KeyboardInterrupt:
+        logger.summary()
         cv2.destroyAllWindows()
         if args.save and not is_image:
             video_writer.release()
         clear_cache()
+    finally:
+        logger.close()
 
 
 if __name__ == '__main__':

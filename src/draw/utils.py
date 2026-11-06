@@ -66,6 +66,10 @@ def get_txt(contour):
     return box_txt, txt_aspect_ratio
 
 
+# cv2.ROTATE_90_CLOCKWISE == 0, so "no rotation" needs its own value.
+NO_ROTATION = -1
+
+
 def get_rotation(boxes, box_txt):
     w = boxes[2]
     h = boxes[3]
@@ -87,7 +91,7 @@ def get_rotation(boxes, box_txt):
                     rotation = None
             elif 112 < min(box_txt[:, 1]) < max(box_txt[:, 1]):
                 if (h > w and angle < math.pi / 4) or (h < w and angle > math.pi / 4):
-                    rotation = 0
+                    rotation = NO_ROTATION
                 else:
                     rotation = None
             else:

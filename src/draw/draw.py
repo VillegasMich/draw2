@@ -21,7 +21,7 @@ def download_file(url, destination):
 
 
 class Draw:
-    def __init__(self, source, deck_lists=None, confidence_threshold=5):
+    def __init__(self, source, deck_lists=None, confidence_threshold=5, vid_stride=1):
         self.decklist = []
         if deck_lists is not None:
             for deck_list in deck_lists:
@@ -44,7 +44,8 @@ class Draw:
             save=False,
             device=self.device,
             stream=True,
-            verbose=False
+            verbose=False,
+            vid_stride=vid_stride
         )
 
         image_processor = AutoImageProcessor.from_pretrained(
@@ -66,8 +67,21 @@ class Draw:
 
         self.confidence_threshold = confidence_threshold
 
+    def card_name(self, label, language='EN'):
+        """Human readable card name for a classifier label like 'Monster-Reborn-83764719'."""
+        card_id = label.split('-')[-1]
+        return self.cardnames.get(card_id, {}).get(language) or ' '.join(label.split('-')[:-1])
+
     def process(self, result, show=False, display=False, language='EN'):
-        outputs = {}
+        """Run recognition on one YOLO result.
+
+        Returns a dict with:
+          - 'detections': one entry per detected card box, with its status
+            ('recognized', 'no_text_box', 'orientation_unknown', 'low_confidence', 'not_in_deck')
+          - 'predictions': recognized labels (only if display=True)
+          - 'image': annotated frame (only if show=True)
+        """
+        outputs = {'detections': []}
 
         if display:
             outputs['predictions'] = []
@@ -81,6 +95,14 @@ class Draw:
             )
             obb = np.intp(boxe)
             xy1, _, xy2, _ = obb
+
+            detection = {
+                'box': obb.tolist(),
+                'center': [int(c) for c in boxe.mean(axis=0)],
+                'detector_confidence': round(float(result.obb.conf[nbox]), 4),
+                'status': 'no_text_box',
+            }
+            outputs['detections'].append(detection)
 
             output_pts = np.float32([
                 [224, 224],
@@ -110,35 +132,52 @@ class Draw:
 
                 rotation = utils.get_rotation(boxes=result.obb.xywhr[nbox], box_txt=box_txt)
                 if rotation is None:
-                    break
+                    detection['status'] = 'orientation_unknown'
+                    continue
 
-                if rotation != 0:
+                if rotation != utils.NO_ROTATION:
                     roi = cv2.rotate(roi, rotation)
+                detection['rotation'] = {utils.NO_ROTATION: 0, cv2.ROTATE_90_CLOCKWISE: 90, cv2.ROTATE_180: 180,
+                                         cv2.ROTATE_90_COUNTERCLOCKWISE: 270}[rotation]
 
                 roi = cv2.cvtColor(roi, cv2.COLOR_BGR2RGB)
                 roi = Image.fromarray(roi)
 
                 output = self.classifier(roi, top_k=15)
-                if output[0]['score'] >= self.confidence_threshold / 100:
-                    if len(self.decklist) == 0:
-                        if display:
-                            outputs['predictions'].append(output[0]['label'])
-                        if show:
-                            card_id = output[0]['label'].split('-')[-1]
-                            card_name = self.cardnames.get(card_id, {}).get(language) or ' '.join(output[0]['label'].split('-')[:-1])
-                            outputs['image'] = utils.put_text(outputs['image'], card_name,
-                                        (xy1[0], xy1[1]))
+                detection['candidates'] = [
+                    {'label': o['label'], 'card_id': o['label'].split('-')[-1],
+                     'name': self.card_name(o['label'], language), 'score': round(float(o['score']), 4)}
+                    for o in output[:3]
+                ]
 
-                    else:
-                        for label in output:
-                            label = label['label']
-                            if label.split('-')[-1] in self.decklist:
-                                if display:
-                                    outputs['predictions'].append(output[0]['label'])
-                                if show:
-                                    card_id = output[0]['label'].split('-')[-1]
-                                    card_name = self.cardnames.get(card_id, {}).get(language) or ' '.join(output[0]['label'].split('-')[:-1])
-                                    outputs['image'] = utils.put_text(outputs['image'], card_name,
-                                                (xy1[0], xy1[1]))
-                                break
+                if output[0]['score'] < self.confidence_threshold / 100:
+                    detection['status'] = 'low_confidence'
+                    continue
+
+                match = None
+                if len(self.decklist) == 0:
+                    match = output[0]
+                else:
+                    for candidate in output:
+                        if candidate['label'].split('-')[-1] in self.decklist:
+                            match = candidate
+                            break
+
+                if match is None:
+                    detection['status'] = 'not_in_deck'
+                    continue
+
+                label = match['label']
+                detection.update({
+                    'status': 'recognized',
+                    'label': label,
+                    'card_id': label.split('-')[-1],
+                    'name': self.card_name(label, language),
+                    'score': round(float(match['score']), 4),
+                })
+                if display:
+                    outputs['predictions'].append(label)
+                if show:
+                    outputs['image'] = utils.put_text(outputs['image'], detection['name'],
+                                                      (xy1[0], xy1[1]))
         return outputs
