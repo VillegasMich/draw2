@@ -7,12 +7,50 @@ with or without a graphical window.
 
 ## 1. Setup
 
+Requires **Python 3.10 or newer** (3.12 recommended).
+
+### With uv (recommended)
+
+[uv](https://docs.astral.sh/uv/) reads the Python version from `.python-version` (3.12) and
+the exact dependency versions from `uv.lock`, downloading Python itself if needed.
+
 ```shell
-# from the repository root, with your virtual environment active
+# from the repository root
+uv sync
+```
+
+That's all: it creates `.venv/` with Python 3.12 and installs the project in editable mode,
+so changes in `src/` take effect without reinstalling. If a `.venv/` with another Python version
+already exists, `uv sync` replaces it.
+
+Then run the commands in this guide either with `uv run` in front:
+
+```shell
+uv run python -m draw --source docs/samples/sample_photo.jpg -v
+```
+
+or by activating the environment once and using them as written:
+
+```shell
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+python -m draw --source docs/samples/sample_photo.jpg -v
+```
+
+> Don't use `python -m pip install ...` in a venv made with `uv venv`: uv venvs have no `pip`
+> (`No module named pip`). Use `uv sync`, or `uv pip install -e .` if you need to.
+
+### With pip
+
+```shell
+# from the repository root, in a Python ≥ 3.10 virtual environment
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
 python -m pip install -e .
 ```
 
 `-e` (editable) means changes in `src/` take effect without reinstalling.
+
+### First run
 
 **First run** downloads the models and the card reference dataset from Hugging Face
 (~2.5 GB, cached in `~/.cache/huggingface`). Later runs start in a few seconds.
@@ -252,6 +290,8 @@ jq -r '.detections[] | select(.status=="recognized") | .name' session.jsonl | so
 
 | Problem | Fix |
 |---|---|
+| `No module named pip` | The venv was made with `uv venv`. Install with `uv sync` instead of `pip` (see [Setup](#1-setup)) |
+| `TypeError: unsupported operand type(s) for \|` on startup | Python is older than 3.10. Run `uv sync` (uses 3.12 from `.python-version`) or recreate the venv with a newer Python |
 | `--show` window doesn't appear on Wayland | Run with `QT_QPA_PLATFORM=xcb python -m draw ...` |
 | `QFontDatabase: Cannot find font directory` warnings | Harmless, from OpenCV's bundled Qt |
 | `ConnectionError: Failed to read images from 0` | Camera can't stream. Check that no other app (browser, Zoom, OBS) is using it, the privacy switch / camera kill key (F-key with a camera icon) is off, and it works in another app such as GNOME "Camera" / `cheese`. Try another index (`--source 1`, `2`) |
