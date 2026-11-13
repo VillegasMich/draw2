@@ -51,3 +51,7 @@ jobs:
 
       - name: cargo test
         run: cargo test --workspace --all-features
+
+      # Checks the crate without the `fake` feature, as it builds by default.
+      - name: cargo test (no features)
+        run: cargo test --workspace

@@ -20,13 +20,14 @@ here in ticket A1.
 
 ## Checks
 
-Run all three before committing Rust changes (CI runs the same in `rust.yml` on macOS and
+Run all four before committing Rust changes (CI runs the same in `rust.yml` on macOS and
 Windows):
 
 ```sh
 cargo fmt --all --check
 cargo clippy --workspace --all-targets --all-features -- -D warnings
 cargo test --workspace --all-features
+cargo test --workspace
 ```
 
 ## Hard rules
