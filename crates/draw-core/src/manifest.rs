@@ -181,14 +181,13 @@ mod tests {
         s.len() == len && s.bytes().all(|b| matches!(b, b'0'..=b'9' | b'a'..=b'f'))
     }
 
-    fn path_for(variant: ModelVariant, role: ModelRole) -> &'static str {
-        let matching: Vec<_> = MANIFEST
+    fn paths_for(variant: ModelVariant, role: ModelRole) -> Vec<&'static str> {
+        MANIFEST
             .files(variant)
             .iter()
             .filter(|file| file.role == role)
-            .collect();
-        assert_eq!(matching.len(), 1, "{variant:?} needs exactly one {role:?}");
-        matching[0].path
+            .map(|file| file.path)
+            .collect()
     }
 
     #[test]
@@ -200,7 +199,7 @@ mod tests {
                 ModelRole::Classifier,
                 ModelRole::Labels,
             ] {
-                path_for(variant, role);
+                assert_eq!(paths_for(variant, role).len(), 1, "{variant:?} {role:?}");
             }
         }
     }
@@ -221,9 +220,9 @@ mod tests {
             ),
         ];
         for (variant, classifier, labels) in expected {
-            assert_eq!(path_for(variant, Detector), "onnx/ygo_yolo.onnx");
-            assert_eq!(path_for(variant, Classifier), classifier, "{variant:?}");
-            assert_eq!(path_for(variant, Labels), labels, "{variant:?}");
+            assert_eq!(paths_for(variant, Detector), ["onnx/ygo_yolo.onnx"]);
+            assert_eq!(paths_for(variant, Classifier), [classifier], "{variant:?}");
+            assert_eq!(paths_for(variant, Labels), [labels], "{variant:?}");
         }
     }
 
@@ -238,9 +237,9 @@ mod tests {
     }
 
     #[test]
-    fn the_commit_is_a_full_40_hex_sha() {
-        assert!(is_lower_hex(MANIFEST.commit(), 40), "{}", MANIFEST.commit());
+    fn the_manifest_pins_hichtala_draw2_at_a_full_40_hex_commit() {
         assert_eq!(MANIFEST.repo(), "HichTala/draw2");
+        assert!(is_lower_hex(MANIFEST.commit(), 40), "{}", MANIFEST.commit());
     }
 
     #[test]

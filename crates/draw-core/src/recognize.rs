@@ -17,8 +17,8 @@ use crate::{Detection, FrameRef, ModelVariant, Passcode};
 /// run. The app runs recognition on a single dedicated thread, so implementations only
 /// need to be [`Send`] (to move onto that thread), not [`Sync`].
 pub trait Recognize: Send {
-    /// Returns every card found in `frame`. Coordinates in the result are source-frame
-    /// pixels of `frame`.
+    /// Returns one detection per card found in `frame`. Quads are in source-frame pixels
+    /// of `frame`.
     ///
     /// # Errors
     ///
@@ -39,7 +39,7 @@ pub struct ModelPaths {
     pub labels: PathBuf,
 }
 
-/// How [`Recognizer`] filters and ranks its results.
+/// How [`Recognizer`] filters and ranks its detections and candidates.
 ///
 /// The defaults match the DRAW 2 reference pipeline.
 #[derive(Debug, Clone, PartialEq)]

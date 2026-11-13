@@ -84,7 +84,7 @@ mod tests {
     }
 
     #[test]
-    fn recognize_with_no_detections_returns_none() {
+    fn recognize_with_no_detections_configured_returns_no_detections() {
         let mut fake = FakeRecognizer::new(Vec::new(), None);
         let rgba = [0u8; 16];
 

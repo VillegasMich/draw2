@@ -3,6 +3,7 @@
 /// A card's identity: the 8-digit number printed on the card.
 ///
 /// Leading zeros are not significant, so `00012345` and `12345` are the same passcode.
+/// The value is not range-checked.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Passcode(pub u32);
 
@@ -10,7 +11,7 @@ pub struct Passcode(pub u32);
 ///
 /// The origin is the frame's top-left corner, x points right and y points down. Values are
 /// fractional because corners come from sub-pixel model output.
-#[derive(Debug, Clone, Copy, PartialEq, Default)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Point {
     /// Horizontal position, in source-frame pixels from the left edge.
     pub x: f32,
@@ -23,7 +24,7 @@ pub struct Point {
 /// Corners are ordered top-left, top-right, bottom-right, bottom-left **of the card read
 /// upright**, not of the frame: for a card lying upside down, the first corner is the
 /// lowest-right one on screen.
-#[derive(Debug, Clone, Copy, PartialEq, Default)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Quad(pub [Point; 4]);
 
 /// A passcode the classifier considers possible for a detection.
@@ -41,11 +42,12 @@ pub struct Candidate {
 /// cannot be represented.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Recognition {
-    /// The detection is this candidate.
+    /// The detection is this candidate: the best one, or with a deck list, the
+    /// highest-scoring candidate in the deck list.
     Recognized(Candidate),
     /// The best candidate scored below the minimum score.
     LowConfidence,
-    /// No candidate above the minimum score is in the deck list.
+    /// None of the top-k candidates is in the deck list.
     NotInDeck,
     /// The crop or the card's orientation could not be determined.
     Unreadable,
