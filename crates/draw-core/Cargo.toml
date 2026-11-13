@@ -1,0 +1,19 @@
+[package]
+name = "draw-core"
+description = "DRAW 2 card recognition: one frame in, detections out."
+version = "0.0.1"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[lib]
+name = "draw_core"
+
+[features]
+# Test double for consumers: `FakeRecognizer` returns configured detections.
+fake = []
+
+[dependencies]
+thiserror = "2"
