@@ -13,5 +13,5 @@ pub use detection::{Candidate, Detection, Passcode, Point, Quad, Recognition};
 #[cfg(feature = "fake")]
 pub use fake::FakeRecognizer;
 pub use frame::{FrameError, FrameRef};
-pub use manifest::ModelVariant;
+pub use manifest::{ModelFile, ModelManifest, ModelRole, ModelVariant};
 pub use recognize::{ModelPaths, Recognize, RecognizeError, Recognizer, RecognizerOptions};
