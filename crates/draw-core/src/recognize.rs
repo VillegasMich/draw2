@@ -45,7 +45,8 @@ pub struct ModelPaths {
 #[derive(Debug, Clone, PartialEq)]
 pub struct RecognizerOptions {
     /// The deck list: only these passcodes may be recognized. `None` (the default) means
-    /// no deck filtering.
+    /// no deck filtering. `Some` of an empty set behaves the same as `None`, as in the
+    /// DRAW 2 Python pipeline.
     pub deck: Option<HashSet<Passcode>>,
     /// Detections with a detector confidence below this are dropped, from 0 to 1.
     /// Default: 0.20.
@@ -57,7 +58,8 @@ pub struct RecognizerOptions {
     /// How many candidates each detection keeps, highest score first. Default: 15, deep
     /// enough for deck filtering to find the deck card.
     pub top_k: usize,
-    /// Which classifier build to run. Default: [`ModelVariant::Fp16`].
+    /// Which classifier build to run. Default: [`ModelVariant::Fp16`], provisional until
+    /// real-hardware benchmarks pick the default (draw-ex ticket I2).
     pub variant: ModelVariant,
 }
 
