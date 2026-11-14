@@ -1,0 +1,10 @@
+[workspace]
+resolver = "3"
+members = ["crates/draw-core"]
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.100.0"
+license = "AGPL-3.0-only"
+repository = "https://github.com/VillegasMich/draw2"
+publish = false
