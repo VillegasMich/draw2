@@ -57,13 +57,23 @@ mod tests {
     use super::*;
     use crate::Point;
 
-    /// An axis-aligned card-sized detection with its top-left corner at `(x, y)`.
+    fn quad(corners: [(f32, f32); 4]) -> Quad {
+        Quad(corners.map(|(x, y)| Point { x, y }))
+    }
+
+    /// An axis-aligned, card-sized (100 x 150) quad with its top-left corner at `(x, y)`.
+    fn card(x: f32, y: f32) -> Quad {
+        quad([
+            (x, y),
+            (x + 100.0, y),
+            (x + 100.0, y + 150.0),
+            (x, y + 150.0),
+        ])
+    }
+
     fn at(x: f32, y: f32, confidence: f32) -> RawDetection {
-        let (w, h) = (100.0, 150.0);
         RawDetection {
-            quad: Quad(
-                [(x, y), (x + w, y), (x + w, y + h), (x, y + h)].map(|(x, y)| Point { x, y }),
-            ),
+            quad: card(x, y),
             confidence,
         }
     }
@@ -91,7 +101,7 @@ mod tests {
     }
 
     #[test]
-    fn detections_overlapping_at_or_below_the_threshold_both_survive() {
+    fn detections_overlapping_below_the_threshold_both_survive() {
         // Shifted by half a width: IoU 50*150 / (2*15000 - 7500) = 1/3.
         let detections = vec![at(0.0, 0.0, 0.9), at(50.0, 0.0, 0.8)];
 
@@ -102,23 +112,11 @@ mod tests {
 
     #[test]
     fn iou_approx_compares_the_axis_aligned_bounds_of_the_quads() {
-        let diamond = RawDetection {
-            quad: Quad(
-                [(50.0, 0.0), (100.0, 75.0), (50.0, 150.0), (0.0, 75.0)]
-                    .map(|(x, y)| Point { x, y }),
-            ),
-            confidence: 0.9,
-        };
-
         // A diamond inscribed in the card's box has the same bounds, so IoU 1.
-        assert!((iou_approx(&diamond.quad, &at(0.0, 0.0, 0.9).quad) - 1.0).abs() < 1e-6);
-        assert!(
-            (iou_approx(&at(0.0, 0.0, 0.9).quad, &at(50.0, 0.0, 0.9).quad) - 1.0 / 3.0).abs()
-                < 1e-6
-        );
-        assert_eq!(
-            iou_approx(&at(0.0, 0.0, 0.9).quad, &at(200.0, 0.0, 0.9).quad),
-            0.0
-        );
+        let diamond = quad([(50.0, 0.0), (100.0, 75.0), (50.0, 150.0), (0.0, 75.0)]);
+
+        assert!((iou_approx(&diamond, &card(0.0, 0.0)) - 1.0).abs() < 1e-6);
+        assert!((iou_approx(&card(0.0, 0.0), &card(50.0, 0.0)) - 1.0 / 3.0).abs() < 1e-6);
+        assert_eq!(iou_approx(&card(0.0, 0.0), &card(200.0, 0.0)), 0.0);
     }
 }
