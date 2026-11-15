@@ -16,4 +16,14 @@ name = "draw_core"
 fake = []
 
 [dependencies]
+# ONNX Runtime, CPU only here. Pinned exactly because 2.x is still a release candidate.
+# The default `download-binaries` feature fetches prebuilt ONNX Runtime at build time.
+ort = "=2.0.0-rc.15"
 thiserror = "2"
+
+[dev-dependencies]
+# JPEG decoding for the golden detection fixtures, and serde to read their JSON. The
+# library itself reads RGBA8 frames and resizes them by hand, so it needs no image crate.
+image = { version = "0.25.10", default-features = false, features = ["jpeg"] }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"

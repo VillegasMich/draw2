@@ -14,3 +14,8 @@ docs/.vite/
 
 # Rust build output
 /target/
+
+# draw-core: model files for local tests (DRAW_CORE_MODELS_DIR) and the
+# throwaway venv that regenerates the detection fixtures. Never committed.
+/.models/
+/.venv-fixtures/
