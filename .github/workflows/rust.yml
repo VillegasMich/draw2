@@ -24,6 +24,13 @@ concurrency:
   group: rust-${{ github.ref }}
   cancel-in-progress: true
 
+# The detector the golden detection test runs. Must match the detector entry of
+# `ModelManifest::PINNED` (crates/draw-core/src/manifest.rs): the URL embeds its pinned
+# commit, and the cache is keyed by its SHA-256, so change all three together.
+env:
+  DETECTOR_URL: https://huggingface.co/HichTala/draw2/resolve/7a690eecf6aef5c812ba9a5a1d3e1ced4968b5b3/onnx/ygo_yolo.onnx
+  DETECTOR_SHA256: 449e0d42cbf8429b170abf44d50cda29beeeb05dc80890102e12c06d6358cf97
+
 jobs:
   check:
     name: Check (${{ matrix.os }})
@@ -49,9 +56,44 @@ jobs:
       - name: cargo clippy
         run: cargo clippy --workspace --all-targets --all-features -- -D warnings
 
+      - name: Cache detector model
+        id: detector-cache
+        uses: actions/cache@v4
+        with:
+          path: .models
+          key: draw-core-detector-${{ env.DETECTOR_SHA256 }}
+
+      - name: Download detector model
+        if: steps.detector-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          mkdir -p .models
+          curl -fsSL --retry 3 -o .models/ygo_yolo.onnx "$DETECTOR_URL"
+
+      # Verified on every run, cache hit or not. macOS has shasum, Git Bash on Windows
+      # has sha256sum.
+      - name: Verify detector model
+        shell: bash
+        run: |
+          if command -v sha256sum >/dev/null; then
+            sum=$(sha256sum .models/ygo_yolo.onnx)
+          else
+            sum=$(shasum -a 256 .models/ygo_yolo.onnx)
+          fi
+          actual=${sum%% *}
+          if [ "$actual" != "$DETECTOR_SHA256" ]; then
+            echo "::error::ygo_yolo.onnx has SHA-256 $actual, expected $DETECTOR_SHA256"
+            exit 1
+          fi
+
+      # DRAW_CORE_MODELS_DIR makes the golden detection test run instead of skipping.
       - name: cargo test
         run: cargo test --workspace --all-features
+        env:
+          DRAW_CORE_MODELS_DIR: ${{ github.workspace }}/.models
 
       # Checks the crate without the `fake` feature, as it builds by default.
       - name: cargo test (no features)
         run: cargo test --workspace
+        env:
+          DRAW_CORE_MODELS_DIR: ${{ github.workspace }}/.models
