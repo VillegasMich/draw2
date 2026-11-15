@@ -19,11 +19,14 @@ committed; `.venv-fixtures/` and `.models/` are git-ignored):
     VIRTUAL_ENV=.venv-fixtures uv pip install ultralytics onnx onnxruntime opencv-python
     mkdir -p .models
     curl -fL -o .models/ygo_yolo.onnx \
-      https://huggingface.co/HichTala/draw2/resolve/<PINNED commit>/onnx/ygo_yolo.onnx
+      https://huggingface.co/HichTala/draw2/resolve/7a690eecf6aef5c812ba9a5a1d3e1ced4968b5b3/onnx/ygo_yolo.onnx
     .venv-fixtures/bin/python -I crates/draw-core/tests/fixtures/gen_detect.py .models
 
-`onnx` is listed so ultralytics does not try to auto-install it on first run. Then run
-the golden test against the new fixtures:
+The URL is `ModelManifest::PINNED.url(...)` for the detector; if the manifest moves to
+another commit, update it here and in MODEL_SHA256 below. `onnx` is listed so
+ultralytics does not try to auto-install it on first run.
+
+Then run the golden test against the new fixtures:
 
     DRAW_CORE_MODELS_DIR=.models cargo test -p draw-core golden -- --nocapture
 

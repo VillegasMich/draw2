@@ -55,8 +55,9 @@ Gotchas that are easy to drop during a port:
   index.
 - **Deck filtering needs a deep top-k**: Python uses 15. A top-3 rarely contains the deck
   card.
-- **The manifest has a copy in CI**: `rust.yml` repeats the detector's URL and SHA-256
-  from `ModelManifest::PINNED`. Change them together.
+- **The manifest has copies**: `rust.yml` and
+  `crates/draw-core/tests/fixtures/gen_detect.py` repeat the detector's URL and SHA-256
+  from `ModelManifest::PINNED`. Change all three together.
 
 Golden tests compare draw-core with ultralytics running **the same ONNX file**:
 
