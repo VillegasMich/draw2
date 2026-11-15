@@ -35,12 +35,23 @@
 
 #![forbid(unsafe_code)]
 
+// Built and tested here; the `Recognizer` wires it in ticket A3.
+#[cfg_attr(
+    not(test),
+    expect(dead_code, reason = "wired into Recognizer in ticket A3")
+)]
+mod detect;
 mod detection;
 #[cfg(feature = "fake")]
 mod fake;
 mod frame;
 mod manifest;
 mod recognize;
+#[cfg_attr(
+    not(test),
+    expect(dead_code, reason = "wired into Recognizer in ticket A3")
+)]
+mod runtime;
 
 pub use detection::{Candidate, Detection, Passcode, Point, Quad, Recognition};
 #[cfg(feature = "fake")]
