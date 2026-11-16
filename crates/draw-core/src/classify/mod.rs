@@ -5,5 +5,6 @@
 //! `topK` from draw2's browser pipeline (`docs/scripts/pipeline.js`), and of the deck
 //! filter of the Python pipeline (`src/draw/draw.py`).
 
+pub(crate) mod decision;
 pub(crate) mod labels;
 pub(crate) mod orientation;
