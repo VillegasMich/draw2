@@ -40,6 +40,11 @@
     not(test),
     expect(dead_code, reason = "wired into Recognizer in ticket A3")
 )]
+mod classify;
+#[cfg_attr(
+    not(test),
+    expect(dead_code, reason = "wired into Recognizer in ticket A3")
+)]
 mod detect;
 mod detection;
 #[cfg(feature = "fake")]
