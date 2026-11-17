@@ -15,14 +15,12 @@
 
 use std::path::{Path, PathBuf};
 
-use serde::Deserialize;
-
-use super::orientation::{Rotation, brightness_rotation, upright_quad};
+use super::orientation::{brightness_rotation, upright_quad};
 use super::{Classifier, decision};
 use crate::detect::Detector;
-use crate::warp::{self, Crop};
+use crate::warp::{self, reference};
 use crate::{
-    FrameRef, ModelManifest, ModelRole, ModelVariant, Passcode, Point, Quad, Recognition,
+    FrameRef, ModelManifest, ModelRole, ModelVariant, Passcode, Point, Recognition,
     RecognizerOptions,
 };
 
@@ -34,46 +32,6 @@ const MAX_FP32_SCORE_DELTA: f32 = 5e-3;
 const MIN_INT8_REFERENCE_SCORE: f32 = 0.05;
 
 const MONSTER_REBORN: Passcode = Passcode(83_764_719);
-
-#[derive(Debug, Deserialize)]
-struct Golden {
-    top_k: usize,
-    crops: Vec<GoldenCrop>,
-}
-
-#[derive(Debug, Deserialize)]
-struct GoldenCrop {
-    /// Relative to the repo root.
-    image: String,
-    /// The portrait-frame quad the crop was warped from.
-    quad: [[f32; 2]; 4],
-    rotation: u16,
-    /// Relative to the repo root.
-    crop: String,
-    candidates: GoldenCandidates,
-}
-
-/// Each model's top-k for a crop, highest score first.
-#[derive(Debug, Deserialize)]
-struct GoldenCandidates {
-    int8: Vec<GoldenCandidate>,
-    fp32: Vec<GoldenCandidate>,
-}
-
-#[derive(Debug, Deserialize)]
-struct GoldenCandidate {
-    passcode: u32,
-    score: f32,
-}
-
-fn golden() -> Golden {
-    serde_json::from_str(include_str!("../../tests/fixtures/classify/golden.json"))
-        .expect("classify golden.json parses")
-}
-
-fn repo_root() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("../..")
-}
 
 /// `DRAW_CORE_MODELS_DIR`, or `None` after printing why `test` skips.
 fn models_dir(test: &str) -> Option<PathBuf> {
@@ -105,30 +63,20 @@ fn classifier(models_dir: &Path, variant: ModelVariant) -> Classifier {
     .unwrap_or_else(|err| panic!("the pinned {variant:?} classifier loads: {err}"))
 }
 
-fn reference_crop(reference: &GoldenCrop) -> Crop {
-    Crop::from_rgb(
-        image::open(repo_root().join(&reference.crop))
-            .unwrap_or_else(|err| panic!("{}: {err}", reference.crop))
-            .to_rgb8()
-            .into_raw(),
-    )
-    .expect("reference crops are 224x224")
-}
-
 #[test]
 fn the_fp32_classifier_matches_onnxruntime_on_the_reference_crops() {
     let Some(models_dir) = models_dir("the fp32 classifier golden test") else {
         return;
     };
     let mut classifier = classifier(&models_dir, ModelVariant::Fp32);
-    let golden = golden();
+    let golden = reference::golden();
     let mut worst: f32 = 0.0;
 
     for reference in &golden.crops {
         let expected = &reference.candidates.fp32;
 
         let candidates = classifier
-            .classify(&reference_crop(reference), golden.top_k)
+            .classify(&reference.load(), golden.top_k)
             .expect("classification runs");
 
         assert_eq!(candidates.len(), expected.len());
@@ -163,7 +111,7 @@ fn the_int8_classifier_agrees_with_onnxruntime_on_the_top_1_card() {
         return;
     };
     let mut classifier = classifier(&models_dir, ModelVariant::Int8);
-    let golden = golden();
+    let golden = reference::golden();
     let (mut checked, mut worst) = (0, 0.0_f32);
 
     for reference in &golden.crops {
@@ -173,7 +121,7 @@ fn the_int8_classifier_agrees_with_onnxruntime_on_the_top_1_card() {
         }
 
         let candidates = classifier
-            .classify(&reference_crop(reference), golden.top_k)
+            .classify(&reference.load(), golden.top_k)
             .expect("classification runs");
 
         assert_eq!(
@@ -187,6 +135,7 @@ fn the_int8_classifier_agrees_with_onnxruntime_on_the_top_1_card() {
         checked += 1;
         worst = worst.max((candidates[0].score - expected.score).abs());
     }
+    assert_ne!(checked, 0, "no reference crop is confident enough to check");
     println!(
         "int8 classifier vs onnxruntime: top-1 equal on {checked} of {} crops, worst top-1 \
          score delta {worst:.3} (not checked)",
@@ -220,7 +169,7 @@ fn sample_photo_recognizes_monster_reborn_from_its_detection() {
     .expect("the pinned detector loads");
     let mut classifier = classifier(&models_dir, ModelVariant::Int8);
     // Where the reference pipeline finds Monster Reborn.
-    let reference = golden()
+    let reference = reference::golden()
         .crops
         .into_iter()
         .find(|crop| {
@@ -228,15 +177,8 @@ fn sample_photo_recognizes_monster_reborn_from_its_detection() {
                 && crop.candidates.int8[0].passcode == MONSTER_REBORN.0
         })
         .expect("the reference recognizes Monster Reborn in sample_photo.jpg");
-    let reference_rotation = match reference.rotation {
-        0 => Rotation::Zero,
-        _ => Rotation::HalfTurn,
-    };
-    let expected = upright_quad(
-        &Quad(reference.quad.map(|[x, y]| Point { x, y })),
-        reference_rotation,
-    );
-    let rgba = image::open(repo_root().join(&reference.image))
+    let expected = upright_quad(&reference.quad(), reference.rotation());
+    let rgba = image::open(reference::repo_root().join(&reference.image))
         .expect("sample_photo.jpg decodes")
         .to_rgba8();
     let frame = FrameRef::new(rgba.width(), rgba.height(), rgba.as_raw()).unwrap();
@@ -252,7 +194,8 @@ fn sample_photo_recognizes_monster_reborn_from_its_detection() {
             let quad = upright_quad(&detection.quad, rotation);
             let recognition = decision::decide(Some(&candidates), &options);
             println!(
-                "box at ({:.0}, {:.0}): {rotation:?} (guess {:?}), {recognition:?}",
+                "card at ({:.0}, {:.0}): {rotation:?} (brightness suggested {:?}), \
+                 {recognition:?}",
                 center(quad.0).x,
                 center(quad.0).y,
                 brightness_rotation(&crop)
@@ -264,7 +207,7 @@ fn sample_photo_recognizes_monster_reborn_from_its_detection() {
     let (quad, top_1, recognition) = recognized
         .iter()
         .find(|(quad, _, _)| distance(center(quad.0), center(expected.0)) < 10.0)
-        .expect("a detection lies on the reference box");
+        .expect("a detection lies on the reference quad");
     assert_eq!(*top_1, MONSTER_REBORN);
     assert!(
         matches!(recognition, Recognition::Recognized(c) if c.passcode == MONSTER_REBORN),

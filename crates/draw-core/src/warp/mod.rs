@@ -6,6 +6,8 @@
 use crate::{FrameRef, Quad};
 
 mod homography;
+#[cfg(test)]
+pub(crate) mod reference;
 
 /// Side of the square crop the classifier reads, in pixels.
 pub(crate) const CROP_SIZE: usize = 224;
@@ -21,7 +23,8 @@ pub(crate) struct Crop {
 
 impl Crop {
     /// Wraps `rgb` as a crop, or `None` if it is not [`CROP_SIZE`] × [`CROP_SIZE`] RGB8
-    /// pixels.
+    /// pixels. Only the tests build crops from pixels; the pipeline warps them.
+    #[cfg(test)]
     #[must_use]
     pub(crate) fn from_rgb(rgb: Vec<u8>) -> Option<Self> {
         (rgb.len() == CROP_BYTES).then_some(Self { rgb })
@@ -62,22 +65,22 @@ pub(crate) fn warp(frame: FrameRef<'_>, quad: &Quad) -> Option<Crop> {
     let crop_corners = [[0.0, 0.0], [side, 0.0], [side, side], [0.0, side]];
     let to_frame = homography::invert(&homography::solve(&corners, &crop_corners)?)?;
 
-    let (width, height) = (frame.width() as usize, frame.height() as usize);
-    let rgba = frame.rgba();
     let mut rgb = Vec::with_capacity(CROP_BYTES);
     for y in 0..CROP_SIZE {
         for x in 0..CROP_SIZE {
             let (sx, sy) = homography::apply(&to_frame, x as f64 + 0.5, y as f64 + 0.5);
-            rgb.extend_from_slice(&sample(rgba, width, height, sx, sy));
+            rgb.extend_from_slice(&sample(frame, sx, sy));
         }
     }
     Some(Crop { rgb })
 }
 
-/// The bilinear blend of the 2×2 pixels around `(x, y)` (frame pixels, pixel centers on
-/// whole coordinates) of a `width` × `height` RGBA8 frame, as RGB8. Black when the
-/// neighborhood is not wholly inside the frame, or the position is not finite.
-fn sample(rgba: &[u8], width: usize, height: usize, x: f64, y: f64) -> [u8; 3] {
+/// The bilinear blend of the 2×2 pixels of `frame` around `(x, y)` (source-frame pixels,
+/// pixel centers on whole coordinates), as RGB8. Black when the neighborhood is not
+/// wholly inside the frame, or the position is not finite.
+fn sample(frame: FrameRef<'_>, x: f64, y: f64) -> [u8; 3] {
+    let (width, height) = (frame.width() as usize, frame.height() as usize);
+    let rgba = frame.rgba();
     let (x0, y0) = (x.floor(), y.floor());
     // Also false for NaN.
     let inside = x0 >= 0.0 && y0 >= 0.0 && x0 + 1.0 < width as f64 && y0 + 1.0 < height as f64;
@@ -109,41 +112,8 @@ fn sample(rgba: &[u8], width: usize, height: usize, x: f64, y: f64) -> [u8; 3] {
 
 #[cfg(test)]
 mod tests {
-    use std::path::{Path, PathBuf};
-
-    use serde::Deserialize;
-
+    use super::reference::{self, quad};
     use super::*;
-    use crate::Point;
-
-    #[derive(Debug, Deserialize)]
-    struct Golden {
-        crops: Vec<GoldenCrop>,
-    }
-
-    #[derive(Debug, Deserialize)]
-    struct GoldenCrop {
-        /// Relative to the repo root.
-        image: String,
-        quad: [[f32; 2]; 4],
-        rotation: u16,
-        /// Relative to the repo root.
-        crop: String,
-    }
-
-    fn repo_root() -> PathBuf {
-        Path::new(env!("CARGO_MANIFEST_DIR")).join("../..")
-    }
-
-    fn quad(corners: [[f32; 2]; 4]) -> Quad {
-        Quad(corners.map(|[x, y]| Point { x, y }))
-    }
-
-    fn rgba(path: &str) -> image::RgbaImage {
-        image::open(repo_root().join(path))
-            .unwrap_or_else(|err| panic!("{path}: {err}"))
-            .to_rgba8()
-    }
 
     /// Mean absolute difference per byte, in levels (0 to 255).
     fn mean_abs_diff(a: &Crop, b: &Crop) -> f64 {
@@ -159,10 +129,9 @@ mod tests {
     #[test]
     fn warp_matches_the_opencv_reference_crops_within_two_levels() {
         // OpenCV crops from `tests/fixtures/gen_classify.py`, with the pipeline.js corner
-        // mapping. OpenCV interpolates in fixed point, so values may differ slightly.
-        let golden: Golden =
-            serde_json::from_str(include_str!("../../tests/fixtures/classify/golden.json"))
-                .expect("classify golden.json parses");
+        // mapping. OpenCV interpolates in fixed point and decodes JPEG with libjpeg, so
+        // values may differ slightly.
+        let golden = reference::golden();
         let mut worst: f64 = 0.0;
         let mut image_path = String::new();
         let mut frame_rgba = image::RgbaImage::new(1, 1);
@@ -170,22 +139,16 @@ mod tests {
         for reference in &golden.crops {
             if reference.image != image_path {
                 image_path.clone_from(&reference.image);
-                frame_rgba = rgba(&image_path);
+                frame_rgba = image::open(reference::repo_root().join(&image_path))
+                    .unwrap_or_else(|err| panic!("{image_path}: {err}"))
+                    .to_rgba8();
             }
             let (width, height) = frame_rgba.dimensions();
             let frame = FrameRef::new(width, height, frame_rgba.as_raw()).unwrap();
-            let expected = Crop::from_rgb(
-                image::open(repo_root().join(&reference.crop))
-                    .unwrap_or_else(|err| panic!("{}: {err}", reference.crop))
-                    .to_rgb8()
-                    .into_raw(),
-            )
-            .expect("reference crops are 224x224");
+            let expected = reference.load();
 
-            let mut actual = warp(frame, &quad(reference.quad)).expect("fixture quads warp");
-            if reference.rotation == 180 {
-                actual = actual.rotated_half_turn();
-            }
+            let warped = warp(frame, &reference.quad()).expect("fixture quads warp");
+            let actual = reference.rotation().apply(&warped);
 
             let diff = mean_abs_diff(&actual, &expected);
             assert!(diff <= 2.0, "{}: mean difference {diff:.3}", reference.crop);

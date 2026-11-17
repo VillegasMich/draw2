@@ -70,33 +70,35 @@ pub(crate) fn brightness_rotation(crop: &Crop) -> Rotation {
     }
 }
 
-/// Classifies the crop at the `guess` rotation, and at the other one if the guess scores
-/// low, keeping the rotation whose candidates win. `classify` gives the candidates of
+/// Classifies the crop at the `suggested` rotation (normally [`brightness_rotation`]'s),
+/// and at the other one if the suggestion scores low, keeping the rotation whose
+/// candidates win. `classify` gives the candidates of
 /// the crop turned by a rotation, highest score first.
 ///
 /// Port of `classifyWithRotationFallback`: the other rotation is tried only when the
-/// guess's top-1 score is below 0.15, and kept only when its top-1 score beats the
-/// guess's and is at least 1.25 times it.
+/// suggestion's top-1 score is below 0.15, and kept only when its top-1 score beats the
+/// suggestion's and is at least 1.25 times it. (pipeline.js asks for more than 1.25
+/// times; the decided rule is at least, which differs only on exact equality.)
 ///
 /// # Errors
 ///
 /// The first error `classify` returns.
 pub(crate) fn orient<E>(
-    guess: Rotation,
+    suggested: Rotation,
     mut classify: impl FnMut(Rotation) -> Result<Vec<Candidate>, E>,
 ) -> Result<(Rotation, Vec<Candidate>), E> {
-    let candidates = classify(guess)?;
+    let candidates = classify(suggested)?;
     let baseline = top_score(&candidates);
     if baseline >= FALLBACK_BELOW {
-        return Ok((guess, candidates));
+        return Ok((suggested, candidates));
     }
-    let other = guess.other();
+    let other = suggested.other();
     let other_candidates = classify(other)?;
     let score = top_score(&other_candidates);
     if score > baseline && score >= baseline * FLIP_MARGIN {
         Ok((other, other_candidates))
     } else {
-        Ok((guess, candidates))
+        Ok((suggested, candidates))
     }
 }
 
@@ -120,20 +122,16 @@ pub(crate) fn upright_quad(portrait: &Quad, rotation: Rotation) -> Quad {
 
 #[cfg(test)]
 mod tests {
-    use std::path::Path;
-
     use super::*;
-    use crate::{Passcode, Point};
+    use crate::Passcode;
+    use crate::warp::reference::{self, quad};
 
     /// An upright reference crop of Monster Reborn, its text box at the bottom.
     fn upright_card() -> Crop {
-        let path = Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("tests/fixtures/classify/crop_sample_photo_06.png");
-        let rgb = image::open(&path)
-            .unwrap_or_else(|err| panic!("{}: {err}", path.display()))
-            .to_rgb8()
-            .into_raw();
-        Crop::from_rgb(rgb).expect("reference crops are 224x224")
+        reference::load_crop(
+            &reference::repo_root()
+                .join("crates/draw-core/tests/fixtures/classify/crop_sample_photo_06.png"),
+        )
     }
 
     #[test]
@@ -159,7 +157,7 @@ mod tests {
         ]
     }
 
-    /// Runs [`orient`] from a `Zero` guess with a fake classifier scoring `zero` and
+    /// Runs [`orient`] from a `Zero` suggestion with a fake classifier scoring `zero` and
     /// `half_turn`, returning the rotation kept and the rotations classified.
     fn orient_with(zero: f32, half_turn: f32) -> (Rotation, f32, Vec<Rotation>) {
         let mut tried = Vec::new();
@@ -175,7 +173,7 @@ mod tests {
     }
 
     #[test]
-    fn a_confident_guess_is_kept_without_trying_the_other_rotation() {
+    fn a_confident_suggestion_is_kept_without_trying_the_other_rotation() {
         assert_eq!(
             orient_with(0.15, 0.9),
             (Rotation::Zero, 0.15, vec![Rotation::Zero])
@@ -183,18 +181,18 @@ mod tests {
     }
 
     #[test]
-    fn a_low_scoring_guess_gives_way_to_a_rotation_at_least_one_and_a_quarter_times_better() {
+    fn a_low_scoring_suggestion_gives_way_to_a_rotation_a_quarter_better_or_more() {
         let both = vec![Rotation::Zero, Rotation::HalfTurn];
 
         assert_eq!(
-            orient_with(0.1, 0.125),
-            (Rotation::HalfTurn, 0.125, both.clone())
+            orient_with(0.1, 0.126),
+            (Rotation::HalfTurn, 0.126, both.clone())
         );
         assert_eq!(orient_with(0.1, 0.6), (Rotation::HalfTurn, 0.6, both));
     }
 
     #[test]
-    fn a_low_scoring_guess_is_kept_when_the_other_rotation_is_less_than_a_quarter_better() {
+    fn a_low_scoring_suggestion_is_kept_when_the_other_rotation_is_less_than_a_quarter_better() {
         let both = vec![Rotation::Zero, Rotation::HalfTurn];
 
         assert_eq!(orient_with(0.1, 0.124), (Rotation::Zero, 0.1, both.clone()));
@@ -211,18 +209,14 @@ mod tests {
         );
     }
 
-    fn points(corners: [(f32, f32); 4]) -> Quad {
-        Quad(corners.map(|(x, y)| Point { x, y }))
-    }
-
     #[test]
     fn the_upright_quad_keeps_the_portrait_order_at_zero_and_swaps_ends_at_a_half_turn() {
-        let portrait = points([(10.0, 20.0), (60.0, 20.0), (60.0, 90.0), (10.0, 90.0)]);
+        let portrait = quad([[10.0, 20.0], [60.0, 20.0], [60.0, 90.0], [10.0, 90.0]]);
 
         assert_eq!(upright_quad(&portrait, Rotation::Zero), portrait);
         assert_eq!(
             upright_quad(&portrait, Rotation::HalfTurn),
-            points([(60.0, 90.0), (10.0, 90.0), (10.0, 20.0), (60.0, 20.0)])
+            quad([[60.0, 90.0], [10.0, 90.0], [10.0, 20.0], [60.0, 20.0]])
         );
     }
 }

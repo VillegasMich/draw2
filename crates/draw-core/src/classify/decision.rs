@@ -118,6 +118,10 @@ mod tests {
             decide(Some(&candidates), &options),
             Recognition::LowConfidence
         );
+    }
+
+    #[test]
+    fn no_candidates_at_all_is_low_confidence() {
         assert_eq!(
             decide(Some(&[]), &RecognizerOptions::default()),
             Recognition::LowConfidence

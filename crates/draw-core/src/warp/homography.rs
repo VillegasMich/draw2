@@ -12,6 +12,7 @@ const SINGULAR: f64 = 1e-12;
 ///
 /// Port of `solveHomography`: the eight unknowns of the transform (its bottom-right
 /// entry fixed at 1) solved from the two equations each point pair gives.
+#[must_use]
 pub(super) fn solve(source: &[[f64; 2]; 4], target: &[[f64; 2]; 4]) -> Option<Homography> {
     let mut system = [[0.0; 9]; 8];
     for (i, (&[sx, sy], &[tx, ty])) in source.iter().zip(target).enumerate() {
@@ -54,6 +55,7 @@ fn gauss_jordan(mut system: [[f64; 9]; 8]) -> Option<[f64; 8]> {
 }
 
 /// The inverse of `h`, or `None` if it is singular. Port of `invertH`.
+#[must_use]
 pub(super) fn invert(h: &Homography) -> Option<Homography> {
     let [[a, b, c], [d, e, f], [g, h, i]] = *h;
     let determinant = a * (e * i - f * h) - b * (d * i - f * g) + c * (d * h - e * g);
@@ -86,6 +88,7 @@ fn negligible(value: f64) -> bool {
 }
 
 /// The image of `(x, y)` under `h`.
+#[must_use]
 pub(super) fn apply(h: &Homography, x: f64, y: f64) -> (f64, f64) {
     let w = h[2][0] * x + h[2][1] * y + h[2][2];
     (
