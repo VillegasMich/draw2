@@ -4,6 +4,8 @@
 //! either upright or turned a half turn. A port of `correctRotation` and
 //! `classifyWithRotationFallback` from `pipeline.js`.
 
+use std::borrow::Cow;
+
 use crate::warp::{CROP_SIZE, Crop};
 use crate::{Candidate, Quad};
 
@@ -30,6 +32,15 @@ impl Rotation {
         match self {
             Self::Zero => Self::HalfTurn,
             Self::HalfTurn => Self::Zero,
+        }
+    }
+
+    /// `crop` turned by this rotation.
+    #[must_use]
+    pub(crate) fn apply(self, crop: &Crop) -> Cow<'_, Crop> {
+        match self {
+            Self::Zero => Cow::Borrowed(crop),
+            Self::HalfTurn => Cow::Owned(crop.rotated_half_turn()),
         }
     }
 }
