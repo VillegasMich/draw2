@@ -19,7 +19,7 @@ use self::labels::{Labels, LabelsError};
 use self::orientation::Rotation;
 
 pub(crate) mod decision;
-pub(crate) mod labels;
+mod labels;
 pub(crate) mod orientation;
 mod scores;
 
@@ -63,9 +63,9 @@ impl Classifier {
     ///
     /// # Errors
     ///
-    /// [`ClassifyError::Runtime`] if inference fails, or
+    /// [`ClassifyError::Runtime`] if inference fails,
     /// [`ClassifyError::UnexpectedOutputShape`] if the model does not give one score per
-    /// label.
+    /// label, or [`ClassifyError::NonFiniteOutput`] if a score is NaN or infinite.
     pub(crate) fn classify(
         &mut self,
         crop: &Crop,
@@ -83,6 +83,7 @@ impl Classifier {
             });
         }
         let candidates = scores::top_k(scores, top_k)
+            .ok_or(ClassifyError::NonFiniteOutput)?
             .into_iter()
             .map(|(index, score)| Candidate {
                 passcode: self
@@ -150,6 +151,9 @@ pub(crate) enum ClassifyError {
         /// What is wrong with it.
         source: LabelsError,
     },
+    /// The model output a NaN or an infinity, so the crop has no scores.
+    #[error("classifier output is not finite")]
+    NonFiniteOutput,
     /// The model's output is not one score per label for one crop.
     #[error("classifier output has shape {shape:?}, expected [1, {labels}] (one per label)")]
     UnexpectedOutputShape {

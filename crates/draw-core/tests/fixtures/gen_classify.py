@@ -31,7 +31,10 @@ for draw-core:
   bottom band. If the top-1 score is below 0.15, the other rotation is classified too
   and kept only if its top-1 is at least 1.25x better.
 - `preprocessViT`: RGB / 255, normalized with mean = std = 0.5, NCHW.
-- `topK`: softmax only when the outputs are logits (their max is above 1).
+- `topK`: softmax only when the outputs are logits. Unlike pipeline.js (max above 1),
+  outputs count as probabilities only when every one lies in 0 to 1, give or take
+  rounding, as in draw-core (see the porting notes in CLAUDE.md). The pinned ViTs
+  output logits, so both rules agree on them.
 
 How to regenerate (from the repo root, in the throwaway environment of `gen_detect.py`;
 `.venv-fixtures/` and `.models/` are git-ignored):
@@ -77,6 +80,9 @@ CROP_SIZE = 224
 TOP_K = 15
 ROTATION_FALLBACK_CONFIDENCE = 0.15
 ROTATION_FLIP_MARGIN = 1.25
+# How far past 1 an output may be and still count as a probability (draw-core's
+# `PROBABILITY_SLACK`).
+PROBABILITY_SLACK = 1e-5
 
 FIXTURES = Path(__file__).resolve().parent
 REPO_ROOT = FIXTURES.parents[3]
@@ -144,7 +150,11 @@ def top_k(session: onnxruntime.InferenceSession, crop: np.ndarray) -> list:
     tensor = tensor.transpose(2, 0, 1)[np.newaxis]
     (outputs,) = session.run(None, {session.get_inputs()[0].name: tensor})
     scores = outputs[0].astype(np.float64)
-    if scores.max() > 1.0:
+    if not np.isfinite(scores).all():
+        sys.exit("the classifier output a NaN or an infinity")
+    if ((scores >= 0.0) & (scores <= 1.0 + PROBABILITY_SLACK)).all():
+        scores = np.minimum(scores, 1.0)
+    else:
         exp = np.exp(scores - scores.max())
         scores = exp / exp.sum()
     order = np.argsort(-scores, kind="stable")[:TOP_K]
