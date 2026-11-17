@@ -40,6 +40,11 @@
     not(test),
     expect(dead_code, reason = "wired into Recognizer in ticket A3")
 )]
+mod classify;
+#[cfg_attr(
+    not(test),
+    expect(dead_code, reason = "wired into Recognizer in ticket A3")
+)]
 mod detect;
 mod detection;
 #[cfg(feature = "fake")]
@@ -52,6 +57,11 @@ mod recognize;
     expect(dead_code, reason = "wired into Recognizer in ticket A3")
 )]
 mod runtime;
+#[cfg_attr(
+    not(test),
+    expect(dead_code, reason = "wired into Recognizer in ticket A3")
+)]
+mod warp;
 
 pub use detection::{Candidate, Detection, Passcode, Point, Quad, Recognition};
 #[cfg(feature = "fake")]

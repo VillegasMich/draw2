@@ -24,12 +24,16 @@ concurrency:
   group: rust-${{ github.ref }}
   cancel-in-progress: true
 
-# The detector the golden detection test runs. Must match the detector entry of
-# `ModelManifest::PINNED` (crates/draw-core/src/manifest.rs): the URL embeds its pinned
-# commit, and the cache is keyed by its SHA-256, so change all three together.
+# The model files the golden tests run: the detector, the int8 and fp32 classifiers and
+# their labels. Must match `ModelManifest::PINNED` (crates/draw-core/src/manifest.rs):
+# MODELS_URL embeds its pinned commit, and the cache is keyed by every SHA-256, so change
+# them together (with the fixture scripts in crates/draw-core/tests/fixtures/).
 env:
-  DETECTOR_URL: https://huggingface.co/HichTala/draw2/resolve/7a690eecf6aef5c812ba9a5a1d3e1ced4968b5b3/onnx/ygo_yolo.onnx
+  MODELS_URL: https://huggingface.co/HichTala/draw2/resolve/7a690eecf6aef5c812ba9a5a1d3e1ced4968b5b3/onnx
   DETECTOR_SHA256: 449e0d42cbf8429b170abf44d50cda29beeeb05dc80890102e12c06d6358cf97
+  VIT_INT8_SHA256: f2da9ce6b2c02498e0c9f8fc0b7817eeebd88bfe8491c8c7f83055dfd57e5b4a
+  VIT_FP32_SHA256: 8e6b63c64e081f6f5326adf0c758247bb88764224c2380d547e9c9005e574ca4
+  LABELS_SHA256: 70d13d586eee498b33ee493b48cd564fbffcb99b0476897978de1fd7d856f639
 
 jobs:
   check:
@@ -56,37 +60,49 @@ jobs:
       - name: cargo clippy
         run: cargo clippy --workspace --all-targets --all-features -- -D warnings
 
-      - name: Cache detector model
-        id: detector-cache
+      - name: Cache model files
+        id: models-cache
         uses: actions/cache@v4
         with:
           path: .models
-          key: draw-core-detector-${{ env.DETECTOR_SHA256 }}
+          key: draw-core-models-${{ env.DETECTOR_SHA256 }}-${{ env.VIT_INT8_SHA256 }}-${{ env.VIT_FP32_SHA256 }}-${{ env.LABELS_SHA256 }}
 
-      - name: Download detector model
-        if: steps.detector-cache.outputs.cache-hit != 'true'
+      - name: Download model files
+        if: steps.models-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
           mkdir -p .models
-          curl -fsSL --retry 3 -o .models/ygo_yolo.onnx "$DETECTOR_URL"
+          for file in ygo_yolo.onnx vit_int8.onnx vit_fp32.onnx cardnames_onnx.json; do
+            curl -fsSL --retry 3 -o ".models/$file" "$MODELS_URL/$file"
+          done
 
       # Verified on every run, cache hit or not. macOS has shasum, Git Bash on Windows
       # has sha256sum.
-      - name: Verify detector model
+      - name: Verify model files
         shell: bash
         run: |
-          if command -v sha256sum >/dev/null; then
-            sum=$(sha256sum .models/ygo_yolo.onnx)
-          else
-            sum=$(shasum -a 256 .models/ygo_yolo.onnx)
-          fi
-          actual=${sum%% *}
-          if [ "$actual" != "$DETECTOR_SHA256" ]; then
-            echo "::error::ygo_yolo.onnx has SHA-256 $actual, expected $DETECTOR_SHA256"
-            exit 1
-          fi
+          status=0
+          while read -r file expected; do
+            if command -v sha256sum >/dev/null; then
+              sum=$(sha256sum ".models/$file")
+            else
+              sum=$(shasum -a 256 ".models/$file")
+            fi
+            actual=${sum%% *}
+            if [ "$actual" != "$expected" ]; then
+              echo "::error::$file has SHA-256 $actual, expected $expected"
+              status=1
+            fi
+          done <<EOF
+          ygo_yolo.onnx $DETECTOR_SHA256
+          vit_int8.onnx $VIT_INT8_SHA256
+          vit_fp32.onnx $VIT_FP32_SHA256
+          cardnames_onnx.json $LABELS_SHA256
+          EOF
+          exit $status
 
-      # DRAW_CORE_MODELS_DIR makes the golden detection test run instead of skipping.
+      # DRAW_CORE_MODELS_DIR makes the golden detection and classification tests run
+      # instead of skipping.
       - name: cargo test
         run: cargo test --workspace --all-features
         env:
