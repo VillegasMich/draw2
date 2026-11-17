@@ -2,9 +2,15 @@
  "generator": "crates/draw-core/tests/fixtures/gen_classify.py",
  "onnxruntime": "1.32.0",
  "opencv": "5.0.0",
- "model": {
-  "file": "vit_int8.onnx",
-  "sha256": "f2da9ce6b2c02498e0c9f8fc0b7817eeebd88bfe8491c8c7f83055dfd57e5b4a"
+ "models": {
+  "int8": {
+   "file": "vit_int8.onnx",
+   "sha256": "f2da9ce6b2c02498e0c9f8fc0b7817eeebd88bfe8491c8c7f83055dfd57e5b4a"
+  },
+  "fp32": {
+   "file": "vit_fp32.onnx",
+   "sha256": "8e6b63c64e081f6f5326adf0c758247bb88764224c2380d547e9c9005e574ca4"
+  }
  },
  "labels": {
   "file": "cardnames_onnx.json",
@@ -35,83 +41,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_sample_photo_00.png",
-   "candidates": [
-    {
-     "index": 12817,
-     "passcode": 70050374,
-     "score": 0.3267577
-    },
-    {
-     "index": 13920,
-     "passcode": 24311372,
-     "score": 0.0012516
-    },
-    {
-     "index": 2375,
-     "passcode": 94377247,
-     "score": 0.0009627
-    },
-    {
-     "index": 6419,
-     "passcode": 30113682,
-     "score": 0.0007115
-    },
-    {
-     "index": 10069,
-     "passcode": 79491903,
-     "score": 0.0006663
-    },
-    {
-     "index": 9400,
-     "passcode": 19434243,
-     "score": 0.0006207
-    },
-    {
-     "index": 11076,
-     "passcode": 58071334,
-     "score": 0.0006206
-    },
-    {
-     "index": 10456,
-     "passcode": 60303245,
-     "score": 0.0006035
-    },
-    {
-     "index": 3210,
-     "passcode": 61764082,
-     "score": 0.0005855
-    },
-    {
-     "index": 6485,
-     "passcode": 48411996,
-     "score": 0.0005383
-    },
-    {
-     "index": 3063,
-     "passcode": 44373896,
-     "score": 0.0004994
-    },
-    {
-     "index": 4906,
-     "passcode": 11765832,
-     "score": 0.0004881
-    },
-    {
-     "index": 4817,
-     "passcode": 97204936,
-     "score": 0.0004719
-    },
-    {
-     "index": 2779,
-     "passcode": 38033121,
-     "score": 0.0004529
-    },
-    {
-     "index": 6236,
-     "passcode": 62034800,
-     "score": 0.0004233
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 12817,
+      "passcode": 70050374,
+      "score": 0.3267577
+     },
+     {
+      "index": 13920,
+      "passcode": 24311372,
+      "score": 0.0012516
+     },
+     {
+      "index": 2375,
+      "passcode": 94377247,
+      "score": 0.0009627
+     },
+     {
+      "index": 6419,
+      "passcode": 30113682,
+      "score": 0.0007115
+     },
+     {
+      "index": 10069,
+      "passcode": 79491903,
+      "score": 0.0006663
+     },
+     {
+      "index": 9400,
+      "passcode": 19434243,
+      "score": 0.0006207
+     },
+     {
+      "index": 11076,
+      "passcode": 58071334,
+      "score": 0.0006206
+     },
+     {
+      "index": 10456,
+      "passcode": 60303245,
+      "score": 0.0006035
+     },
+     {
+      "index": 3210,
+      "passcode": 61764082,
+      "score": 0.0005855
+     },
+     {
+      "index": 6485,
+      "passcode": 48411996,
+      "score": 0.0005383
+     },
+     {
+      "index": 3063,
+      "passcode": 44373896,
+      "score": 0.0004994
+     },
+     {
+      "index": 4906,
+      "passcode": 11765832,
+      "score": 0.0004881
+     },
+     {
+      "index": 4817,
+      "passcode": 97204936,
+      "score": 0.0004719
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0004529
+     },
+     {
+      "index": 6236,
+      "passcode": 62034800,
+      "score": 0.0004233
+     }
+    ],
+    "fp32": [
+     {
+      "index": 12817,
+      "passcode": 70050374,
+      "score": 0.3878938
+     },
+     {
+      "index": 13920,
+      "passcode": 24311372,
+      "score": 0.0010644
+     },
+     {
+      "index": 2375,
+      "passcode": 94377247,
+      "score": 0.0009196
+     },
+     {
+      "index": 6419,
+      "passcode": 30113682,
+      "score": 0.0008962
+     },
+     {
+      "index": 11076,
+      "passcode": 58071334,
+      "score": 0.0008268
+     },
+     {
+      "index": 10069,
+      "passcode": 79491903,
+      "score": 0.0006475
+     },
+     {
+      "index": 10456,
+      "passcode": 60303245,
+      "score": 0.0005768
+     },
+     {
+      "index": 4817,
+      "passcode": 97204936,
+      "score": 0.0005545
+     },
+     {
+      "index": 9400,
+      "passcode": 19434243,
+      "score": 0.0005535
+     },
+     {
+      "index": 3210,
+      "passcode": 61764082,
+      "score": 0.0005143
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0004872
+     },
+     {
+      "index": 6479,
+      "passcode": 93170499,
+      "score": 0.0004861
+     },
+     {
+      "index": 6485,
+      "passcode": 48411996,
+      "score": 0.0004455
+     },
+     {
+      "index": 4906,
+      "passcode": 11765832,
+      "score": 0.0004393
+     },
+     {
+      "index": 11947,
+      "passcode": 32480825,
+      "score": 0.0003991
+     }
+    ]
+   }
   },
   {
    "image": "docs/samples/sample_photo.jpg",
@@ -136,83 +221,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_sample_photo_01.png",
-   "candidates": [
-    {
-     "index": 9870,
-     "passcode": 12503902,
-     "score": 0.4220559
-    },
-    {
-     "index": 2779,
-     "passcode": 38033121,
-     "score": 0.0009075
-    },
-    {
-     "index": 4080,
-     "passcode": 62098216,
-     "score": 0.0007345
-    },
-    {
-     "index": 12126,
-     "passcode": 49299410,
-     "score": 0.0005046
-    },
-    {
-     "index": 1683,
-     "passcode": 97077563,
-     "score": 0.0005045
-    },
-    {
-     "index": 9241,
-     "passcode": 61936647,
-     "score": 0.0004936
-    },
-    {
-     "index": 3712,
-     "passcode": 88341502,
-     "score": 0.0004928
-    },
-    {
-     "index": 12623,
-     "passcode": 79766336,
-     "score": 0.0004554
-    },
-    {
-     "index": 7428,
-     "passcode": 9433350,
-     "score": 0.0004509
-    },
-    {
-     "index": 8479,
-     "passcode": 63626024,
-     "score": 0.0004269
-    },
-    {
-     "index": 2516,
-     "passcode": 43405287,
-     "score": 0.0003773
-    },
-    {
-     "index": 7631,
-     "passcode": 89812483,
-     "score": 0.0003452
-    },
-    {
-     "index": 3979,
-     "passcode": 62878208,
-     "score": 0.0003251
-    },
-    {
-     "index": 7920,
-     "passcode": 72427512,
-     "score": 0.0003221
-    },
-    {
-     "index": 7417,
-     "passcode": 92332424,
-     "score": 0.0003195
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 9870,
+      "passcode": 12503902,
+      "score": 0.4220559
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0009075
+     },
+     {
+      "index": 4080,
+      "passcode": 62098216,
+      "score": 0.0007345
+     },
+     {
+      "index": 12126,
+      "passcode": 49299410,
+      "score": 0.0005046
+     },
+     {
+      "index": 1683,
+      "passcode": 97077563,
+      "score": 0.0005045
+     },
+     {
+      "index": 9241,
+      "passcode": 61936647,
+      "score": 0.0004936
+     },
+     {
+      "index": 3712,
+      "passcode": 88341502,
+      "score": 0.0004928
+     },
+     {
+      "index": 12623,
+      "passcode": 79766336,
+      "score": 0.0004554
+     },
+     {
+      "index": 7428,
+      "passcode": 9433350,
+      "score": 0.0004509
+     },
+     {
+      "index": 8479,
+      "passcode": 63626024,
+      "score": 0.0004269
+     },
+     {
+      "index": 2516,
+      "passcode": 43405287,
+      "score": 0.0003773
+     },
+     {
+      "index": 7631,
+      "passcode": 89812483,
+      "score": 0.0003452
+     },
+     {
+      "index": 3979,
+      "passcode": 62878208,
+      "score": 0.0003251
+     },
+     {
+      "index": 7920,
+      "passcode": 72427512,
+      "score": 0.0003221
+     },
+     {
+      "index": 7417,
+      "passcode": 92332424,
+      "score": 0.0003195
+     }
+    ],
+    "fp32": [
+     {
+      "index": 9870,
+      "passcode": 12503902,
+      "score": 0.5086055
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.001003
+     },
+     {
+      "index": 4080,
+      "passcode": 62098216,
+      "score": 0.0006422
+     },
+     {
+      "index": 3712,
+      "passcode": 88341502,
+      "score": 0.0004834
+     },
+     {
+      "index": 7428,
+      "passcode": 9433350,
+      "score": 0.0004467
+     },
+     {
+      "index": 7631,
+      "passcode": 89812483,
+      "score": 0.000429
+     },
+     {
+      "index": 12126,
+      "passcode": 49299410,
+      "score": 0.0004137
+     },
+     {
+      "index": 8479,
+      "passcode": 63626024,
+      "score": 0.0004133
+     },
+     {
+      "index": 12623,
+      "passcode": 79766336,
+      "score": 0.0003867
+     },
+     {
+      "index": 9241,
+      "passcode": 61936647,
+      "score": 0.000384
+     },
+     {
+      "index": 1683,
+      "passcode": 97077563,
+      "score": 0.000341
+     },
+     {
+      "index": 1229,
+      "passcode": 9925982,
+      "score": 0.0003138
+     },
+     {
+      "index": 1920,
+      "passcode": 12289247,
+      "score": 0.000309
+     },
+     {
+      "index": 3979,
+      "passcode": 62878208,
+      "score": 0.0003071
+     },
+     {
+      "index": 7417,
+      "passcode": 92332424,
+      "score": 0.0002867
+     }
+    ]
+   }
   },
   {
    "image": "docs/samples/sample_photo.jpg",
@@ -237,83 +401,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_sample_photo_02.png",
-   "candidates": [
-    {
-     "index": 12529,
-     "passcode": 79875176,
-     "score": 0.1209602
-    },
-    {
-     "index": 5515,
-     "passcode": 61705417,
-     "score": 0.0013063
-    },
-    {
-     "index": 12964,
-     "passcode": 38527680,
-     "score": 0.0010608
-    },
-    {
-     "index": 7623,
-     "passcode": 27182739,
-     "score": 0.0008158
-    },
-    {
-     "index": 1371,
-     "passcode": 30576089,
-     "score": 0.0007094
-    },
-    {
-     "index": 11807,
-     "passcode": 94145683,
-     "score": 0.0006798
-    },
-    {
-     "index": 11251,
-     "passcode": 2254222,
-     "score": 0.0005851
-    },
-    {
-     "index": 11436,
-     "passcode": 76636978,
-     "score": 0.0005792
-    },
-    {
-     "index": 3818,
-     "passcode": 85507811,
-     "score": 0.0005608
-    },
-    {
-     "index": 6529,
-     "passcode": 95602345,
-     "score": 0.0005568
-    },
-    {
-     "index": 5172,
-     "passcode": 51828629,
-     "score": 0.0005313
-    },
-    {
-     "index": 12227,
-     "passcode": 86099788,
-     "score": 0.0005069
-    },
-    {
-     "index": 9038,
-     "passcode": 58720904,
-     "score": 0.0004922
-    },
-    {
-     "index": 13885,
-     "passcode": 35561352,
-     "score": 0.0004861
-    },
-    {
-     "index": 11347,
-     "passcode": 13890468,
-     "score": 0.0004805
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 12529,
+      "passcode": 79875176,
+      "score": 0.1209602
+     },
+     {
+      "index": 5515,
+      "passcode": 61705417,
+      "score": 0.0013063
+     },
+     {
+      "index": 12964,
+      "passcode": 38527680,
+      "score": 0.0010608
+     },
+     {
+      "index": 7623,
+      "passcode": 27182739,
+      "score": 0.0008158
+     },
+     {
+      "index": 1371,
+      "passcode": 30576089,
+      "score": 0.0007094
+     },
+     {
+      "index": 11807,
+      "passcode": 94145683,
+      "score": 0.0006798
+     },
+     {
+      "index": 11251,
+      "passcode": 2254222,
+      "score": 0.0005851
+     },
+     {
+      "index": 11436,
+      "passcode": 76636978,
+      "score": 0.0005792
+     },
+     {
+      "index": 3818,
+      "passcode": 85507811,
+      "score": 0.0005608
+     },
+     {
+      "index": 6529,
+      "passcode": 95602345,
+      "score": 0.0005568
+     },
+     {
+      "index": 5172,
+      "passcode": 51828629,
+      "score": 0.0005313
+     },
+     {
+      "index": 12227,
+      "passcode": 86099788,
+      "score": 0.0005069
+     },
+     {
+      "index": 9038,
+      "passcode": 58720904,
+      "score": 0.0004922
+     },
+     {
+      "index": 13885,
+      "passcode": 35561352,
+      "score": 0.0004861
+     },
+     {
+      "index": 11347,
+      "passcode": 13890468,
+      "score": 0.0004805
+     }
+    ],
+    "fp32": [
+     {
+      "index": 12529,
+      "passcode": 79875176,
+      "score": 0.1843426
+     },
+     {
+      "index": 5515,
+      "passcode": 61705417,
+      "score": 0.0018968
+     },
+     {
+      "index": 12964,
+      "passcode": 38527680,
+      "score": 0.0008138
+     },
+     {
+      "index": 11807,
+      "passcode": 94145683,
+      "score": 0.0007148
+     },
+     {
+      "index": 3818,
+      "passcode": 85507811,
+      "score": 0.000645
+     },
+     {
+      "index": 7623,
+      "passcode": 27182739,
+      "score": 0.0005834
+     },
+     {
+      "index": 11251,
+      "passcode": 2254222,
+      "score": 0.0005685
+     },
+     {
+      "index": 6529,
+      "passcode": 95602345,
+      "score": 0.0005583
+     },
+     {
+      "index": 6694,
+      "passcode": 72258771,
+      "score": 0.0005456
+     },
+     {
+      "index": 11831,
+      "passcode": 64689404,
+      "score": 0.0005246
+     },
+     {
+      "index": 1371,
+      "passcode": 30576089,
+      "score": 0.0005152
+     },
+     {
+      "index": 12227,
+      "passcode": 86099788,
+      "score": 0.0005096
+     },
+     {
+      "index": 9629,
+      "passcode": 10780049,
+      "score": 0.000506
+     },
+     {
+      "index": 6373,
+      "passcode": 21558682,
+      "score": 0.0004865
+     },
+     {
+      "index": 2236,
+      "passcode": 72664875,
+      "score": 0.0004565
+     }
+    ]
+   }
   },
   {
    "image": "docs/samples/sample_photo.jpg",
@@ -338,83 +581,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_sample_photo_03.png",
-   "candidates": [
-    {
-     "index": 4930,
-     "passcode": 30190809,
-     "score": 0.2155853
-    },
-    {
-     "index": 1631,
-     "passcode": 78193831,
-     "score": 0.0034492
-    },
-    {
-     "index": 766,
-     "passcode": 7913375,
-     "score": 0.0007143
-    },
-    {
-     "index": 903,
-     "passcode": 14148099,
-     "score": 0.0006451
-    },
-    {
-     "index": 4719,
-     "passcode": 51632798,
-     "score": 0.0006199
-    },
-    {
-     "index": 5046,
-     "passcode": 16828633,
-     "score": 0.0005673
-    },
-    {
-     "index": 424,
-     "passcode": 40830387,
-     "score": 0.0005605
-    },
-    {
-     "index": 9749,
-     "passcode": 52543404,
-     "score": 0.0005369
-    },
-    {
-     "index": 907,
-     "passcode": 15317640,
-     "score": 0.0005281
-    },
-    {
-     "index": 6010,
-     "passcode": 73018302,
-     "score": 0.0005211
-    },
-    {
-     "index": 5037,
-     "passcode": 68505803,
-     "score": 0.0005166
-    },
-    {
-     "index": 5667,
-     "passcode": 18325492,
-     "score": 0.000514
-    },
-    {
-     "index": 3008,
-     "passcode": 89544521,
-     "score": 0.0005082
-    },
-    {
-     "index": 910,
-     "passcode": 44954628,
-     "score": 0.0005046
-    },
-    {
-     "index": 905,
-     "passcode": 82821760,
-     "score": 0.0004842
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 4930,
+      "passcode": 30190809,
+      "score": 0.2155853
+     },
+     {
+      "index": 1631,
+      "passcode": 78193831,
+      "score": 0.0034492
+     },
+     {
+      "index": 766,
+      "passcode": 7913375,
+      "score": 0.0007143
+     },
+     {
+      "index": 903,
+      "passcode": 14148099,
+      "score": 0.0006451
+     },
+     {
+      "index": 4719,
+      "passcode": 51632798,
+      "score": 0.0006199
+     },
+     {
+      "index": 5046,
+      "passcode": 16828633,
+      "score": 0.0005673
+     },
+     {
+      "index": 424,
+      "passcode": 40830387,
+      "score": 0.0005605
+     },
+     {
+      "index": 9749,
+      "passcode": 52543404,
+      "score": 0.0005369
+     },
+     {
+      "index": 907,
+      "passcode": 15317640,
+      "score": 0.0005281
+     },
+     {
+      "index": 6010,
+      "passcode": 73018302,
+      "score": 0.0005211
+     },
+     {
+      "index": 5037,
+      "passcode": 68505803,
+      "score": 0.0005166
+     },
+     {
+      "index": 5667,
+      "passcode": 18325492,
+      "score": 0.000514
+     },
+     {
+      "index": 3008,
+      "passcode": 89544521,
+      "score": 0.0005082
+     },
+     {
+      "index": 910,
+      "passcode": 44954628,
+      "score": 0.0005046
+     },
+     {
+      "index": 905,
+      "passcode": 82821760,
+      "score": 0.0004842
+     }
+    ],
+    "fp32": [
+     {
+      "index": 4930,
+      "passcode": 30190809,
+      "score": 0.2998189
+     },
+     {
+      "index": 1631,
+      "passcode": 78193831,
+      "score": 0.0025465
+     },
+     {
+      "index": 766,
+      "passcode": 7913375,
+      "score": 0.0006646
+     },
+     {
+      "index": 5037,
+      "passcode": 68505803,
+      "score": 0.0006178
+     },
+     {
+      "index": 5046,
+      "passcode": 16828633,
+      "score": 0.0005642
+     },
+     {
+      "index": 907,
+      "passcode": 15317640,
+      "score": 0.0005589
+     },
+     {
+      "index": 424,
+      "passcode": 40830387,
+      "score": 0.0005195
+     },
+     {
+      "index": 4719,
+      "passcode": 51632798,
+      "score": 0.0005001
+     },
+     {
+      "index": 5667,
+      "passcode": 18325492,
+      "score": 0.0004833
+     },
+     {
+      "index": 3936,
+      "passcode": 6622715,
+      "score": 0.0004779
+     },
+     {
+      "index": 910,
+      "passcode": 44954628,
+      "score": 0.0004744
+     },
+     {
+      "index": 903,
+      "passcode": 14148099,
+      "score": 0.0004744
+     },
+     {
+      "index": 905,
+      "passcode": 82821760,
+      "score": 0.0004338
+     },
+     {
+      "index": 849,
+      "passcode": 91989718,
+      "score": 0.0004274
+     },
+     {
+      "index": 9749,
+      "passcode": 52543404,
+      "score": 0.0004106
+     }
+    ]
+   }
   },
   {
    "image": "docs/samples/sample_photo.jpg",
@@ -439,83 +761,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_sample_photo_04.png",
-   "candidates": [
-    {
-     "index": 1691,
-     "passcode": 11384280,
-     "score": 0.4462704
-    },
-    {
-     "index": 13591,
-     "passcode": 36304921,
-     "score": 0.0008938
-    },
-    {
-     "index": 9372,
-     "passcode": 35261759,
-     "score": 0.0008143
-    },
-    {
-     "index": 6025,
-     "passcode": 2118022,
-     "score": 0.0007542
-    },
-    {
-     "index": 4993,
-     "passcode": 69140098,
-     "score": 0.0006721
-    },
-    {
-     "index": 5506,
-     "passcode": 24317029,
-     "score": 0.0005297
-    },
-    {
-     "index": 8739,
-     "passcode": 52077741,
-     "score": 0.0005249
-    },
-    {
-     "index": 7374,
-     "passcode": 93013676,
-     "score": 0.0004847
-    },
-    {
-     "index": 10638,
-     "passcode": 71746462,
-     "score": 0.0004781
-    },
-    {
-     "index": 2293,
-     "passcode": 7093411,
-     "score": 0.0004646
-    },
-    {
-     "index": 3060,
-     "passcode": 80186010,
-     "score": 0.0004646
-    },
-    {
-     "index": 4824,
-     "passcode": 6368038,
-     "score": 0.0004631
-    },
-    {
-     "index": 10445,
-     "passcode": 66602787,
-     "score": 0.0004409
-    },
-    {
-     "index": 2779,
-     "passcode": 38033121,
-     "score": 0.0004275
-    },
-    {
-     "index": 8169,
-     "passcode": 82108372,
-     "score": 0.0004219
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 1691,
+      "passcode": 11384280,
+      "score": 0.4462704
+     },
+     {
+      "index": 13591,
+      "passcode": 36304921,
+      "score": 0.0008938
+     },
+     {
+      "index": 9372,
+      "passcode": 35261759,
+      "score": 0.0008143
+     },
+     {
+      "index": 6025,
+      "passcode": 2118022,
+      "score": 0.0007542
+     },
+     {
+      "index": 4993,
+      "passcode": 69140098,
+      "score": 0.0006721
+     },
+     {
+      "index": 5506,
+      "passcode": 24317029,
+      "score": 0.0005297
+     },
+     {
+      "index": 8739,
+      "passcode": 52077741,
+      "score": 0.0005249
+     },
+     {
+      "index": 7374,
+      "passcode": 93013676,
+      "score": 0.0004847
+     },
+     {
+      "index": 10638,
+      "passcode": 71746462,
+      "score": 0.0004781
+     },
+     {
+      "index": 2293,
+      "passcode": 7093411,
+      "score": 0.0004646
+     },
+     {
+      "index": 3060,
+      "passcode": 80186010,
+      "score": 0.0004646
+     },
+     {
+      "index": 4824,
+      "passcode": 6368038,
+      "score": 0.0004631
+     },
+     {
+      "index": 10445,
+      "passcode": 66602787,
+      "score": 0.0004409
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0004275
+     },
+     {
+      "index": 8169,
+      "passcode": 82108372,
+      "score": 0.0004219
+     }
+    ],
+    "fp32": [
+     {
+      "index": 1691,
+      "passcode": 11384280,
+      "score": 0.4956408
+     },
+     {
+      "index": 6025,
+      "passcode": 2118022,
+      "score": 0.0009287
+     },
+     {
+      "index": 13591,
+      "passcode": 36304921,
+      "score": 0.0008899
+     },
+     {
+      "index": 9372,
+      "passcode": 35261759,
+      "score": 0.0006695
+     },
+     {
+      "index": 4993,
+      "passcode": 69140098,
+      "score": 0.0005613
+     },
+     {
+      "index": 7374,
+      "passcode": 93013676,
+      "score": 0.0004768
+     },
+     {
+      "index": 3060,
+      "passcode": 80186010,
+      "score": 0.0004719
+     },
+     {
+      "index": 10638,
+      "passcode": 71746462,
+      "score": 0.0004663
+     },
+     {
+      "index": 5506,
+      "passcode": 24317029,
+      "score": 0.0004532
+     },
+     {
+      "index": 4824,
+      "passcode": 6368038,
+      "score": 0.0004437
+     },
+     {
+      "index": 665,
+      "passcode": 90374791,
+      "score": 0.0004251
+     },
+     {
+      "index": 10445,
+      "passcode": 66602787,
+      "score": 0.0004086
+     },
+     {
+      "index": 4523,
+      "passcode": 3966653,
+      "score": 0.0004074
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0003862
+     },
+     {
+      "index": 1016,
+      "passcode": 18246479,
+      "score": 0.0003814
+     }
+    ]
+   }
   },
   {
    "image": "docs/samples/sample_photo.jpg",
@@ -540,83 +941,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_sample_photo_05.png",
-   "candidates": [
-    {
-     "index": 14,
-     "passcode": 86198326,
-     "score": 0.4350593
-    },
-    {
-     "index": 12399,
-     "passcode": 47594192,
-     "score": 0.0004506
-    },
-    {
-     "index": 11244,
-     "passcode": 29114773,
-     "score": 0.0003808
-    },
-    {
-     "index": 902,
-     "passcode": 975299,
-     "score": 0.0003807
-    },
-    {
-     "index": 2252,
-     "passcode": 50277355,
-     "score": 0.0003454
-    },
-    {
-     "index": 2670,
-     "passcode": 25140659,
-     "score": 0.0003439
-    },
-    {
-     "index": 11698,
-     "passcode": 14094090,
-     "score": 0.0003403
-    },
-    {
-     "index": 5768,
-     "passcode": 17255673,
-     "score": 0.0003394
-    },
-    {
-     "index": 3843,
-     "passcode": 41436536,
-     "score": 0.0003374
-    },
-    {
-     "index": 1063,
-     "passcode": 36916401,
-     "score": 0.0003278
-    },
-    {
-     "index": 13654,
-     "passcode": 5414777,
-     "score": 0.0003131
-    },
-    {
-     "index": 11612,
-     "passcode": 18114794,
-     "score": 0.000309
-    },
-    {
-     "index": 12223,
-     "passcode": 11163040,
-     "score": 0.0002946
-    },
-    {
-     "index": 3307,
-     "passcode": 42021064,
-     "score": 0.000292
-    },
-    {
-     "index": 11885,
-     "passcode": 75304793,
-     "score": 0.0002868
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 14,
+      "passcode": 86198326,
+      "score": 0.4350593
+     },
+     {
+      "index": 12399,
+      "passcode": 47594192,
+      "score": 0.0004506
+     },
+     {
+      "index": 11244,
+      "passcode": 29114773,
+      "score": 0.0003808
+     },
+     {
+      "index": 902,
+      "passcode": 975299,
+      "score": 0.0003807
+     },
+     {
+      "index": 2252,
+      "passcode": 50277355,
+      "score": 0.0003454
+     },
+     {
+      "index": 2670,
+      "passcode": 25140659,
+      "score": 0.0003439
+     },
+     {
+      "index": 11698,
+      "passcode": 14094090,
+      "score": 0.0003403
+     },
+     {
+      "index": 5768,
+      "passcode": 17255673,
+      "score": 0.0003394
+     },
+     {
+      "index": 3843,
+      "passcode": 41436536,
+      "score": 0.0003374
+     },
+     {
+      "index": 1063,
+      "passcode": 36916401,
+      "score": 0.0003278
+     },
+     {
+      "index": 13654,
+      "passcode": 5414777,
+      "score": 0.0003131
+     },
+     {
+      "index": 11612,
+      "passcode": 18114794,
+      "score": 0.000309
+     },
+     {
+      "index": 12223,
+      "passcode": 11163040,
+      "score": 0.0002946
+     },
+     {
+      "index": 3307,
+      "passcode": 42021064,
+      "score": 0.000292
+     },
+     {
+      "index": 11885,
+      "passcode": 75304793,
+      "score": 0.0002868
+     }
+    ],
+    "fp32": [
+     {
+      "index": 14,
+      "passcode": 86198326,
+      "score": 0.4986197
+     },
+     {
+      "index": 902,
+      "passcode": 975299,
+      "score": 0.0003772
+     },
+     {
+      "index": 12399,
+      "passcode": 47594192,
+      "score": 0.0003423
+     },
+     {
+      "index": 3843,
+      "passcode": 41436536,
+      "score": 0.000335
+     },
+     {
+      "index": 2670,
+      "passcode": 25140659,
+      "score": 0.0003177
+     },
+     {
+      "index": 11244,
+      "passcode": 29114773,
+      "score": 0.000307
+     },
+     {
+      "index": 12223,
+      "passcode": 11163040,
+      "score": 0.000306
+     },
+     {
+      "index": 5768,
+      "passcode": 17255673,
+      "score": 0.0003054
+     },
+     {
+      "index": 1063,
+      "passcode": 36916401,
+      "score": 0.0002999
+     },
+     {
+      "index": 11698,
+      "passcode": 14094090,
+      "score": 0.0002694
+     },
+     {
+      "index": 11612,
+      "passcode": 18114794,
+      "score": 0.0002694
+     },
+     {
+      "index": 2252,
+      "passcode": 50277355,
+      "score": 0.0002676
+     },
+     {
+      "index": 11885,
+      "passcode": 75304793,
+      "score": 0.0002663
+     },
+     {
+      "index": 3398,
+      "passcode": 67724434,
+      "score": 0.0002602
+     },
+     {
+      "index": 3307,
+      "passcode": 42021064,
+      "score": 0.0002423
+     }
+    ]
+   }
   },
   {
    "image": "docs/samples/sample_photo.jpg",
@@ -641,83 +1121,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_sample_photo_06.png",
-   "candidates": [
-    {
-     "index": 8085,
-     "passcode": 83764719,
-     "score": 0.9059087
-    },
-    {
-     "index": 8088,
-     "passcode": 74848038,
-     "score": 8.61e-05
-    },
-    {
-     "index": 9286,
-     "passcode": 72044448,
-     "score": 6.86e-05
-    },
-    {
-     "index": 12597,
-     "passcode": 25573054,
-     "score": 4.68e-05
-    },
-    {
-     "index": 7248,
-     "passcode": 59344077,
-     "score": 3.71e-05
-    },
-    {
-     "index": 12969,
-     "passcode": 66399653,
-     "score": 3.67e-05
-    },
-    {
-     "index": 8565,
-     "passcode": 69610924,
-     "score": 3.5e-05
-    },
-    {
-     "index": 6456,
-     "passcode": 60800381,
-     "score": 3.45e-05
-    },
-    {
-     "index": 9125,
-     "passcode": 19619755,
-     "score": 3.37e-05
-    },
-    {
-     "index": 12709,
-     "passcode": 77307161,
-     "score": 3.36e-05
-    },
-    {
-     "index": 5998,
-     "passcode": 5600127,
-     "score": 3.2e-05
-    },
-    {
-     "index": 7979,
-     "passcode": 55985014,
-     "score": 3.16e-05
-    },
-    {
-     "index": 11464,
-     "passcode": 58120309,
-     "score": 2.92e-05
-    },
-    {
-     "index": 1226,
-     "passcode": 38670435,
-     "score": 2.87e-05
-    },
-    {
-     "index": 6055,
-     "passcode": 95929069,
-     "score": 2.85e-05
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 8085,
+      "passcode": 83764719,
+      "score": 0.9059087
+     },
+     {
+      "index": 8088,
+      "passcode": 74848038,
+      "score": 8.61e-05
+     },
+     {
+      "index": 9286,
+      "passcode": 72044448,
+      "score": 6.86e-05
+     },
+     {
+      "index": 12597,
+      "passcode": 25573054,
+      "score": 4.68e-05
+     },
+     {
+      "index": 7248,
+      "passcode": 59344077,
+      "score": 3.71e-05
+     },
+     {
+      "index": 12969,
+      "passcode": 66399653,
+      "score": 3.67e-05
+     },
+     {
+      "index": 8565,
+      "passcode": 69610924,
+      "score": 3.5e-05
+     },
+     {
+      "index": 6456,
+      "passcode": 60800381,
+      "score": 3.45e-05
+     },
+     {
+      "index": 9125,
+      "passcode": 19619755,
+      "score": 3.37e-05
+     },
+     {
+      "index": 12709,
+      "passcode": 77307161,
+      "score": 3.36e-05
+     },
+     {
+      "index": 5998,
+      "passcode": 5600127,
+      "score": 3.2e-05
+     },
+     {
+      "index": 7979,
+      "passcode": 55985014,
+      "score": 3.16e-05
+     },
+     {
+      "index": 11464,
+      "passcode": 58120309,
+      "score": 2.92e-05
+     },
+     {
+      "index": 1226,
+      "passcode": 38670435,
+      "score": 2.87e-05
+     },
+     {
+      "index": 6055,
+      "passcode": 95929069,
+      "score": 2.85e-05
+     }
+    ],
+    "fp32": [
+     {
+      "index": 8085,
+      "passcode": 83764719,
+      "score": 0.8999871
+     },
+     {
+      "index": 8088,
+      "passcode": 74848038,
+      "score": 7.73e-05
+     },
+     {
+      "index": 9286,
+      "passcode": 72044448,
+      "score": 6.89e-05
+     },
+     {
+      "index": 12597,
+      "passcode": 25573054,
+      "score": 4.29e-05
+     },
+     {
+      "index": 12969,
+      "passcode": 66399653,
+      "score": 4.14e-05
+     },
+     {
+      "index": 7248,
+      "passcode": 59344077,
+      "score": 3.68e-05
+     },
+     {
+      "index": 6456,
+      "passcode": 60800381,
+      "score": 3.54e-05
+     },
+     {
+      "index": 11464,
+      "passcode": 58120309,
+      "score": 3.52e-05
+     },
+     {
+      "index": 6055,
+      "passcode": 95929069,
+      "score": 3.37e-05
+     },
+     {
+      "index": 7979,
+      "passcode": 55985014,
+      "score": 3.32e-05
+     },
+     {
+      "index": 9222,
+      "passcode": 93224848,
+      "score": 3.3e-05
+     },
+     {
+      "index": 1226,
+      "passcode": 38670435,
+      "score": 3.29e-05
+     },
+     {
+      "index": 8565,
+      "passcode": 69610924,
+      "score": 3.27e-05
+     },
+     {
+      "index": 6034,
+      "passcode": 67517351,
+      "score": 3.26e-05
+     },
+     {
+      "index": 4825,
+      "passcode": 66889139,
+      "score": 3.22e-05
+     }
+    ]
+   }
   },
   {
    "image": "docs/samples/sample_photo.jpg",
@@ -742,83 +1301,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_sample_photo_07.png",
-   "candidates": [
-    {
-     "index": 2201,
-     "passcode": 74458486,
-     "score": 0.0616429
-    },
-    {
-     "index": 1682,
-     "passcode": 16970158,
-     "score": 0.0008207
-    },
-    {
-     "index": 2930,
-     "passcode": 72060415,
-     "score": 0.0007627
-    },
-    {
-     "index": 10418,
-     "passcode": 3441553,
-     "score": 0.0006875
-    },
-    {
-     "index": 1023,
-     "passcode": 60530944,
-     "score": 0.0005896
-    },
-    {
-     "index": 3658,
-     "passcode": 7409792,
-     "score": 0.0005763
-    },
-    {
-     "index": 8101,
-     "passcode": 22123627,
-     "score": 0.00051
-    },
-    {
-     "index": 2530,
-     "passcode": 9910360,
-     "score": 0.0005033
-    },
-    {
-     "index": 12151,
-     "passcode": 17688543,
-     "score": 0.0004921
-    },
-    {
-     "index": 3361,
-     "passcode": 67464807,
-     "score": 0.000478
-    },
-    {
-     "index": 2086,
-     "passcode": 94192409,
-     "score": 0.0004742
-    },
-    {
-     "index": 5524,
-     "passcode": 7811875,
-     "score": 0.0004741
-    },
-    {
-     "index": 13869,
-     "passcode": 87008374,
-     "score": 0.0004646
-    },
-    {
-     "index": 10784,
-     "passcode": 12117532,
-     "score": 0.0004558
-    },
-    {
-     "index": 11880,
-     "passcode": 47741109,
-     "score": 0.0004476
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 2201,
+      "passcode": 74458486,
+      "score": 0.0616429
+     },
+     {
+      "index": 1682,
+      "passcode": 16970158,
+      "score": 0.0008207
+     },
+     {
+      "index": 2930,
+      "passcode": 72060415,
+      "score": 0.0007627
+     },
+     {
+      "index": 10418,
+      "passcode": 3441553,
+      "score": 0.0006875
+     },
+     {
+      "index": 1023,
+      "passcode": 60530944,
+      "score": 0.0005896
+     },
+     {
+      "index": 3658,
+      "passcode": 7409792,
+      "score": 0.0005763
+     },
+     {
+      "index": 8101,
+      "passcode": 22123627,
+      "score": 0.00051
+     },
+     {
+      "index": 2530,
+      "passcode": 9910360,
+      "score": 0.0005033
+     },
+     {
+      "index": 12151,
+      "passcode": 17688543,
+      "score": 0.0004921
+     },
+     {
+      "index": 3361,
+      "passcode": 67464807,
+      "score": 0.000478
+     },
+     {
+      "index": 2086,
+      "passcode": 94192409,
+      "score": 0.0004742
+     },
+     {
+      "index": 5524,
+      "passcode": 7811875,
+      "score": 0.0004741
+     },
+     {
+      "index": 13869,
+      "passcode": 87008374,
+      "score": 0.0004646
+     },
+     {
+      "index": 10784,
+      "passcode": 12117532,
+      "score": 0.0004558
+     },
+     {
+      "index": 11880,
+      "passcode": 47741109,
+      "score": 0.0004476
+     }
+    ],
+    "fp32": [
+     {
+      "index": 2201,
+      "passcode": 74458486,
+      "score": 0.0768745
+     },
+     {
+      "index": 1023,
+      "passcode": 60530944,
+      "score": 0.0009258
+     },
+     {
+      "index": 1682,
+      "passcode": 16970158,
+      "score": 0.0008815
+     },
+     {
+      "index": 2930,
+      "passcode": 72060415,
+      "score": 0.0008299
+     },
+     {
+      "index": 10418,
+      "passcode": 3441553,
+      "score": 0.0007704
+     },
+     {
+      "index": 3658,
+      "passcode": 7409792,
+      "score": 0.0006808
+     },
+     {
+      "index": 12151,
+      "passcode": 17688543,
+      "score": 0.0005838
+     },
+     {
+      "index": 10784,
+      "passcode": 12117532,
+      "score": 0.0005323
+     },
+     {
+      "index": 7282,
+      "passcode": 20745268,
+      "score": 0.000514
+     },
+     {
+      "index": 3361,
+      "passcode": 67464807,
+      "score": 0.0004988
+     },
+     {
+      "index": 2530,
+      "passcode": 9910360,
+      "score": 0.0004907
+     },
+     {
+      "index": 6229,
+      "passcode": 18816758,
+      "score": 0.0004904
+     },
+     {
+      "index": 5524,
+      "passcode": 7811875,
+      "score": 0.0004756
+     },
+     {
+      "index": 842,
+      "passcode": 38391684,
+      "score": 0.0004503
+     },
+     {
+      "index": 4169,
+      "passcode": 94937430,
+      "score": 0.0004351
+     }
+    ]
+   }
   },
   {
    "image": "docs/samples/sample_photo.jpg",
@@ -843,83 +1481,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_sample_photo_08.png",
-   "candidates": [
-    {
-     "index": 10045,
-     "passcode": 50185950,
-     "score": 0.1868085
-    },
-    {
-     "index": 6756,
-     "passcode": 40640057,
-     "score": 0.0034523
-    },
-    {
-     "index": 9141,
-     "passcode": 69181753,
-     "score": 0.0018437
-    },
-    {
-     "index": 13547,
-     "passcode": 57116033,
-     "score": 0.0017671
-    },
-    {
-     "index": 9101,
-     "passcode": 19050066,
-     "score": 0.0017134
-    },
-    {
-     "index": 6764,
-     "passcode": 40817915,
-     "score": 0.0016977
-    },
-    {
-     "index": 2892,
-     "passcode": 1035143,
-     "score": 0.0015635
-    },
-    {
-     "index": 12186,
-     "passcode": 20065322,
-     "score": 0.0011446
-    },
-    {
-     "index": 6751,
-     "passcode": 44632120,
-     "score": 0.0010922
-    },
-    {
-     "index": 5703,
-     "passcode": 84285623,
-     "score": 0.0009968
-    },
-    {
-     "index": 5580,
-     "passcode": 85555787,
-     "score": 0.0009086
-    },
-    {
-     "index": 3075,
-     "passcode": 89086566,
-     "score": 0.000903
-    },
-    {
-     "index": 1098,
-     "passcode": 16255442,
-     "score": 0.0008002
-    },
-    {
-     "index": 12487,
-     "passcode": 18063928,
-     "score": 0.0007776
-    },
-    {
-     "index": 6864,
-     "passcode": 50599453,
-     "score": 0.0007113
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 10045,
+      "passcode": 50185950,
+      "score": 0.1868085
+     },
+     {
+      "index": 6756,
+      "passcode": 40640057,
+      "score": 0.0034523
+     },
+     {
+      "index": 9141,
+      "passcode": 69181753,
+      "score": 0.0018437
+     },
+     {
+      "index": 13547,
+      "passcode": 57116033,
+      "score": 0.0017671
+     },
+     {
+      "index": 9101,
+      "passcode": 19050066,
+      "score": 0.0017134
+     },
+     {
+      "index": 6764,
+      "passcode": 40817915,
+      "score": 0.0016977
+     },
+     {
+      "index": 2892,
+      "passcode": 1035143,
+      "score": 0.0015635
+     },
+     {
+      "index": 12186,
+      "passcode": 20065322,
+      "score": 0.0011446
+     },
+     {
+      "index": 6751,
+      "passcode": 44632120,
+      "score": 0.0010922
+     },
+     {
+      "index": 5703,
+      "passcode": 84285623,
+      "score": 0.0009968
+     },
+     {
+      "index": 5580,
+      "passcode": 85555787,
+      "score": 0.0009086
+     },
+     {
+      "index": 3075,
+      "passcode": 89086566,
+      "score": 0.000903
+     },
+     {
+      "index": 1098,
+      "passcode": 16255442,
+      "score": 0.0008002
+     },
+     {
+      "index": 12487,
+      "passcode": 18063928,
+      "score": 0.0007776
+     },
+     {
+      "index": 6864,
+      "passcode": 50599453,
+      "score": 0.0007113
+     }
+    ],
+    "fp32": [
+     {
+      "index": 10045,
+      "passcode": 50185950,
+      "score": 0.2512586
+     },
+     {
+      "index": 6756,
+      "passcode": 40640057,
+      "score": 0.0039863
+     },
+     {
+      "index": 9141,
+      "passcode": 69181753,
+      "score": 0.001736
+     },
+     {
+      "index": 9101,
+      "passcode": 19050066,
+      "score": 0.0016601
+     },
+     {
+      "index": 13547,
+      "passcode": 57116033,
+      "score": 0.0014678
+     },
+     {
+      "index": 6764,
+      "passcode": 40817915,
+      "score": 0.0014358
+     },
+     {
+      "index": 2892,
+      "passcode": 1035143,
+      "score": 0.0013335
+     },
+     {
+      "index": 12186,
+      "passcode": 20065322,
+      "score": 0.0013071
+     },
+     {
+      "index": 6751,
+      "passcode": 44632120,
+      "score": 0.001227
+     },
+     {
+      "index": 3075,
+      "passcode": 89086566,
+      "score": 0.0009001
+     },
+     {
+      "index": 12487,
+      "passcode": 18063928,
+      "score": 0.0008331
+     },
+     {
+      "index": 5703,
+      "passcode": 84285623,
+      "score": 0.0008142
+     },
+     {
+      "index": 1098,
+      "passcode": 16255442,
+      "score": 0.000774
+     },
+     {
+      "index": 2986,
+      "passcode": 69579761,
+      "score": 0.0007098
+     },
+     {
+      "index": 5580,
+      "passcode": 85555787,
+      "score": 0.0006917
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0000.jpg",
@@ -944,83 +1661,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0000_00.png",
-   "candidates": [
-    {
-     "index": 12817,
-     "passcode": 70050374,
-     "score": 0.070076
-    },
-    {
-     "index": 2375,
-     "passcode": 94377247,
-     "score": 0.0020201
-    },
-    {
-     "index": 2779,
-     "passcode": 38033121,
-     "score": 0.0013413
-    },
-    {
-     "index": 13920,
-     "passcode": 24311372,
-     "score": 0.0012058
-    },
-    {
-     "index": 11076,
-     "passcode": 58071334,
-     "score": 0.0008911
-    },
-    {
-     "index": 10456,
-     "passcode": 60303245,
-     "score": 0.0008745
-    },
-    {
-     "index": 10069,
-     "passcode": 79491903,
-     "score": 0.0008285
-    },
-    {
-     "index": 5262,
-     "passcode": 67385964,
-     "score": 0.0007895
-    },
-    {
-     "index": 9400,
-     "passcode": 19434243,
-     "score": 0.0007813
-    },
-    {
-     "index": 11143,
-     "passcode": 93138457,
-     "score": 0.000746
-    },
-    {
-     "index": 6479,
-     "passcode": 93170499,
-     "score": 0.0007451
-    },
-    {
-     "index": 4975,
-     "passcode": 51831560,
-     "score": 0.0007418
-    },
-    {
-     "index": 13620,
-     "passcode": 25163979,
-     "score": 0.0007354
-    },
-    {
-     "index": 915,
-     "passcode": 88819587,
-     "score": 0.0007348
-    },
-    {
-     "index": 3063,
-     "passcode": 44373896,
-     "score": 0.0007084
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 12817,
+      "passcode": 70050374,
+      "score": 0.070076
+     },
+     {
+      "index": 2375,
+      "passcode": 94377247,
+      "score": 0.0020201
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0013413
+     },
+     {
+      "index": 13920,
+      "passcode": 24311372,
+      "score": 0.0012058
+     },
+     {
+      "index": 11076,
+      "passcode": 58071334,
+      "score": 0.0008911
+     },
+     {
+      "index": 10456,
+      "passcode": 60303245,
+      "score": 0.0008745
+     },
+     {
+      "index": 10069,
+      "passcode": 79491903,
+      "score": 0.0008285
+     },
+     {
+      "index": 5262,
+      "passcode": 67385964,
+      "score": 0.0007895
+     },
+     {
+      "index": 9400,
+      "passcode": 19434243,
+      "score": 0.0007813
+     },
+     {
+      "index": 11143,
+      "passcode": 93138457,
+      "score": 0.000746
+     },
+     {
+      "index": 6479,
+      "passcode": 93170499,
+      "score": 0.0007451
+     },
+     {
+      "index": 4975,
+      "passcode": 51831560,
+      "score": 0.0007418
+     },
+     {
+      "index": 13620,
+      "passcode": 25163979,
+      "score": 0.0007354
+     },
+     {
+      "index": 915,
+      "passcode": 88819587,
+      "score": 0.0007348
+     },
+     {
+      "index": 3063,
+      "passcode": 44373896,
+      "score": 0.0007084
+     }
+    ],
+    "fp32": [
+     {
+      "index": 12817,
+      "passcode": 70050374,
+      "score": 0.1159591
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0016568
+     },
+     {
+      "index": 2375,
+      "passcode": 94377247,
+      "score": 0.0016364
+     },
+     {
+      "index": 11076,
+      "passcode": 58071334,
+      "score": 0.0011373
+     },
+     {
+      "index": 10456,
+      "passcode": 60303245,
+      "score": 0.0010727
+     },
+     {
+      "index": 6419,
+      "passcode": 30113682,
+      "score": 0.0009627
+     },
+     {
+      "index": 10069,
+      "passcode": 79491903,
+      "score": 0.0008581
+     },
+     {
+      "index": 5262,
+      "passcode": 67385964,
+      "score": 0.0008262
+     },
+     {
+      "index": 13920,
+      "passcode": 24311372,
+      "score": 0.0008206
+     },
+     {
+      "index": 6479,
+      "passcode": 93170499,
+      "score": 0.0007695
+     },
+     {
+      "index": 915,
+      "passcode": 88819587,
+      "score": 0.000699
+     },
+     {
+      "index": 1737,
+      "passcode": 95841282,
+      "score": 0.0006892
+     },
+     {
+      "index": 4975,
+      "passcode": 51831560,
+      "score": 0.0006787
+     },
+     {
+      "index": 9357,
+      "passcode": 24094653,
+      "score": 0.0006566
+     },
+     {
+      "index": 9400,
+      "passcode": 19434243,
+      "score": 0.0006356
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0000.jpg",
@@ -1045,83 +1841,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0000_01.png",
-   "candidates": [
-    {
-     "index": 9870,
-     "passcode": 12503902,
-     "score": 0.096363
-    },
-    {
-     "index": 2779,
-     "passcode": 38033121,
-     "score": 0.0019426
-    },
-    {
-     "index": 4080,
-     "passcode": 62098216,
-     "score": 0.0010113
-    },
-    {
-     "index": 9241,
-     "passcode": 61936647,
-     "score": 0.000829
-    },
-    {
-     "index": 9631,
-     "passcode": 82983267,
-     "score": 0.0007773
-    },
-    {
-     "index": 2516,
-     "passcode": 43405287,
-     "score": 0.0007269
-    },
-    {
-     "index": 1683,
-     "passcode": 97077563,
-     "score": 0.0007172
-    },
-    {
-     "index": 10412,
-     "passcode": 11052544,
-     "score": 0.0007114
-    },
-    {
-     "index": 12126,
-     "passcode": 49299410,
-     "score": 0.0007044
-    },
-    {
-     "index": 12623,
-     "passcode": 79766336,
-     "score": 0.0007042
-    },
-    {
-     "index": 3712,
-     "passcode": 88341502,
-     "score": 0.0006285
-    },
-    {
-     "index": 7428,
-     "passcode": 9433350,
-     "score": 0.0006215
-    },
-    {
-     "index": 2922,
-     "passcode": 74665150,
-     "score": 0.0005819
-    },
-    {
-     "index": 11768,
-     "passcode": 93918159,
-     "score": 0.0005195
-    },
-    {
-     "index": 5165,
-     "passcode": 38445524,
-     "score": 0.0005143
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 9870,
+      "passcode": 12503902,
+      "score": 0.096363
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0019426
+     },
+     {
+      "index": 4080,
+      "passcode": 62098216,
+      "score": 0.0010113
+     },
+     {
+      "index": 9241,
+      "passcode": 61936647,
+      "score": 0.000829
+     },
+     {
+      "index": 9631,
+      "passcode": 82983267,
+      "score": 0.0007773
+     },
+     {
+      "index": 2516,
+      "passcode": 43405287,
+      "score": 0.0007269
+     },
+     {
+      "index": 1683,
+      "passcode": 97077563,
+      "score": 0.0007172
+     },
+     {
+      "index": 10412,
+      "passcode": 11052544,
+      "score": 0.0007114
+     },
+     {
+      "index": 12126,
+      "passcode": 49299410,
+      "score": 0.0007044
+     },
+     {
+      "index": 12623,
+      "passcode": 79766336,
+      "score": 0.0007042
+     },
+     {
+      "index": 3712,
+      "passcode": 88341502,
+      "score": 0.0006285
+     },
+     {
+      "index": 7428,
+      "passcode": 9433350,
+      "score": 0.0006215
+     },
+     {
+      "index": 2922,
+      "passcode": 74665150,
+      "score": 0.0005819
+     },
+     {
+      "index": 11768,
+      "passcode": 93918159,
+      "score": 0.0005195
+     },
+     {
+      "index": 5165,
+      "passcode": 38445524,
+      "score": 0.0005143
+     }
+    ],
+    "fp32": [
+     {
+      "index": 9870,
+      "passcode": 12503902,
+      "score": 0.1484142
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0025397
+     },
+     {
+      "index": 4080,
+      "passcode": 62098216,
+      "score": 0.001029
+     },
+     {
+      "index": 7428,
+      "passcode": 9433350,
+      "score": 0.000978
+     },
+     {
+      "index": 12126,
+      "passcode": 49299410,
+      "score": 0.0007786
+     },
+     {
+      "index": 9241,
+      "passcode": 61936647,
+      "score": 0.0007641
+     },
+     {
+      "index": 12623,
+      "passcode": 79766336,
+      "score": 0.0006865
+     },
+     {
+      "index": 10412,
+      "passcode": 11052544,
+      "score": 0.000648
+     },
+     {
+      "index": 2516,
+      "passcode": 43405287,
+      "score": 0.000645
+     },
+     {
+      "index": 3712,
+      "passcode": 88341502,
+      "score": 0.0006381
+     },
+     {
+      "index": 9631,
+      "passcode": 82983267,
+      "score": 0.0006235
+     },
+     {
+      "index": 12310,
+      "passcode": 46652477,
+      "score": 0.0005701
+     },
+     {
+      "index": 3761,
+      "passcode": 94977269,
+      "score": 0.0005524
+     },
+     {
+      "index": 2922,
+      "passcode": 74665150,
+      "score": 0.0005124
+     },
+     {
+      "index": 1683,
+      "passcode": 97077563,
+      "score": 0.0004677
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0000.jpg",
@@ -1146,83 +2021,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0000_02.png",
-   "candidates": [
-    {
-     "index": 4930,
-     "passcode": 30190809,
-     "score": 0.0580427
-    },
-    {
-     "index": 1631,
-     "passcode": 78193831,
-     "score": 0.004105
-    },
-    {
-     "index": 5037,
-     "passcode": 68505803,
-     "score": 0.0015187
-    },
-    {
-     "index": 5046,
-     "passcode": 16828633,
-     "score": 0.0013033
-    },
-    {
-     "index": 766,
-     "passcode": 7913375,
-     "score": 0.0009299
-    },
-    {
-     "index": 9749,
-     "passcode": 52543404,
-     "score": 0.000861
-    },
-    {
-     "index": 3624,
-     "passcode": 54813225,
-     "score": 0.0007613
-    },
-    {
-     "index": 5276,
-     "passcode": 52394047,
-     "score": 0.000716
-    },
-    {
-     "index": 3763,
-     "passcode": 80532587,
-     "score": 0.0006935
-    },
-    {
-     "index": 3008,
-     "passcode": 89544521,
-     "score": 0.0006605
-    },
-    {
-     "index": 903,
-     "passcode": 14148099,
-     "score": 0.0006433
-    },
-    {
-     "index": 1970,
-     "passcode": 46290741,
-     "score": 0.0005825
-    },
-    {
-     "index": 215,
-     "passcode": 17490535,
-     "score": 0.0005586
-    },
-    {
-     "index": 11259,
-     "passcode": 313513,
-     "score": 0.000552
-    },
-    {
-     "index": 8916,
-     "passcode": 2311603,
-     "score": 0.0005477
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 4930,
+      "passcode": 30190809,
+      "score": 0.0580427
+     },
+     {
+      "index": 1631,
+      "passcode": 78193831,
+      "score": 0.004105
+     },
+     {
+      "index": 5037,
+      "passcode": 68505803,
+      "score": 0.0015187
+     },
+     {
+      "index": 5046,
+      "passcode": 16828633,
+      "score": 0.0013033
+     },
+     {
+      "index": 766,
+      "passcode": 7913375,
+      "score": 0.0009299
+     },
+     {
+      "index": 9749,
+      "passcode": 52543404,
+      "score": 0.000861
+     },
+     {
+      "index": 3624,
+      "passcode": 54813225,
+      "score": 0.0007613
+     },
+     {
+      "index": 5276,
+      "passcode": 52394047,
+      "score": 0.000716
+     },
+     {
+      "index": 3763,
+      "passcode": 80532587,
+      "score": 0.0006935
+     },
+     {
+      "index": 3008,
+      "passcode": 89544521,
+      "score": 0.0006605
+     },
+     {
+      "index": 903,
+      "passcode": 14148099,
+      "score": 0.0006433
+     },
+     {
+      "index": 1970,
+      "passcode": 46290741,
+      "score": 0.0005825
+     },
+     {
+      "index": 215,
+      "passcode": 17490535,
+      "score": 0.0005586
+     },
+     {
+      "index": 11259,
+      "passcode": 313513,
+      "score": 0.000552
+     },
+     {
+      "index": 8916,
+      "passcode": 2311603,
+      "score": 0.0005477
+     }
+    ],
+    "fp32": [
+     {
+      "index": 4930,
+      "passcode": 30190809,
+      "score": 0.0862794
+     },
+     {
+      "index": 1631,
+      "passcode": 78193831,
+      "score": 0.00396
+     },
+     {
+      "index": 5037,
+      "passcode": 68505803,
+      "score": 0.0017181
+     },
+     {
+      "index": 5046,
+      "passcode": 16828633,
+      "score": 0.0013041
+     },
+     {
+      "index": 9749,
+      "passcode": 52543404,
+      "score": 0.0007849
+     },
+     {
+      "index": 766,
+      "passcode": 7913375,
+      "score": 0.0007667
+     },
+     {
+      "index": 1970,
+      "passcode": 46290741,
+      "score": 0.0006726
+     },
+     {
+      "index": 3624,
+      "passcode": 54813225,
+      "score": 0.0006412
+     },
+     {
+      "index": 215,
+      "passcode": 17490535,
+      "score": 0.0006349
+     },
+     {
+      "index": 9893,
+      "passcode": 63854005,
+      "score": 0.0006303
+     },
+     {
+      "index": 3763,
+      "passcode": 80532587,
+      "score": 0.0006189
+     },
+     {
+      "index": 11259,
+      "passcode": 313513,
+      "score": 0.0006138
+     },
+     {
+      "index": 903,
+      "passcode": 14148099,
+      "score": 0.0006034
+     },
+     {
+      "index": 59,
+      "passcode": 3900605,
+      "score": 0.0005894
+     },
+     {
+      "index": 6830,
+      "passcode": 35911108,
+      "score": 0.000581
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0000.jpg",
@@ -1247,83 +2201,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0000_03.png",
-   "candidates": [
-    {
-     "index": 12529,
-     "passcode": 79875176,
-     "score": 0.0088269
-    },
-    {
-     "index": 12964,
-     "passcode": 38527680,
-     "score": 0.0009333
-    },
-    {
-     "index": 1371,
-     "passcode": 30576089,
-     "score": 0.0009137
-    },
-    {
-     "index": 9289,
-     "passcode": 8653757,
-     "score": 0.0008345
-    },
-    {
-     "index": 4220,
-     "passcode": 55766177,
-     "score": 0.000829
-    },
-    {
-     "index": 11251,
-     "passcode": 2254222,
-     "score": 0.0007809
-    },
-    {
-     "index": 11807,
-     "passcode": 94145683,
-     "score": 0.0007296
-    },
-    {
-     "index": 7623,
-     "passcode": 27182739,
-     "score": 0.000727
-    },
-    {
-     "index": 12227,
-     "passcode": 86099788,
-     "score": 0.0007253
-    },
-    {
-     "index": 2339,
-     "passcode": 10789972,
-     "score": 0.000621
-    },
-    {
-     "index": 3371,
-     "passcode": 1607603,
-     "score": 0.0006164
-    },
-    {
-     "index": 2236,
-     "passcode": 72664875,
-     "score": 0.0006151
-    },
-    {
-     "index": 6529,
-     "passcode": 95602345,
-     "score": 0.0006136
-    },
-    {
-     "index": 4915,
-     "passcode": 8505920,
-     "score": 0.0006041
-    },
-    {
-     "index": 11692,
-     "passcode": 75923050,
-     "score": 0.0005988
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 12529,
+      "passcode": 79875176,
+      "score": 0.0088269
+     },
+     {
+      "index": 12964,
+      "passcode": 38527680,
+      "score": 0.0009333
+     },
+     {
+      "index": 1371,
+      "passcode": 30576089,
+      "score": 0.0009137
+     },
+     {
+      "index": 9289,
+      "passcode": 8653757,
+      "score": 0.0008345
+     },
+     {
+      "index": 4220,
+      "passcode": 55766177,
+      "score": 0.000829
+     },
+     {
+      "index": 11251,
+      "passcode": 2254222,
+      "score": 0.0007809
+     },
+     {
+      "index": 11807,
+      "passcode": 94145683,
+      "score": 0.0007296
+     },
+     {
+      "index": 7623,
+      "passcode": 27182739,
+      "score": 0.000727
+     },
+     {
+      "index": 12227,
+      "passcode": 86099788,
+      "score": 0.0007253
+     },
+     {
+      "index": 2339,
+      "passcode": 10789972,
+      "score": 0.000621
+     },
+     {
+      "index": 3371,
+      "passcode": 1607603,
+      "score": 0.0006164
+     },
+     {
+      "index": 2236,
+      "passcode": 72664875,
+      "score": 0.0006151
+     },
+     {
+      "index": 6529,
+      "passcode": 95602345,
+      "score": 0.0006136
+     },
+     {
+      "index": 4915,
+      "passcode": 8505920,
+      "score": 0.0006041
+     },
+     {
+      "index": 11692,
+      "passcode": 75923050,
+      "score": 0.0005988
+     }
+    ],
+    "fp32": [
+     {
+      "index": 12529,
+      "passcode": 79875176,
+      "score": 0.0158758
+     },
+     {
+      "index": 9289,
+      "passcode": 8653757,
+      "score": 0.0010536
+     },
+     {
+      "index": 4220,
+      "passcode": 55766177,
+      "score": 0.0009612
+     },
+     {
+      "index": 11251,
+      "passcode": 2254222,
+      "score": 0.0008775
+     },
+     {
+      "index": 5515,
+      "passcode": 61705417,
+      "score": 0.0008162
+     },
+     {
+      "index": 1371,
+      "passcode": 30576089,
+      "score": 0.0007732
+     },
+     {
+      "index": 12227,
+      "passcode": 86099788,
+      "score": 0.0007648
+     },
+     {
+      "index": 7623,
+      "passcode": 27182739,
+      "score": 0.00073
+     },
+     {
+      "index": 3818,
+      "passcode": 85507811,
+      "score": 0.0007188
+     },
+     {
+      "index": 11692,
+      "passcode": 75923050,
+      "score": 0.0006914
+     },
+     {
+      "index": 11343,
+      "passcode": 42097666,
+      "score": 0.0006841
+     },
+     {
+      "index": 11807,
+      "passcode": 94145683,
+      "score": 0.0006601
+     },
+     {
+      "index": 12964,
+      "passcode": 38527680,
+      "score": 0.0006569
+     },
+     {
+      "index": 6529,
+      "passcode": 95602345,
+      "score": 0.0006349
+     },
+     {
+      "index": 3371,
+      "passcode": 1607603,
+      "score": 0.0006344
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0000.jpg",
@@ -1348,83 +2381,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0000_04.png",
-   "candidates": [
-    {
-     "index": 1691,
-     "passcode": 11384280,
-     "score": 0.0472724
-    },
-    {
-     "index": 2293,
-     "passcode": 7093411,
-     "score": 0.0017991
-    },
-    {
-     "index": 8997,
-     "passcode": 42035044,
-     "score": 0.0017928
-    },
-    {
-     "index": 665,
-     "passcode": 90374791,
-     "score": 0.0016159
-    },
-    {
-     "index": 1378,
-     "passcode": 23995346,
-     "score": 0.001244
-    },
-    {
-     "index": 3761,
-     "passcode": 94977269,
-     "score": 0.0011515
-    },
-    {
-     "index": 6025,
-     "passcode": 2118022,
-     "score": 0.0011188
-    },
-    {
-     "index": 4218,
-     "passcode": 72328962,
-     "score": 0.0010967
-    },
-    {
-     "index": 2876,
-     "passcode": 50501121,
-     "score": 0.0010115
-    },
-    {
-     "index": 3814,
-     "passcode": 35809262,
-     "score": 0.0009934
-    },
-    {
-     "index": 1904,
-     "passcode": 56532632,
-     "score": 0.0009093
-    },
-    {
-     "index": 6276,
-     "passcode": 36261276,
-     "score": 0.0008234
-    },
-    {
-     "index": 6676,
-     "passcode": 5817857,
-     "score": 0.0008165
-    },
-    {
-     "index": 5900,
-     "passcode": 64501875,
-     "score": 0.0008125
-    },
-    {
-     "index": 10445,
-     "passcode": 66602787,
-     "score": 0.0008103
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 1691,
+      "passcode": 11384280,
+      "score": 0.0472724
+     },
+     {
+      "index": 2293,
+      "passcode": 7093411,
+      "score": 0.0017991
+     },
+     {
+      "index": 8997,
+      "passcode": 42035044,
+      "score": 0.0017928
+     },
+     {
+      "index": 665,
+      "passcode": 90374791,
+      "score": 0.0016159
+     },
+     {
+      "index": 1378,
+      "passcode": 23995346,
+      "score": 0.001244
+     },
+     {
+      "index": 3761,
+      "passcode": 94977269,
+      "score": 0.0011515
+     },
+     {
+      "index": 6025,
+      "passcode": 2118022,
+      "score": 0.0011188
+     },
+     {
+      "index": 4218,
+      "passcode": 72328962,
+      "score": 0.0010967
+     },
+     {
+      "index": 2876,
+      "passcode": 50501121,
+      "score": 0.0010115
+     },
+     {
+      "index": 3814,
+      "passcode": 35809262,
+      "score": 0.0009934
+     },
+     {
+      "index": 1904,
+      "passcode": 56532632,
+      "score": 0.0009093
+     },
+     {
+      "index": 6276,
+      "passcode": 36261276,
+      "score": 0.0008234
+     },
+     {
+      "index": 6676,
+      "passcode": 5817857,
+      "score": 0.0008165
+     },
+     {
+      "index": 5900,
+      "passcode": 64501875,
+      "score": 0.0008125
+     },
+     {
+      "index": 10445,
+      "passcode": 66602787,
+      "score": 0.0008103
+     }
+    ],
+    "fp32": [
+     {
+      "index": 1691,
+      "passcode": 11384280,
+      "score": 0.0620653
+     },
+     {
+      "index": 665,
+      "passcode": 90374791,
+      "score": 0.0024933
+     },
+     {
+      "index": 3761,
+      "passcode": 94977269,
+      "score": 0.001413
+     },
+     {
+      "index": 6025,
+      "passcode": 2118022,
+      "score": 0.0012989
+     },
+     {
+      "index": 8997,
+      "passcode": 42035044,
+      "score": 0.0012203
+     },
+     {
+      "index": 2876,
+      "passcode": 50501121,
+      "score": 0.0011613
+     },
+     {
+      "index": 2778,
+      "passcode": 46986414,
+      "score": 0.0011499
+     },
+     {
+      "index": 3814,
+      "passcode": 35809262,
+      "score": 0.0010816
+     },
+     {
+      "index": 2293,
+      "passcode": 7093411,
+      "score": 0.0010759
+     },
+     {
+      "index": 2082,
+      "passcode": 43417563,
+      "score": 0.0009757
+     },
+     {
+      "index": 4716,
+      "passcode": 51091138,
+      "score": 0.0009452
+     },
+     {
+      "index": 1904,
+      "passcode": 56532632,
+      "score": 0.0009116
+     },
+     {
+      "index": 1378,
+      "passcode": 23995346,
+      "score": 0.0008994
+     },
+     {
+      "index": 4218,
+      "passcode": 72328962,
+      "score": 0.000899
+     },
+     {
+      "index": 9316,
+      "passcode": 88975532,
+      "score": 0.0008853
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0000.jpg",
@@ -1449,83 +2561,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0000_05.png",
-   "candidates": [
-    {
-     "index": 14,
-     "passcode": 86198326,
-     "score": 0.1209076
-    },
-    {
-     "index": 2670,
-     "passcode": 25140659,
-     "score": 0.0011148
-    },
-    {
-     "index": 4857,
-     "passcode": 52340274,
-     "score": 0.0008909
-    },
-    {
-     "index": 3843,
-     "passcode": 41436536,
-     "score": 0.0007675
-    },
-    {
-     "index": 340,
-     "passcode": 25396150,
-     "score": 0.0007146
-    },
-    {
-     "index": 7178,
-     "passcode": 96384007,
-     "score": 0.0006478
-    },
-    {
-     "index": 11612,
-     "passcode": 18114794,
-     "score": 0.0006171
-    },
-    {
-     "index": 902,
-     "passcode": 975299,
-     "score": 0.0006167
-    },
-    {
-     "index": 12590,
-     "passcode": 60879050,
-     "score": 0.0006068
-    },
-    {
-     "index": 3398,
-     "passcode": 67724434,
-     "score": 0.0005768
-    },
-    {
-     "index": 12616,
-     "passcode": 46461247,
-     "score": 0.0005062
-    },
-    {
-     "index": 12399,
-     "passcode": 47594192,
-     "score": 0.0004894
-    },
-    {
-     "index": 46,
-     "passcode": 26372118,
-     "score": 0.0004764
-    },
-    {
-     "index": 12129,
-     "passcode": 458748,
-     "score": 0.000468
-    },
-    {
-     "index": 4109,
-     "passcode": 52875873,
-     "score": 0.000461
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 14,
+      "passcode": 86198326,
+      "score": 0.1209076
+     },
+     {
+      "index": 2670,
+      "passcode": 25140659,
+      "score": 0.0011148
+     },
+     {
+      "index": 4857,
+      "passcode": 52340274,
+      "score": 0.0008909
+     },
+     {
+      "index": 3843,
+      "passcode": 41436536,
+      "score": 0.0007675
+     },
+     {
+      "index": 340,
+      "passcode": 25396150,
+      "score": 0.0007146
+     },
+     {
+      "index": 7178,
+      "passcode": 96384007,
+      "score": 0.0006478
+     },
+     {
+      "index": 11612,
+      "passcode": 18114794,
+      "score": 0.0006171
+     },
+     {
+      "index": 902,
+      "passcode": 975299,
+      "score": 0.0006167
+     },
+     {
+      "index": 12590,
+      "passcode": 60879050,
+      "score": 0.0006068
+     },
+     {
+      "index": 3398,
+      "passcode": 67724434,
+      "score": 0.0005768
+     },
+     {
+      "index": 12616,
+      "passcode": 46461247,
+      "score": 0.0005062
+     },
+     {
+      "index": 12399,
+      "passcode": 47594192,
+      "score": 0.0004894
+     },
+     {
+      "index": 46,
+      "passcode": 26372118,
+      "score": 0.0004764
+     },
+     {
+      "index": 12129,
+      "passcode": 458748,
+      "score": 0.000468
+     },
+     {
+      "index": 4109,
+      "passcode": 52875873,
+      "score": 0.000461
+     }
+    ],
+    "fp32": [
+     {
+      "index": 14,
+      "passcode": 86198326,
+      "score": 0.1638059
+     },
+     {
+      "index": 2670,
+      "passcode": 25140659,
+      "score": 0.0009693
+     },
+     {
+      "index": 3843,
+      "passcode": 41436536,
+      "score": 0.0008437
+     },
+     {
+      "index": 4857,
+      "passcode": 52340274,
+      "score": 0.0007183
+     },
+     {
+      "index": 902,
+      "passcode": 975299,
+      "score": 0.0006668
+     },
+     {
+      "index": 12590,
+      "passcode": 60879050,
+      "score": 0.0006496
+     },
+     {
+      "index": 12129,
+      "passcode": 458748,
+      "score": 0.0005942
+     },
+     {
+      "index": 8700,
+      "passcode": 65305468,
+      "score": 0.0005801
+     },
+     {
+      "index": 3398,
+      "passcode": 67724434,
+      "score": 0.0005739
+     },
+     {
+      "index": 7178,
+      "passcode": 96384007,
+      "score": 0.0005208
+     },
+     {
+      "index": 11244,
+      "passcode": 29114773,
+      "score": 0.0004973
+     },
+     {
+      "index": 340,
+      "passcode": 25396150,
+      "score": 0.0004924
+     },
+     {
+      "index": 11612,
+      "passcode": 18114794,
+      "score": 0.0004867
+     },
+     {
+      "index": 8892,
+      "passcode": 89023486,
+      "score": 0.0004804
+     },
+     {
+      "index": 12223,
+      "passcode": 11163040,
+      "score": 0.0004799
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0000.jpg",
@@ -1550,83 +2741,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0000_06.png",
-   "candidates": [
-    {
-     "index": 2201,
-     "passcode": 74458486,
-     "score": 0.0144336
-    },
-    {
-     "index": 2086,
-     "passcode": 94192409,
-     "score": 0.0009003
-    },
-    {
-     "index": 12151,
-     "passcode": 17688543,
-     "score": 0.0007948
-    },
-    {
-     "index": 10784,
-     "passcode": 12117532,
-     "score": 0.0007348
-    },
-    {
-     "index": 10418,
-     "passcode": 3441553,
-     "score": 0.000704
-    },
-    {
-     "index": 8171,
-     "passcode": 54757758,
-     "score": 0.00067
-    },
-    {
-     "index": 8082,
-     "passcode": 43040603,
-     "score": 0.0006122
-    },
-    {
-     "index": 8101,
-     "passcode": 22123627,
-     "score": 0.000586
-    },
-    {
-     "index": 11880,
-     "passcode": 47741109,
-     "score": 0.0005739
-    },
-    {
-     "index": 11155,
-     "passcode": 63012333,
-     "score": 0.0005737
-    },
-    {
-     "index": 9927,
-     "passcode": 81191584,
-     "score": 0.0005645
-    },
-    {
-     "index": 7204,
-     "passcode": 30241314,
-     "score": 0.0005638
-    },
-    {
-     "index": 13466,
-     "passcode": 15150365,
-     "score": 0.0005363
-    },
-    {
-     "index": 5365,
-     "passcode": 21677871,
-     "score": 0.0005361
-    },
-    {
-     "index": 3361,
-     "passcode": 67464807,
-     "score": 0.0005315
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 2201,
+      "passcode": 74458486,
+      "score": 0.0144336
+     },
+     {
+      "index": 2086,
+      "passcode": 94192409,
+      "score": 0.0009003
+     },
+     {
+      "index": 12151,
+      "passcode": 17688543,
+      "score": 0.0007948
+     },
+     {
+      "index": 10784,
+      "passcode": 12117532,
+      "score": 0.0007348
+     },
+     {
+      "index": 10418,
+      "passcode": 3441553,
+      "score": 0.000704
+     },
+     {
+      "index": 8171,
+      "passcode": 54757758,
+      "score": 0.00067
+     },
+     {
+      "index": 8082,
+      "passcode": 43040603,
+      "score": 0.0006122
+     },
+     {
+      "index": 8101,
+      "passcode": 22123627,
+      "score": 0.000586
+     },
+     {
+      "index": 11880,
+      "passcode": 47741109,
+      "score": 0.0005739
+     },
+     {
+      "index": 11155,
+      "passcode": 63012333,
+      "score": 0.0005737
+     },
+     {
+      "index": 9927,
+      "passcode": 81191584,
+      "score": 0.0005645
+     },
+     {
+      "index": 7204,
+      "passcode": 30241314,
+      "score": 0.0005638
+     },
+     {
+      "index": 13466,
+      "passcode": 15150365,
+      "score": 0.0005363
+     },
+     {
+      "index": 5365,
+      "passcode": 21677871,
+      "score": 0.0005361
+     },
+     {
+      "index": 3361,
+      "passcode": 67464807,
+      "score": 0.0005315
+     }
+    ],
+    "fp32": [
+     {
+      "index": 2201,
+      "passcode": 74458486,
+      "score": 0.0153663
+     },
+     {
+      "index": 10784,
+      "passcode": 12117532,
+      "score": 0.0010271
+     },
+     {
+      "index": 12151,
+      "passcode": 17688543,
+      "score": 0.0010152
+     },
+     {
+      "index": 2086,
+      "passcode": 94192409,
+      "score": 0.0008988
+     },
+     {
+      "index": 10418,
+      "passcode": 3441553,
+      "score": 0.0007111
+     },
+     {
+      "index": 1224,
+      "passcode": 79409334,
+      "score": 0.0006434
+     },
+     {
+      "index": 1736,
+      "passcode": 13513663,
+      "score": 0.0006299
+     },
+     {
+      "index": 7845,
+      "passcode": 68540059,
+      "score": 0.0006251
+     },
+     {
+      "index": 3361,
+      "passcode": 67464807,
+      "score": 0.0006111
+     },
+     {
+      "index": 4169,
+      "passcode": 94937430,
+      "score": 0.0006069
+     },
+     {
+      "index": 11155,
+      "passcode": 63012333,
+      "score": 0.0005987
+     },
+     {
+      "index": 1023,
+      "passcode": 60530944,
+      "score": 0.0005871
+     },
+     {
+      "index": 2930,
+      "passcode": 72060415,
+      "score": 0.0005722
+     },
+     {
+      "index": 8171,
+      "passcode": 54757758,
+      "score": 0.000554
+     },
+     {
+      "index": 7204,
+      "passcode": 30241314,
+      "score": 0.0005505
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0000.jpg",
@@ -1651,83 +2921,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0000_07.png",
-   "candidates": [
-    {
-     "index": 8085,
-     "passcode": 83764719,
-     "score": 0.8843499
-    },
-    {
-     "index": 9286,
-     "passcode": 72044448,
-     "score": 0.0002414
-    },
-    {
-     "index": 8088,
-     "passcode": 74848038,
-     "score": 0.0001772
-    },
-    {
-     "index": 12597,
-     "passcode": 25573054,
-     "score": 0.000151
-    },
-    {
-     "index": 8565,
-     "passcode": 69610924,
-     "score": 0.000101
-    },
-    {
-     "index": 6456,
-     "passcode": 60800381,
-     "score": 8.25e-05
-    },
-    {
-     "index": 7979,
-     "passcode": 55985014,
-     "score": 7.41e-05
-    },
-    {
-     "index": 4922,
-     "passcode": 69802283,
-     "score": 6.19e-05
-    },
-    {
-     "index": 803,
-     "passcode": 17994645,
-     "score": 6.18e-05
-    },
-    {
-     "index": 11609,
-     "passcode": 98434877,
-     "score": 5.75e-05
-    },
-    {
-     "index": 12136,
-     "passcode": 90488465,
-     "score": 5.23e-05
-    },
-    {
-     "index": 9125,
-     "passcode": 19619755,
-     "score": 4.92e-05
-    },
-    {
-     "index": 1226,
-     "passcode": 38670435,
-     "score": 4.89e-05
-    },
-    {
-     "index": 7248,
-     "passcode": 59344077,
-     "score": 4.79e-05
-    },
-    {
-     "index": 4825,
-     "passcode": 66889139,
-     "score": 4.79e-05
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 8085,
+      "passcode": 83764719,
+      "score": 0.8843499
+     },
+     {
+      "index": 9286,
+      "passcode": 72044448,
+      "score": 0.0002414
+     },
+     {
+      "index": 8088,
+      "passcode": 74848038,
+      "score": 0.0001772
+     },
+     {
+      "index": 12597,
+      "passcode": 25573054,
+      "score": 0.000151
+     },
+     {
+      "index": 8565,
+      "passcode": 69610924,
+      "score": 0.000101
+     },
+     {
+      "index": 6456,
+      "passcode": 60800381,
+      "score": 8.25e-05
+     },
+     {
+      "index": 7979,
+      "passcode": 55985014,
+      "score": 7.41e-05
+     },
+     {
+      "index": 4922,
+      "passcode": 69802283,
+      "score": 6.19e-05
+     },
+     {
+      "index": 803,
+      "passcode": 17994645,
+      "score": 6.18e-05
+     },
+     {
+      "index": 11609,
+      "passcode": 98434877,
+      "score": 5.75e-05
+     },
+     {
+      "index": 12136,
+      "passcode": 90488465,
+      "score": 5.23e-05
+     },
+     {
+      "index": 9125,
+      "passcode": 19619755,
+      "score": 4.92e-05
+     },
+     {
+      "index": 1226,
+      "passcode": 38670435,
+      "score": 4.89e-05
+     },
+     {
+      "index": 7248,
+      "passcode": 59344077,
+      "score": 4.79e-05
+     },
+     {
+      "index": 4825,
+      "passcode": 66889139,
+      "score": 4.79e-05
+     }
+    ],
+    "fp32": [
+     {
+      "index": 8085,
+      "passcode": 83764719,
+      "score": 0.9015612
+     },
+     {
+      "index": 9286,
+      "passcode": 72044448,
+      "score": 0.0001585
+     },
+     {
+      "index": 8088,
+      "passcode": 74848038,
+      "score": 0.000107
+     },
+     {
+      "index": 12597,
+      "passcode": 25573054,
+      "score": 9.43e-05
+     },
+     {
+      "index": 6456,
+      "passcode": 60800381,
+      "score": 6.57e-05
+     },
+     {
+      "index": 8565,
+      "passcode": 69610924,
+      "score": 6.53e-05
+     },
+     {
+      "index": 7979,
+      "passcode": 55985014,
+      "score": 5.2e-05
+     },
+     {
+      "index": 4922,
+      "passcode": 69802283,
+      "score": 5.11e-05
+     },
+     {
+      "index": 12136,
+      "passcode": 90488465,
+      "score": 4.64e-05
+     },
+     {
+      "index": 1260,
+      "passcode": 2009101,
+      "score": 4.58e-05
+     },
+     {
+      "index": 9846,
+      "passcode": 45950291,
+      "score": 4.44e-05
+     },
+     {
+      "index": 9222,
+      "passcode": 93224848,
+      "score": 4.32e-05
+     },
+     {
+      "index": 11609,
+      "passcode": 98434877,
+      "score": 4.28e-05
+     },
+     {
+      "index": 6034,
+      "passcode": 67517351,
+      "score": 4.11e-05
+     },
+     {
+      "index": 1226,
+      "passcode": 38670435,
+      "score": 4.04e-05
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0000.jpg",
@@ -1752,83 +3101,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0000_08.png",
-   "candidates": [
-    {
-     "index": 10045,
-     "passcode": 50185950,
-     "score": 0.037832
-    },
-    {
-     "index": 13547,
-     "passcode": 57116033,
-     "score": 0.0030321
-    },
-    {
-     "index": 9101,
-     "passcode": 19050066,
-     "score": 0.0022168
-    },
-    {
-     "index": 12186,
-     "passcode": 20065322,
-     "score": 0.0016648
-    },
-    {
-     "index": 6756,
-     "passcode": 40640057,
-     "score": 0.0014206
-    },
-    {
-     "index": 2892,
-     "passcode": 1035143,
-     "score": 0.0013808
-    },
-    {
-     "index": 9141,
-     "passcode": 69181753,
-     "score": 0.0012096
-    },
-    {
-     "index": 6764,
-     "passcode": 40817915,
-     "score": 0.0011692
-    },
-    {
-     "index": 6759,
-     "passcode": 34873741,
-     "score": 0.0011532
-    },
-    {
-     "index": 3075,
-     "passcode": 89086566,
-     "score": 0.0010812
-    },
-    {
-     "index": 5580,
-     "passcode": 85555787,
-     "score": 0.0010582
-    },
-    {
-     "index": 1098,
-     "passcode": 16255442,
-     "score": 0.0010472
-    },
-    {
-     "index": 6751,
-     "passcode": 44632120,
-     "score": 0.0010125
-    },
-    {
-     "index": 4217,
-     "passcode": 57775790,
-     "score": 0.0009065
-    },
-    {
-     "index": 2372,
-     "passcode": 2926176,
-     "score": 0.0009046
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 10045,
+      "passcode": 50185950,
+      "score": 0.037832
+     },
+     {
+      "index": 13547,
+      "passcode": 57116033,
+      "score": 0.0030321
+     },
+     {
+      "index": 9101,
+      "passcode": 19050066,
+      "score": 0.0022168
+     },
+     {
+      "index": 12186,
+      "passcode": 20065322,
+      "score": 0.0016648
+     },
+     {
+      "index": 6756,
+      "passcode": 40640057,
+      "score": 0.0014206
+     },
+     {
+      "index": 2892,
+      "passcode": 1035143,
+      "score": 0.0013808
+     },
+     {
+      "index": 9141,
+      "passcode": 69181753,
+      "score": 0.0012096
+     },
+     {
+      "index": 6764,
+      "passcode": 40817915,
+      "score": 0.0011692
+     },
+     {
+      "index": 6759,
+      "passcode": 34873741,
+      "score": 0.0011532
+     },
+     {
+      "index": 3075,
+      "passcode": 89086566,
+      "score": 0.0010812
+     },
+     {
+      "index": 5580,
+      "passcode": 85555787,
+      "score": 0.0010582
+     },
+     {
+      "index": 1098,
+      "passcode": 16255442,
+      "score": 0.0010472
+     },
+     {
+      "index": 6751,
+      "passcode": 44632120,
+      "score": 0.0010125
+     },
+     {
+      "index": 4217,
+      "passcode": 57775790,
+      "score": 0.0009065
+     },
+     {
+      "index": 2372,
+      "passcode": 2926176,
+      "score": 0.0009046
+     }
+    ],
+    "fp32": [
+     {
+      "index": 10045,
+      "passcode": 50185950,
+      "score": 0.057172
+     },
+     {
+      "index": 13547,
+      "passcode": 57116033,
+      "score": 0.0021946
+     },
+     {
+      "index": 9101,
+      "passcode": 19050066,
+      "score": 0.0019833
+     },
+     {
+      "index": 12186,
+      "passcode": 20065322,
+      "score": 0.0019526
+     },
+     {
+      "index": 6756,
+      "passcode": 40640057,
+      "score": 0.0016916
+     },
+     {
+      "index": 2892,
+      "passcode": 1035143,
+      "score": 0.0014086
+     },
+     {
+      "index": 3075,
+      "passcode": 89086566,
+      "score": 0.0012805
+     },
+     {
+      "index": 6764,
+      "passcode": 40817915,
+      "score": 0.0012192
+     },
+     {
+      "index": 6759,
+      "passcode": 34873741,
+      "score": 0.0012144
+     },
+     {
+      "index": 6751,
+      "passcode": 44632120,
+      "score": 0.0012102
+     },
+     {
+      "index": 9141,
+      "passcode": 69181753,
+      "score": 0.0011805
+     },
+     {
+      "index": 1098,
+      "passcode": 16255442,
+      "score": 0.0011077
+     },
+     {
+      "index": 2986,
+      "passcode": 69579761,
+      "score": 0.0009947
+     },
+     {
+      "index": 6760,
+      "passcode": 7021574,
+      "score": 0.0008694
+     },
+     {
+      "index": 4217,
+      "passcode": 57775790,
+      "score": 0.0008651
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0540.jpg",
@@ -1853,83 +3281,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0540_00.png",
-   "candidates": [
-    {
-     "index": 9870,
-     "passcode": 12503902,
-     "score": 0.1887337
-    },
-    {
-     "index": 2779,
-     "passcode": 38033121,
-     "score": 0.0019779
-    },
-    {
-     "index": 4080,
-     "passcode": 62098216,
-     "score": 0.0017318
-    },
-    {
-     "index": 3712,
-     "passcode": 88341502,
-     "score": 0.0008105
-    },
-    {
-     "index": 7428,
-     "passcode": 9433350,
-     "score": 0.0007929
-    },
-    {
-     "index": 9241,
-     "passcode": 61936647,
-     "score": 0.0007423
-    },
-    {
-     "index": 10412,
-     "passcode": 11052544,
-     "score": 0.0006939
-    },
-    {
-     "index": 12126,
-     "passcode": 49299410,
-     "score": 0.0006372
-    },
-    {
-     "index": 12623,
-     "passcode": 79766336,
-     "score": 0.0005466
-    },
-    {
-     "index": 2516,
-     "passcode": 43405287,
-     "score": 0.0005171
-    },
-    {
-     "index": 9631,
-     "passcode": 82983267,
-     "score": 0.000512
-    },
-    {
-     "index": 1683,
-     "passcode": 97077563,
-     "score": 0.0004962
-    },
-    {
-     "index": 12049,
-     "passcode": 33609262,
-     "score": 0.0004798
-    },
-    {
-     "index": 3761,
-     "passcode": 94977269,
-     "score": 0.000465
-    },
-    {
-     "index": 2922,
-     "passcode": 74665150,
-     "score": 0.0004534
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 9870,
+      "passcode": 12503902,
+      "score": 0.1887337
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0019779
+     },
+     {
+      "index": 4080,
+      "passcode": 62098216,
+      "score": 0.0017318
+     },
+     {
+      "index": 3712,
+      "passcode": 88341502,
+      "score": 0.0008105
+     },
+     {
+      "index": 7428,
+      "passcode": 9433350,
+      "score": 0.0007929
+     },
+     {
+      "index": 9241,
+      "passcode": 61936647,
+      "score": 0.0007423
+     },
+     {
+      "index": 10412,
+      "passcode": 11052544,
+      "score": 0.0006939
+     },
+     {
+      "index": 12126,
+      "passcode": 49299410,
+      "score": 0.0006372
+     },
+     {
+      "index": 12623,
+      "passcode": 79766336,
+      "score": 0.0005466
+     },
+     {
+      "index": 2516,
+      "passcode": 43405287,
+      "score": 0.0005171
+     },
+     {
+      "index": 9631,
+      "passcode": 82983267,
+      "score": 0.000512
+     },
+     {
+      "index": 1683,
+      "passcode": 97077563,
+      "score": 0.0004962
+     },
+     {
+      "index": 12049,
+      "passcode": 33609262,
+      "score": 0.0004798
+     },
+     {
+      "index": 3761,
+      "passcode": 94977269,
+      "score": 0.000465
+     },
+     {
+      "index": 2922,
+      "passcode": 74665150,
+      "score": 0.0004534
+     }
+    ],
+    "fp32": [
+     {
+      "index": 9870,
+      "passcode": 12503902,
+      "score": 0.2549042
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0023753
+     },
+     {
+      "index": 4080,
+      "passcode": 62098216,
+      "score": 0.001397
+     },
+     {
+      "index": 7428,
+      "passcode": 9433350,
+      "score": 0.0008791
+     },
+     {
+      "index": 3712,
+      "passcode": 88341502,
+      "score": 0.0007572
+     },
+     {
+      "index": 9241,
+      "passcode": 61936647,
+      "score": 0.0006705
+     },
+     {
+      "index": 10412,
+      "passcode": 11052544,
+      "score": 0.0005945
+     },
+     {
+      "index": 12623,
+      "passcode": 79766336,
+      "score": 0.0005708
+     },
+     {
+      "index": 12126,
+      "passcode": 49299410,
+      "score": 0.0005574
+     },
+     {
+      "index": 3761,
+      "passcode": 94977269,
+      "score": 0.0004469
+     },
+     {
+      "index": 9631,
+      "passcode": 82983267,
+      "score": 0.0004272
+     },
+     {
+      "index": 8055,
+      "passcode": 4929256,
+      "score": 0.0004204
+     },
+     {
+      "index": 2922,
+      "passcode": 74665150,
+      "score": 0.0004155
+     },
+     {
+      "index": 9000,
+      "passcode": 57355219,
+      "score": 0.000408
+     },
+     {
+      "index": 12049,
+      "passcode": 33609262,
+      "score": 0.0004078
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0540.jpg",
@@ -1954,83 +3461,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0540_01.png",
-   "candidates": [
-    {
-     "index": 12817,
-     "passcode": 70050374,
-     "score": 0.0643295
-    },
-    {
-     "index": 10456,
-     "passcode": 60303245,
-     "score": 0.0017512
-    },
-    {
-     "index": 2375,
-     "passcode": 94377247,
-     "score": 0.0016804
-    },
-    {
-     "index": 13920,
-     "passcode": 24311372,
-     "score": 0.0013151
-    },
-    {
-     "index": 2779,
-     "passcode": 38033121,
-     "score": 0.0010935
-    },
-    {
-     "index": 12133,
-     "passcode": 32731036,
-     "score": 0.0008991
-    },
-    {
-     "index": 9357,
-     "passcode": 24094653,
-     "score": 0.0008456
-    },
-    {
-     "index": 11076,
-     "passcode": 58071334,
-     "score": 0.0008097
-    },
-    {
-     "index": 4975,
-     "passcode": 51831560,
-     "score": 0.0007863
-    },
-    {
-     "index": 4310,
-     "passcode": 98642179,
-     "score": 0.0007291
-    },
-    {
-     "index": 8259,
-     "passcode": 79194594,
-     "score": 0.000691
-    },
-    {
-     "index": 8619,
-     "passcode": 93108839,
-     "score": 0.0006739
-    },
-    {
-     "index": 4676,
-     "passcode": 80889750,
-     "score": 0.0006657
-    },
-    {
-     "index": 10496,
-     "passcode": 11962031,
-     "score": 0.0006617
-    },
-    {
-     "index": 6479,
-     "passcode": 93170499,
-     "score": 0.0006577
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 12817,
+      "passcode": 70050374,
+      "score": 0.0643295
+     },
+     {
+      "index": 10456,
+      "passcode": 60303245,
+      "score": 0.0017512
+     },
+     {
+      "index": 2375,
+      "passcode": 94377247,
+      "score": 0.0016804
+     },
+     {
+      "index": 13920,
+      "passcode": 24311372,
+      "score": 0.0013151
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0010935
+     },
+     {
+      "index": 12133,
+      "passcode": 32731036,
+      "score": 0.0008991
+     },
+     {
+      "index": 9357,
+      "passcode": 24094653,
+      "score": 0.0008456
+     },
+     {
+      "index": 11076,
+      "passcode": 58071334,
+      "score": 0.0008097
+     },
+     {
+      "index": 4975,
+      "passcode": 51831560,
+      "score": 0.0007863
+     },
+     {
+      "index": 4310,
+      "passcode": 98642179,
+      "score": 0.0007291
+     },
+     {
+      "index": 8259,
+      "passcode": 79194594,
+      "score": 0.000691
+     },
+     {
+      "index": 8619,
+      "passcode": 93108839,
+      "score": 0.0006739
+     },
+     {
+      "index": 4676,
+      "passcode": 80889750,
+      "score": 0.0006657
+     },
+     {
+      "index": 10496,
+      "passcode": 11962031,
+      "score": 0.0006617
+     },
+     {
+      "index": 6479,
+      "passcode": 93170499,
+      "score": 0.0006577
+     }
+    ],
+    "fp32": [
+     {
+      "index": 12817,
+      "passcode": 70050374,
+      "score": 0.0999223
+     },
+     {
+      "index": 10456,
+      "passcode": 60303245,
+      "score": 0.0017453
+     },
+     {
+      "index": 2375,
+      "passcode": 94377247,
+      "score": 0.0016378
+     },
+     {
+      "index": 11076,
+      "passcode": 58071334,
+      "score": 0.0010239
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0010149
+     },
+     {
+      "index": 13920,
+      "passcode": 24311372,
+      "score": 0.0009965
+     },
+     {
+      "index": 9357,
+      "passcode": 24094653,
+      "score": 0.000945
+     },
+     {
+      "index": 12133,
+      "passcode": 32731036,
+      "score": 0.0008574
+     },
+     {
+      "index": 6479,
+      "passcode": 93170499,
+      "score": 0.0007634
+     },
+     {
+      "index": 4975,
+      "passcode": 51831560,
+      "score": 0.0007532
+     },
+     {
+      "index": 8259,
+      "passcode": 79194594,
+      "score": 0.0007201
+     },
+     {
+      "index": 8619,
+      "passcode": 93108839,
+      "score": 0.0007162
+     },
+     {
+      "index": 4676,
+      "passcode": 80889750,
+      "score": 0.0006865
+     },
+     {
+      "index": 10496,
+      "passcode": 11962031,
+      "score": 0.0006781
+     },
+     {
+      "index": 5113,
+      "passcode": 32224143,
+      "score": 0.0006381
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0540.jpg",
@@ -2055,83 +3641,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0540_02.png",
-   "candidates": [
-    {
-     "index": 12529,
-     "passcode": 79875176,
-     "score": 0.0298483
-    },
-    {
-     "index": 1371,
-     "passcode": 30576089,
-     "score": 0.0012795
-    },
-    {
-     "index": 11807,
-     "passcode": 94145683,
-     "score": 0.0012457
-    },
-    {
-     "index": 12964,
-     "passcode": 38527680,
-     "score": 0.0010466
-    },
-    {
-     "index": 3818,
-     "passcode": 85507811,
-     "score": 0.0007989
-    },
-    {
-     "index": 4765,
-     "passcode": 2618725,
-     "score": 0.0007324
-    },
-    {
-     "index": 9289,
-     "passcode": 8653757,
-     "score": 0.0007162
-    },
-    {
-     "index": 4220,
-     "passcode": 55766177,
-     "score": 0.0007106
-    },
-    {
-     "index": 7623,
-     "passcode": 27182739,
-     "score": 0.0006944
-    },
-    {
-     "index": 4656,
-     "passcode": 85359414,
-     "score": 0.0006941
-    },
-    {
-     "index": 12898,
-     "passcode": 33250142,
-     "score": 0.0006704
-    },
-    {
-     "index": 11094,
-     "passcode": 73659078,
-     "score": 0.000669
-    },
-    {
-     "index": 6529,
-     "passcode": 95602345,
-     "score": 0.000623
-    },
-    {
-     "index": 3849,
-     "passcode": 25366484,
-     "score": 0.0006148
-    },
-    {
-     "index": 8630,
-     "passcode": 23085002,
-     "score": 0.00061
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 12529,
+      "passcode": 79875176,
+      "score": 0.0298483
+     },
+     {
+      "index": 1371,
+      "passcode": 30576089,
+      "score": 0.0012795
+     },
+     {
+      "index": 11807,
+      "passcode": 94145683,
+      "score": 0.0012457
+     },
+     {
+      "index": 12964,
+      "passcode": 38527680,
+      "score": 0.0010466
+     },
+     {
+      "index": 3818,
+      "passcode": 85507811,
+      "score": 0.0007989
+     },
+     {
+      "index": 4765,
+      "passcode": 2618725,
+      "score": 0.0007324
+     },
+     {
+      "index": 9289,
+      "passcode": 8653757,
+      "score": 0.0007162
+     },
+     {
+      "index": 4220,
+      "passcode": 55766177,
+      "score": 0.0007106
+     },
+     {
+      "index": 7623,
+      "passcode": 27182739,
+      "score": 0.0006944
+     },
+     {
+      "index": 4656,
+      "passcode": 85359414,
+      "score": 0.0006941
+     },
+     {
+      "index": 12898,
+      "passcode": 33250142,
+      "score": 0.0006704
+     },
+     {
+      "index": 11094,
+      "passcode": 73659078,
+      "score": 0.000669
+     },
+     {
+      "index": 6529,
+      "passcode": 95602345,
+      "score": 0.000623
+     },
+     {
+      "index": 3849,
+      "passcode": 25366484,
+      "score": 0.0006148
+     },
+     {
+      "index": 8630,
+      "passcode": 23085002,
+      "score": 0.00061
+     }
+    ],
+    "fp32": [
+     {
+      "index": 12529,
+      "passcode": 79875176,
+      "score": 0.0593208
+     },
+     {
+      "index": 1371,
+      "passcode": 30576089,
+      "score": 0.0011896
+     },
+     {
+      "index": 11807,
+      "passcode": 94145683,
+      "score": 0.0011138
+     },
+     {
+      "index": 3818,
+      "passcode": 85507811,
+      "score": 0.0010972
+     },
+     {
+      "index": 12964,
+      "passcode": 38527680,
+      "score": 0.0008053
+     },
+     {
+      "index": 9289,
+      "passcode": 8653757,
+      "score": 0.000761
+     },
+     {
+      "index": 5515,
+      "passcode": 61705417,
+      "score": 0.0007261
+     },
+     {
+      "index": 12898,
+      "passcode": 33250142,
+      "score": 0.0007079
+     },
+     {
+      "index": 4220,
+      "passcode": 55766177,
+      "score": 0.0007057
+     },
+     {
+      "index": 3849,
+      "passcode": 25366484,
+      "score": 0.0006505
+     },
+     {
+      "index": 1375,
+      "passcode": 53183600,
+      "score": 0.0006201
+     },
+     {
+      "index": 12227,
+      "passcode": 86099788,
+      "score": 0.0006174
+     },
+     {
+      "index": 4656,
+      "passcode": 85359414,
+      "score": 0.0006145
+     },
+     {
+      "index": 2086,
+      "passcode": 94192409,
+      "score": 0.0006092
+     },
+     {
+      "index": 7623,
+      "passcode": 27182739,
+      "score": 0.0005956
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0540.jpg",
@@ -2156,83 +3821,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0540_03.png",
-   "candidates": [
-    {
-     "index": 4930,
-     "passcode": 30190809,
-     "score": 0.0932219
-    },
-    {
-     "index": 1631,
-     "passcode": 78193831,
-     "score": 0.0030019
-    },
-    {
-     "index": 9749,
-     "passcode": 52543404,
-     "score": 0.0009459
-    },
-    {
-     "index": 903,
-     "passcode": 14148099,
-     "score": 0.0008403
-    },
-    {
-     "index": 907,
-     "passcode": 15317640,
-     "score": 0.0008025
-    },
-    {
-     "index": 5046,
-     "passcode": 16828633,
-     "score": 0.0007335
-    },
-    {
-     "index": 255,
-     "passcode": 9888196,
-     "score": 0.0006299
-    },
-    {
-     "index": 13162,
-     "passcode": 22499463,
-     "score": 0.0006131
-    },
-    {
-     "index": 662,
-     "passcode": 28985331,
-     "score": 0.0006127
-    },
-    {
-     "index": 11143,
-     "passcode": 93138457,
-     "score": 0.0005757
-    },
-    {
-     "index": 3008,
-     "passcode": 89544521,
-     "score": 0.0005596
-    },
-    {
-     "index": 6010,
-     "passcode": 73018302,
-     "score": 0.0005495
-    },
-    {
-     "index": 3624,
-     "passcode": 54813225,
-     "score": 0.0005349
-    },
-    {
-     "index": 766,
-     "passcode": 7913375,
-     "score": 0.0005278
-    },
-    {
-     "index": 10516,
-     "passcode": 73648243,
-     "score": 0.0005129
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 4930,
+      "passcode": 30190809,
+      "score": 0.0932219
+     },
+     {
+      "index": 1631,
+      "passcode": 78193831,
+      "score": 0.0030019
+     },
+     {
+      "index": 9749,
+      "passcode": 52543404,
+      "score": 0.0009459
+     },
+     {
+      "index": 903,
+      "passcode": 14148099,
+      "score": 0.0008403
+     },
+     {
+      "index": 907,
+      "passcode": 15317640,
+      "score": 0.0008025
+     },
+     {
+      "index": 5046,
+      "passcode": 16828633,
+      "score": 0.0007335
+     },
+     {
+      "index": 255,
+      "passcode": 9888196,
+      "score": 0.0006299
+     },
+     {
+      "index": 13162,
+      "passcode": 22499463,
+      "score": 0.0006131
+     },
+     {
+      "index": 662,
+      "passcode": 28985331,
+      "score": 0.0006127
+     },
+     {
+      "index": 11143,
+      "passcode": 93138457,
+      "score": 0.0005757
+     },
+     {
+      "index": 3008,
+      "passcode": 89544521,
+      "score": 0.0005596
+     },
+     {
+      "index": 6010,
+      "passcode": 73018302,
+      "score": 0.0005495
+     },
+     {
+      "index": 3624,
+      "passcode": 54813225,
+      "score": 0.0005349
+     },
+     {
+      "index": 766,
+      "passcode": 7913375,
+      "score": 0.0005278
+     },
+     {
+      "index": 10516,
+      "passcode": 73648243,
+      "score": 0.0005129
+     }
+    ],
+    "fp32": [
+     {
+      "index": 4930,
+      "passcode": 30190809,
+      "score": 0.1388931
+     },
+     {
+      "index": 1631,
+      "passcode": 78193831,
+      "score": 0.0030331
+     },
+     {
+      "index": 907,
+      "passcode": 15317640,
+      "score": 0.0008788
+     },
+     {
+      "index": 9749,
+      "passcode": 52543404,
+      "score": 0.0007309
+     },
+     {
+      "index": 5046,
+      "passcode": 16828633,
+      "score": 0.0006986
+     },
+     {
+      "index": 5037,
+      "passcode": 68505803,
+      "score": 0.0006189
+     },
+     {
+      "index": 13162,
+      "passcode": 22499463,
+      "score": 0.0006125
+     },
+     {
+      "index": 903,
+      "passcode": 14148099,
+      "score": 0.0006074
+     },
+     {
+      "index": 849,
+      "passcode": 91989718,
+      "score": 0.0005593
+     },
+     {
+      "index": 11143,
+      "passcode": 93138457,
+      "score": 0.0005336
+     },
+     {
+      "index": 662,
+      "passcode": 28985331,
+      "score": 0.0005254
+     },
+     {
+      "index": 6010,
+      "passcode": 73018302,
+      "score": 0.000517
+     },
+     {
+      "index": 3624,
+      "passcode": 54813225,
+      "score": 0.0005091
+     },
+     {
+      "index": 10793,
+      "passcode": 3244563,
+      "score": 0.0004976
+     },
+     {
+      "index": 10908,
+      "passcode": 74388798,
+      "score": 0.0004907
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0540.jpg",
@@ -2257,83 +4001,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0540_04.png",
-   "candidates": [
-    {
-     "index": 1691,
-     "passcode": 11384280,
-     "score": 0.1150262
-    },
-    {
-     "index": 6025,
-     "passcode": 2118022,
-     "score": 0.0016701
-    },
-    {
-     "index": 2293,
-     "passcode": 7093411,
-     "score": 0.0012319
-    },
-    {
-     "index": 1378,
-     "passcode": 23995346,
-     "score": 0.0011243
-    },
-    {
-     "index": 10445,
-     "passcode": 66602787,
-     "score": 0.0009798
-    },
-    {
-     "index": 13591,
-     "passcode": 36304921,
-     "score": 0.0009303
-    },
-    {
-     "index": 3060,
-     "passcode": 80186010,
-     "score": 0.0009063
-    },
-    {
-     "index": 5900,
-     "passcode": 64501875,
-     "score": 0.0008899
-    },
-    {
-     "index": 2778,
-     "passcode": 46986414,
-     "score": 0.0008871
-    },
-    {
-     "index": 4218,
-     "passcode": 72328962,
-     "score": 0.0008804
-    },
-    {
-     "index": 5506,
-     "passcode": 24317029,
-     "score": 0.0008439
-    },
-    {
-     "index": 3761,
-     "passcode": 94977269,
-     "score": 0.0008237
-    },
-    {
-     "index": 682,
-     "passcode": 9076207,
-     "score": 0.0008054
-    },
-    {
-     "index": 3814,
-     "passcode": 35809262,
-     "score": 0.0007858
-    },
-    {
-     "index": 11316,
-     "passcode": 49328340,
-     "score": 0.0007708
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 1691,
+      "passcode": 11384280,
+      "score": 0.1150262
+     },
+     {
+      "index": 6025,
+      "passcode": 2118022,
+      "score": 0.0016701
+     },
+     {
+      "index": 2293,
+      "passcode": 7093411,
+      "score": 0.0012319
+     },
+     {
+      "index": 1378,
+      "passcode": 23995346,
+      "score": 0.0011243
+     },
+     {
+      "index": 10445,
+      "passcode": 66602787,
+      "score": 0.0009798
+     },
+     {
+      "index": 13591,
+      "passcode": 36304921,
+      "score": 0.0009303
+     },
+     {
+      "index": 3060,
+      "passcode": 80186010,
+      "score": 0.0009063
+     },
+     {
+      "index": 5900,
+      "passcode": 64501875,
+      "score": 0.0008899
+     },
+     {
+      "index": 2778,
+      "passcode": 46986414,
+      "score": 0.0008871
+     },
+     {
+      "index": 4218,
+      "passcode": 72328962,
+      "score": 0.0008804
+     },
+     {
+      "index": 5506,
+      "passcode": 24317029,
+      "score": 0.0008439
+     },
+     {
+      "index": 3761,
+      "passcode": 94977269,
+      "score": 0.0008237
+     },
+     {
+      "index": 682,
+      "passcode": 9076207,
+      "score": 0.0008054
+     },
+     {
+      "index": 3814,
+      "passcode": 35809262,
+      "score": 0.0007858
+     },
+     {
+      "index": 11316,
+      "passcode": 49328340,
+      "score": 0.0007708
+     }
+    ],
+    "fp32": [
+     {
+      "index": 1691,
+      "passcode": 11384280,
+      "score": 0.188958
+     },
+     {
+      "index": 6025,
+      "passcode": 2118022,
+      "score": 0.0019692
+     },
+     {
+      "index": 10445,
+      "passcode": 66602787,
+      "score": 0.0011236
+     },
+     {
+      "index": 3761,
+      "passcode": 94977269,
+      "score": 0.0010302
+     },
+     {
+      "index": 1378,
+      "passcode": 23995346,
+      "score": 0.0009426
+     },
+     {
+      "index": 2778,
+      "passcode": 46986414,
+      "score": 0.0009174
+     },
+     {
+      "index": 3060,
+      "passcode": 80186010,
+      "score": 0.0008844
+     },
+     {
+      "index": 13591,
+      "passcode": 36304921,
+      "score": 0.0008205
+     },
+     {
+      "index": 665,
+      "passcode": 90374791,
+      "score": 0.000812
+     },
+     {
+      "index": 1016,
+      "passcode": 18246479,
+      "score": 0.0008012
+     },
+     {
+      "index": 10638,
+      "passcode": 71746462,
+      "score": 0.0007987
+     },
+     {
+      "index": 5900,
+      "passcode": 64501875,
+      "score": 0.0007674
+     },
+     {
+      "index": 2293,
+      "passcode": 7093411,
+      "score": 0.0007539
+     },
+     {
+      "index": 5506,
+      "passcode": 24317029,
+      "score": 0.0007403
+     },
+     {
+      "index": 11316,
+      "passcode": 49328340,
+      "score": 0.0007366
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0540.jpg",
@@ -2358,83 +4181,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0540_05.png",
-   "candidates": [
-    {
-     "index": 14,
-     "passcode": 86198326,
-     "score": 0.2763373
-    },
-    {
-     "index": 3843,
-     "passcode": 41436536,
-     "score": 0.00067
-    },
-    {
-     "index": 4857,
-     "passcode": 52340274,
-     "score": 0.000552
-    },
-    {
-     "index": 12399,
-     "passcode": 47594192,
-     "score": 0.0005295
-    },
-    {
-     "index": 3307,
-     "passcode": 42021064,
-     "score": 0.0005134
-    },
-    {
-     "index": 1063,
-     "passcode": 36916401,
-     "score": 0.000478
-    },
-    {
-     "index": 902,
-     "passcode": 975299,
-     "score": 0.0004708
-    },
-    {
-     "index": 6361,
-     "passcode": 36539330,
-     "score": 0.0004644
-    },
-    {
-     "index": 11612,
-     "passcode": 18114794,
-     "score": 0.0004475
-    },
-    {
-     "index": 2670,
-     "passcode": 25140659,
-     "score": 0.0004423
-    },
-    {
-     "index": 779,
-     "passcode": 88301833,
-     "score": 0.000442
-    },
-    {
-     "index": 10487,
-     "passcode": 1295111,
-     "score": 0.0004169
-    },
-    {
-     "index": 11244,
-     "passcode": 29114773,
-     "score": 0.0004145
-    },
-    {
-     "index": 11916,
-     "passcode": 83962752,
-     "score": 0.0004076
-    },
-    {
-     "index": 11698,
-     "passcode": 14094090,
-     "score": 0.0003852
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 14,
+      "passcode": 86198326,
+      "score": 0.2763373
+     },
+     {
+      "index": 3843,
+      "passcode": 41436536,
+      "score": 0.00067
+     },
+     {
+      "index": 4857,
+      "passcode": 52340274,
+      "score": 0.000552
+     },
+     {
+      "index": 12399,
+      "passcode": 47594192,
+      "score": 0.0005295
+     },
+     {
+      "index": 3307,
+      "passcode": 42021064,
+      "score": 0.0005134
+     },
+     {
+      "index": 1063,
+      "passcode": 36916401,
+      "score": 0.000478
+     },
+     {
+      "index": 902,
+      "passcode": 975299,
+      "score": 0.0004708
+     },
+     {
+      "index": 6361,
+      "passcode": 36539330,
+      "score": 0.0004644
+     },
+     {
+      "index": 11612,
+      "passcode": 18114794,
+      "score": 0.0004475
+     },
+     {
+      "index": 2670,
+      "passcode": 25140659,
+      "score": 0.0004423
+     },
+     {
+      "index": 779,
+      "passcode": 88301833,
+      "score": 0.000442
+     },
+     {
+      "index": 10487,
+      "passcode": 1295111,
+      "score": 0.0004169
+     },
+     {
+      "index": 11244,
+      "passcode": 29114773,
+      "score": 0.0004145
+     },
+     {
+      "index": 11916,
+      "passcode": 83962752,
+      "score": 0.0004076
+     },
+     {
+      "index": 11698,
+      "passcode": 14094090,
+      "score": 0.0003852
+     }
+    ],
+    "fp32": [
+     {
+      "index": 14,
+      "passcode": 86198326,
+      "score": 0.3482034
+     },
+     {
+      "index": 3843,
+      "passcode": 41436536,
+      "score": 0.0007097
+     },
+     {
+      "index": 902,
+      "passcode": 975299,
+      "score": 0.000473
+     },
+     {
+      "index": 3307,
+      "passcode": 42021064,
+      "score": 0.000467
+     },
+     {
+      "index": 12399,
+      "passcode": 47594192,
+      "score": 0.0004563
+     },
+     {
+      "index": 2670,
+      "passcode": 25140659,
+      "score": 0.0004502
+     },
+     {
+      "index": 1063,
+      "passcode": 36916401,
+      "score": 0.0004408
+     },
+     {
+      "index": 3398,
+      "passcode": 67724434,
+      "score": 0.0004367
+     },
+     {
+      "index": 11612,
+      "passcode": 18114794,
+      "score": 0.0004192
+     },
+     {
+      "index": 4857,
+      "passcode": 52340274,
+      "score": 0.000401
+     },
+     {
+      "index": 5636,
+      "passcode": 90207654,
+      "score": 0.0003634
+     },
+     {
+      "index": 779,
+      "passcode": 88301833,
+      "score": 0.0003588
+     },
+     {
+      "index": 11244,
+      "passcode": 29114773,
+      "score": 0.0003561
+     },
+     {
+      "index": 12223,
+      "passcode": 11163040,
+      "score": 0.0003484
+     },
+     {
+      "index": 2252,
+      "passcode": 50277355,
+      "score": 0.0003449
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0540.jpg",
@@ -2459,83 +4361,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0540_06.png",
-   "candidates": [
-    {
-     "index": 7996,
-     "passcode": 44095762,
-     "score": 0.872659
-    },
-    {
-     "index": 8230,
-     "passcode": 5318639,
-     "score": 7.95e-05
-    },
-    {
-     "index": 2226,
-     "passcode": 80321197,
-     "score": 6.31e-05
-    },
-    {
-     "index": 2792,
-     "passcode": 20522190,
-     "score": 6.19e-05
-    },
-    {
-     "index": 1135,
-     "passcode": 15471265,
-     "score": 6.1e-05
-    },
-    {
-     "index": 3993,
-     "passcode": 45283341,
-     "score": 5.69e-05
-    },
-    {
-     "index": 9770,
-     "passcode": 13486638,
-     "score": 4.95e-05
-    },
-    {
-     "index": 951,
-     "passcode": 80584548,
-     "score": 4.63e-05
-    },
-    {
-     "index": 7018,
-     "passcode": 35014241,
-     "score": 4.55e-05
-    },
-    {
-     "index": 5992,
-     "passcode": 93191801,
-     "score": 4.49e-05
-    },
-    {
-     "index": 3234,
-     "passcode": 42149850,
-     "score": 4.41e-05
-    },
-    {
-     "index": 6466,
-     "passcode": 65430834,
-     "score": 4.37e-05
-    },
-    {
-     "index": 10823,
-     "passcode": 89563150,
-     "score": 4.07e-05
-    },
-    {
-     "index": 8295,
-     "passcode": 19605133,
-     "score": 3.99e-05
-    },
-    {
-     "index": 487,
-     "passcode": 55393975,
-     "score": 3.93e-05
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 7996,
+      "passcode": 44095762,
+      "score": 0.872659
+     },
+     {
+      "index": 8230,
+      "passcode": 5318639,
+      "score": 7.95e-05
+     },
+     {
+      "index": 2226,
+      "passcode": 80321197,
+      "score": 6.31e-05
+     },
+     {
+      "index": 2792,
+      "passcode": 20522190,
+      "score": 6.19e-05
+     },
+     {
+      "index": 1135,
+      "passcode": 15471265,
+      "score": 6.1e-05
+     },
+     {
+      "index": 3993,
+      "passcode": 45283341,
+      "score": 5.69e-05
+     },
+     {
+      "index": 9770,
+      "passcode": 13486638,
+      "score": 4.95e-05
+     },
+     {
+      "index": 951,
+      "passcode": 80584548,
+      "score": 4.63e-05
+     },
+     {
+      "index": 7018,
+      "passcode": 35014241,
+      "score": 4.55e-05
+     },
+     {
+      "index": 5992,
+      "passcode": 93191801,
+      "score": 4.49e-05
+     },
+     {
+      "index": 3234,
+      "passcode": 42149850,
+      "score": 4.41e-05
+     },
+     {
+      "index": 6466,
+      "passcode": 65430834,
+      "score": 4.37e-05
+     },
+     {
+      "index": 10823,
+      "passcode": 89563150,
+      "score": 4.07e-05
+     },
+     {
+      "index": 8295,
+      "passcode": 19605133,
+      "score": 3.99e-05
+     },
+     {
+      "index": 487,
+      "passcode": 55393975,
+      "score": 3.93e-05
+     }
+    ],
+    "fp32": [
+     {
+      "index": 7996,
+      "passcode": 44095762,
+      "score": 0.8896397
+     },
+     {
+      "index": 2792,
+      "passcode": 20522190,
+      "score": 6.55e-05
+     },
+     {
+      "index": 8230,
+      "passcode": 5318639,
+      "score": 6.45e-05
+     },
+     {
+      "index": 1135,
+      "passcode": 15471265,
+      "score": 4.88e-05
+     },
+     {
+      "index": 3993,
+      "passcode": 45283341,
+      "score": 4.68e-05
+     },
+     {
+      "index": 2226,
+      "passcode": 80321197,
+      "score": 4.45e-05
+     },
+     {
+      "index": 6466,
+      "passcode": 65430834,
+      "score": 4.11e-05
+     },
+     {
+      "index": 11333,
+      "passcode": 8324284,
+      "score": 3.69e-05
+     },
+     {
+      "index": 951,
+      "passcode": 80584548,
+      "score": 3.69e-05
+     },
+     {
+      "index": 7018,
+      "passcode": 35014241,
+      "score": 3.63e-05
+     },
+     {
+      "index": 5992,
+      "passcode": 93191801,
+      "score": 3.55e-05
+     },
+     {
+      "index": 9770,
+      "passcode": 13486638,
+      "score": 3.48e-05
+     },
+     {
+      "index": 8060,
+      "passcode": 75285069,
+      "score": 3.44e-05
+     },
+     {
+      "index": 6242,
+      "passcode": 23689428,
+      "score": 3.4e-05
+     },
+     {
+      "index": 10823,
+      "passcode": 89563150,
+      "score": 3.34e-05
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0540.jpg",
@@ -2560,83 +4541,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0540_07.png",
-   "candidates": [
-    {
-     "index": 8085,
-     "passcode": 83764719,
-     "score": 0.9219759
-    },
-    {
-     "index": 9286,
-     "passcode": 72044448,
-     "score": 9.42e-05
-    },
-    {
-     "index": 8088,
-     "passcode": 74848038,
-     "score": 7.87e-05
-    },
-    {
-     "index": 12597,
-     "passcode": 25573054,
-     "score": 6.41e-05
-    },
-    {
-     "index": 8565,
-     "passcode": 69610924,
-     "score": 5.14e-05
-    },
-    {
-     "index": 6456,
-     "passcode": 60800381,
-     "score": 4.44e-05
-    },
-    {
-     "index": 7979,
-     "passcode": 55985014,
-     "score": 3.85e-05
-    },
-    {
-     "index": 803,
-     "passcode": 17994645,
-     "score": 3.37e-05
-    },
-    {
-     "index": 12969,
-     "passcode": 66399653,
-     "score": 3.27e-05
-    },
-    {
-     "index": 7248,
-     "passcode": 59344077,
-     "score": 3.26e-05
-    },
-    {
-     "index": 12136,
-     "passcode": 90488465,
-     "score": 3.04e-05
-    },
-    {
-     "index": 9125,
-     "passcode": 19619755,
-     "score": 2.98e-05
-    },
-    {
-     "index": 4922,
-     "passcode": 69802283,
-     "score": 2.94e-05
-    },
-    {
-     "index": 4825,
-     "passcode": 66889139,
-     "score": 2.87e-05
-    },
-    {
-     "index": 1226,
-     "passcode": 38670435,
-     "score": 2.76e-05
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 8085,
+      "passcode": 83764719,
+      "score": 0.9219759
+     },
+     {
+      "index": 9286,
+      "passcode": 72044448,
+      "score": 9.42e-05
+     },
+     {
+      "index": 8088,
+      "passcode": 74848038,
+      "score": 7.87e-05
+     },
+     {
+      "index": 12597,
+      "passcode": 25573054,
+      "score": 6.41e-05
+     },
+     {
+      "index": 8565,
+      "passcode": 69610924,
+      "score": 5.14e-05
+     },
+     {
+      "index": 6456,
+      "passcode": 60800381,
+      "score": 4.44e-05
+     },
+     {
+      "index": 7979,
+      "passcode": 55985014,
+      "score": 3.85e-05
+     },
+     {
+      "index": 803,
+      "passcode": 17994645,
+      "score": 3.37e-05
+     },
+     {
+      "index": 12969,
+      "passcode": 66399653,
+      "score": 3.27e-05
+     },
+     {
+      "index": 7248,
+      "passcode": 59344077,
+      "score": 3.26e-05
+     },
+     {
+      "index": 12136,
+      "passcode": 90488465,
+      "score": 3.04e-05
+     },
+     {
+      "index": 9125,
+      "passcode": 19619755,
+      "score": 2.98e-05
+     },
+     {
+      "index": 4922,
+      "passcode": 69802283,
+      "score": 2.94e-05
+     },
+     {
+      "index": 4825,
+      "passcode": 66889139,
+      "score": 2.87e-05
+     },
+     {
+      "index": 1226,
+      "passcode": 38670435,
+      "score": 2.76e-05
+     }
+    ],
+    "fp32": [
+     {
+      "index": 8085,
+      "passcode": 83764719,
+      "score": 0.9175736
+     },
+     {
+      "index": 9286,
+      "passcode": 72044448,
+      "score": 8.4e-05
+     },
+     {
+      "index": 8088,
+      "passcode": 74848038,
+      "score": 7e-05
+     },
+     {
+      "index": 12597,
+      "passcode": 25573054,
+      "score": 5.01e-05
+     },
+     {
+      "index": 6456,
+      "passcode": 60800381,
+      "score": 4.56e-05
+     },
+     {
+      "index": 8565,
+      "passcode": 69610924,
+      "score": 4e-05
+     },
+     {
+      "index": 12969,
+      "passcode": 66399653,
+      "score": 3.54e-05
+     },
+     {
+      "index": 12136,
+      "passcode": 90488465,
+      "score": 3.48e-05
+     },
+     {
+      "index": 6034,
+      "passcode": 67517351,
+      "score": 3.46e-05
+     },
+     {
+      "index": 7979,
+      "passcode": 55985014,
+      "score": 3.42e-05
+     },
+     {
+      "index": 7248,
+      "passcode": 59344077,
+      "score": 3.1e-05
+     },
+     {
+      "index": 1226,
+      "passcode": 38670435,
+      "score": 3.08e-05
+     },
+     {
+      "index": 9222,
+      "passcode": 93224848,
+      "score": 3.06e-05
+     },
+     {
+      "index": 5288,
+      "passcode": 67441435,
+      "score": 3.05e-05
+     },
+     {
+      "index": 1260,
+      "passcode": 2009101,
+      "score": 3.01e-05
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0540.jpg",
@@ -2661,83 +4721,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0540_08.png",
-   "candidates": [
-    {
-     "index": 2201,
-     "passcode": 74458486,
-     "score": 0.0401621
-    },
-    {
-     "index": 1224,
-     "passcode": 79409334,
-     "score": 0.0007494
-    },
-    {
-     "index": 10418,
-     "passcode": 3441553,
-     "score": 0.0006217
-    },
-    {
-     "index": 11880,
-     "passcode": 47741109,
-     "score": 0.0006004
-    },
-    {
-     "index": 11155,
-     "passcode": 63012333,
-     "score": 0.0005675
-    },
-    {
-     "index": 1023,
-     "passcode": 60530944,
-     "score": 0.0005563
-    },
-    {
-     "index": 5524,
-     "passcode": 7811875,
-     "score": 0.0005343
-    },
-    {
-     "index": 1682,
-     "passcode": 16970158,
-     "score": 0.0005217
-    },
-    {
-     "index": 8101,
-     "passcode": 22123627,
-     "score": 0.0005193
-    },
-    {
-     "index": 3361,
-     "passcode": 67464807,
-     "score": 0.0005084
-    },
-    {
-     "index": 6705,
-     "passcode": 21908319,
-     "score": 0.000478
-    },
-    {
-     "index": 2086,
-     "passcode": 94192409,
-     "score": 0.0004717
-    },
-    {
-     "index": 13644,
-     "passcode": 58374719,
-     "score": 0.0004709
-    },
-    {
-     "index": 6998,
-     "passcode": 30126992,
-     "score": 0.0004628
-    },
-    {
-     "index": 9629,
-     "passcode": 10780049,
-     "score": 0.0004598
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 2201,
+      "passcode": 74458486,
+      "score": 0.0401621
+     },
+     {
+      "index": 1224,
+      "passcode": 79409334,
+      "score": 0.0007494
+     },
+     {
+      "index": 10418,
+      "passcode": 3441553,
+      "score": 0.0006217
+     },
+     {
+      "index": 11880,
+      "passcode": 47741109,
+      "score": 0.0006004
+     },
+     {
+      "index": 11155,
+      "passcode": 63012333,
+      "score": 0.0005675
+     },
+     {
+      "index": 1023,
+      "passcode": 60530944,
+      "score": 0.0005563
+     },
+     {
+      "index": 5524,
+      "passcode": 7811875,
+      "score": 0.0005343
+     },
+     {
+      "index": 1682,
+      "passcode": 16970158,
+      "score": 0.0005217
+     },
+     {
+      "index": 8101,
+      "passcode": 22123627,
+      "score": 0.0005193
+     },
+     {
+      "index": 3361,
+      "passcode": 67464807,
+      "score": 0.0005084
+     },
+     {
+      "index": 6705,
+      "passcode": 21908319,
+      "score": 0.000478
+     },
+     {
+      "index": 2086,
+      "passcode": 94192409,
+      "score": 0.0004717
+     },
+     {
+      "index": 13644,
+      "passcode": 58374719,
+      "score": 0.0004709
+     },
+     {
+      "index": 6998,
+      "passcode": 30126992,
+      "score": 0.0004628
+     },
+     {
+      "index": 9629,
+      "passcode": 10780049,
+      "score": 0.0004598
+     }
+    ],
+    "fp32": [
+     {
+      "index": 2201,
+      "passcode": 74458486,
+      "score": 0.0478181
+     },
+     {
+      "index": 1224,
+      "passcode": 79409334,
+      "score": 0.0008674
+     },
+     {
+      "index": 1023,
+      "passcode": 60530944,
+      "score": 0.0008039
+     },
+     {
+      "index": 10418,
+      "passcode": 3441553,
+      "score": 0.0006284
+     },
+     {
+      "index": 1682,
+      "passcode": 16970158,
+      "score": 0.0005937
+     },
+     {
+      "index": 5524,
+      "passcode": 7811875,
+      "score": 0.0005405
+     },
+     {
+      "index": 2930,
+      "passcode": 72060415,
+      "score": 0.0005399
+     },
+     {
+      "index": 3361,
+      "passcode": 67464807,
+      "score": 0.0005247
+     },
+     {
+      "index": 1319,
+      "passcode": 16984449,
+      "score": 0.0005118
+     },
+     {
+      "index": 6998,
+      "passcode": 30126992,
+      "score": 0.0005052
+     },
+     {
+      "index": 10784,
+      "passcode": 12117532,
+      "score": 0.0005001
+     },
+     {
+      "index": 3658,
+      "passcode": 7409792,
+      "score": 0.0004968
+     },
+     {
+      "index": 12151,
+      "passcode": 17688543,
+      "score": 0.0004929
+     },
+     {
+      "index": 1177,
+      "passcode": 35539880,
+      "score": 0.0004847
+     },
+     {
+      "index": 11155,
+      "passcode": 63012333,
+      "score": 0.0004742
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0540.jpg",
@@ -2762,83 +4901,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0540_09.png",
-   "candidates": [
-    {
-     "index": 10045,
-     "passcode": 50185950,
-     "score": 0.0726445
-    },
-    {
-     "index": 9141,
-     "passcode": 69181753,
-     "score": 0.0025787
-    },
-    {
-     "index": 13547,
-     "passcode": 57116033,
-     "score": 0.0024776
-    },
-    {
-     "index": 6756,
-     "passcode": 40640057,
-     "score": 0.0017862
-    },
-    {
-     "index": 9101,
-     "passcode": 19050066,
-     "score": 0.0017335
-    },
-    {
-     "index": 6764,
-     "passcode": 40817915,
-     "score": 0.0014899
-    },
-    {
-     "index": 2892,
-     "passcode": 1035143,
-     "score": 0.0014874
-    },
-    {
-     "index": 5580,
-     "passcode": 85555787,
-     "score": 0.0014767
-    },
-    {
-     "index": 12186,
-     "passcode": 20065322,
-     "score": 0.0012818
-    },
-    {
-     "index": 6751,
-     "passcode": 44632120,
-     "score": 0.0011011
-    },
-    {
-     "index": 3075,
-     "passcode": 89086566,
-     "score": 0.0009852
-    },
-    {
-     "index": 1098,
-     "passcode": 16255442,
-     "score": 0.0009656
-    },
-    {
-     "index": 2986,
-     "passcode": 69579761,
-     "score": 0.00084
-    },
-    {
-     "index": 1561,
-     "passcode": 6104968,
-     "score": 0.0008068
-    },
-    {
-     "index": 6928,
-     "passcode": 86223870,
-     "score": 0.0007997
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 10045,
+      "passcode": 50185950,
+      "score": 0.0726445
+     },
+     {
+      "index": 9141,
+      "passcode": 69181753,
+      "score": 0.0025787
+     },
+     {
+      "index": 13547,
+      "passcode": 57116033,
+      "score": 0.0024776
+     },
+     {
+      "index": 6756,
+      "passcode": 40640057,
+      "score": 0.0017862
+     },
+     {
+      "index": 9101,
+      "passcode": 19050066,
+      "score": 0.0017335
+     },
+     {
+      "index": 6764,
+      "passcode": 40817915,
+      "score": 0.0014899
+     },
+     {
+      "index": 2892,
+      "passcode": 1035143,
+      "score": 0.0014874
+     },
+     {
+      "index": 5580,
+      "passcode": 85555787,
+      "score": 0.0014767
+     },
+     {
+      "index": 12186,
+      "passcode": 20065322,
+      "score": 0.0012818
+     },
+     {
+      "index": 6751,
+      "passcode": 44632120,
+      "score": 0.0011011
+     },
+     {
+      "index": 3075,
+      "passcode": 89086566,
+      "score": 0.0009852
+     },
+     {
+      "index": 1098,
+      "passcode": 16255442,
+      "score": 0.0009656
+     },
+     {
+      "index": 2986,
+      "passcode": 69579761,
+      "score": 0.00084
+     },
+     {
+      "index": 1561,
+      "passcode": 6104968,
+      "score": 0.0008068
+     },
+     {
+      "index": 6928,
+      "passcode": 86223870,
+      "score": 0.0007997
+     }
+    ],
+    "fp32": [
+     {
+      "index": 10045,
+      "passcode": 50185950,
+      "score": 0.0971278
+     },
+     {
+      "index": 6756,
+      "passcode": 40640057,
+      "score": 0.0026777
+     },
+     {
+      "index": 9141,
+      "passcode": 69181753,
+      "score": 0.0026489
+     },
+     {
+      "index": 13547,
+      "passcode": 57116033,
+      "score": 0.0021691
+     },
+     {
+      "index": 6764,
+      "passcode": 40817915,
+      "score": 0.0018199
+     },
+     {
+      "index": 12186,
+      "passcode": 20065322,
+      "score": 0.0015367
+     },
+     {
+      "index": 2892,
+      "passcode": 1035143,
+      "score": 0.0014637
+     },
+     {
+      "index": 9101,
+      "passcode": 19050066,
+      "score": 0.001454
+     },
+     {
+      "index": 3075,
+      "passcode": 89086566,
+      "score": 0.0012329
+     },
+     {
+      "index": 6751,
+      "passcode": 44632120,
+      "score": 0.0011802
+     },
+     {
+      "index": 2986,
+      "passcode": 69579761,
+      "score": 0.0010435
+     },
+     {
+      "index": 5580,
+      "passcode": 85555787,
+      "score": 0.0010029
+     },
+     {
+      "index": 1098,
+      "passcode": 16255442,
+      "score": 0.0009493
+     },
+     {
+      "index": 12487,
+      "passcode": 18063928,
+      "score": 0.0008568
+     },
+     {
+      "index": 6760,
+      "passcode": 7021574,
+      "score": 0.0008376
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0600.jpg",
@@ -2863,83 +5081,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0600_00.png",
-   "candidates": [
-    {
-     "index": 9870,
-     "passcode": 12503902,
-     "score": 0.1562819
-    },
-    {
-     "index": 2779,
-     "passcode": 38033121,
-     "score": 0.0023024
-    },
-    {
-     "index": 4080,
-     "passcode": 62098216,
-     "score": 0.0015735
-    },
-    {
-     "index": 3712,
-     "passcode": 88341502,
-     "score": 0.0009021
-    },
-    {
-     "index": 7428,
-     "passcode": 9433350,
-     "score": 0.0007844
-    },
-    {
-     "index": 9241,
-     "passcode": 61936647,
-     "score": 0.0007626
-    },
-    {
-     "index": 12126,
-     "passcode": 49299410,
-     "score": 0.0007114
-    },
-    {
-     "index": 10412,
-     "passcode": 11052544,
-     "score": 0.0006845
-    },
-    {
-     "index": 12623,
-     "passcode": 79766336,
-     "score": 0.0006422
-    },
-    {
-     "index": 2516,
-     "passcode": 43405287,
-     "score": 0.0005616
-    },
-    {
-     "index": 9631,
-     "passcode": 82983267,
-     "score": 0.0005589
-    },
-    {
-     "index": 1683,
-     "passcode": 97077563,
-     "score": 0.000556
-    },
-    {
-     "index": 3761,
-     "passcode": 94977269,
-     "score": 0.0005169
-    },
-    {
-     "index": 8055,
-     "passcode": 4929256,
-     "score": 0.0005102
-    },
-    {
-     "index": 3985,
-     "passcode": 74364659,
-     "score": 0.0004939
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 9870,
+      "passcode": 12503902,
+      "score": 0.1562819
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0023024
+     },
+     {
+      "index": 4080,
+      "passcode": 62098216,
+      "score": 0.0015735
+     },
+     {
+      "index": 3712,
+      "passcode": 88341502,
+      "score": 0.0009021
+     },
+     {
+      "index": 7428,
+      "passcode": 9433350,
+      "score": 0.0007844
+     },
+     {
+      "index": 9241,
+      "passcode": 61936647,
+      "score": 0.0007626
+     },
+     {
+      "index": 12126,
+      "passcode": 49299410,
+      "score": 0.0007114
+     },
+     {
+      "index": 10412,
+      "passcode": 11052544,
+      "score": 0.0006845
+     },
+     {
+      "index": 12623,
+      "passcode": 79766336,
+      "score": 0.0006422
+     },
+     {
+      "index": 2516,
+      "passcode": 43405287,
+      "score": 0.0005616
+     },
+     {
+      "index": 9631,
+      "passcode": 82983267,
+      "score": 0.0005589
+     },
+     {
+      "index": 1683,
+      "passcode": 97077563,
+      "score": 0.000556
+     },
+     {
+      "index": 3761,
+      "passcode": 94977269,
+      "score": 0.0005169
+     },
+     {
+      "index": 8055,
+      "passcode": 4929256,
+      "score": 0.0005102
+     },
+     {
+      "index": 3985,
+      "passcode": 74364659,
+      "score": 0.0004939
+     }
+    ],
+    "fp32": [
+     {
+      "index": 9870,
+      "passcode": 12503902,
+      "score": 0.2177993
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0028229
+     },
+     {
+      "index": 4080,
+      "passcode": 62098216,
+      "score": 0.0013617
+     },
+     {
+      "index": 7428,
+      "passcode": 9433350,
+      "score": 0.000976
+     },
+     {
+      "index": 3712,
+      "passcode": 88341502,
+      "score": 0.00088
+     },
+     {
+      "index": 9241,
+      "passcode": 61936647,
+      "score": 0.0007103
+     },
+     {
+      "index": 12126,
+      "passcode": 49299410,
+      "score": 0.0006395
+     },
+     {
+      "index": 12623,
+      "passcode": 79766336,
+      "score": 0.0006389
+     },
+     {
+      "index": 10412,
+      "passcode": 11052544,
+      "score": 0.0006276
+     },
+     {
+      "index": 3761,
+      "passcode": 94977269,
+      "score": 0.0005139
+     },
+     {
+      "index": 1229,
+      "passcode": 9925982,
+      "score": 0.0005103
+     },
+     {
+      "index": 2516,
+      "passcode": 43405287,
+      "score": 0.0004858
+     },
+     {
+      "index": 9631,
+      "passcode": 82983267,
+      "score": 0.0004824
+     },
+     {
+      "index": 8055,
+      "passcode": 4929256,
+      "score": 0.0004801
+     },
+     {
+      "index": 3979,
+      "passcode": 62878208,
+      "score": 0.0004463
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0600.jpg",
@@ -2964,83 +5261,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0600_01.png",
-   "candidates": [
-    {
-     "index": 12817,
-     "passcode": 70050374,
-     "score": 0.0538318
-    },
-    {
-     "index": 2375,
-     "passcode": 94377247,
-     "score": 0.0017983
-    },
-    {
-     "index": 10456,
-     "passcode": 60303245,
-     "score": 0.0015702
-    },
-    {
-     "index": 13920,
-     "passcode": 24311372,
-     "score": 0.0011299
-    },
-    {
-     "index": 11076,
-     "passcode": 58071334,
-     "score": 0.0009485
-    },
-    {
-     "index": 2779,
-     "passcode": 38033121,
-     "score": 0.000914
-    },
-    {
-     "index": 12133,
-     "passcode": 32731036,
-     "score": 0.0008777
-    },
-    {
-     "index": 10496,
-     "passcode": 11962031,
-     "score": 0.000757
-    },
-    {
-     "index": 4975,
-     "passcode": 51831560,
-     "score": 0.000745
-    },
-    {
-     "index": 2769,
-     "passcode": 111280,
-     "score": 0.0007259
-    },
-    {
-     "index": 4310,
-     "passcode": 98642179,
-     "score": 0.0007231
-    },
-    {
-     "index": 9357,
-     "passcode": 24094653,
-     "score": 0.0006942
-    },
-    {
-     "index": 8259,
-     "passcode": 79194594,
-     "score": 0.0006674
-    },
-    {
-     "index": 6479,
-     "passcode": 93170499,
-     "score": 0.0006354
-    },
-    {
-     "index": 4676,
-     "passcode": 80889750,
-     "score": 0.0006095
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 12817,
+      "passcode": 70050374,
+      "score": 0.0538318
+     },
+     {
+      "index": 2375,
+      "passcode": 94377247,
+      "score": 0.0017983
+     },
+     {
+      "index": 10456,
+      "passcode": 60303245,
+      "score": 0.0015702
+     },
+     {
+      "index": 13920,
+      "passcode": 24311372,
+      "score": 0.0011299
+     },
+     {
+      "index": 11076,
+      "passcode": 58071334,
+      "score": 0.0009485
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.000914
+     },
+     {
+      "index": 12133,
+      "passcode": 32731036,
+      "score": 0.0008777
+     },
+     {
+      "index": 10496,
+      "passcode": 11962031,
+      "score": 0.000757
+     },
+     {
+      "index": 4975,
+      "passcode": 51831560,
+      "score": 0.000745
+     },
+     {
+      "index": 2769,
+      "passcode": 111280,
+      "score": 0.0007259
+     },
+     {
+      "index": 4310,
+      "passcode": 98642179,
+      "score": 0.0007231
+     },
+     {
+      "index": 9357,
+      "passcode": 24094653,
+      "score": 0.0006942
+     },
+     {
+      "index": 8259,
+      "passcode": 79194594,
+      "score": 0.0006674
+     },
+     {
+      "index": 6479,
+      "passcode": 93170499,
+      "score": 0.0006354
+     },
+     {
+      "index": 4676,
+      "passcode": 80889750,
+      "score": 0.0006095
+     }
+    ],
+    "fp32": [
+     {
+      "index": 12817,
+      "passcode": 70050374,
+      "score": 0.0991368
+     },
+     {
+      "index": 2375,
+      "passcode": 94377247,
+      "score": 0.0017075
+     },
+     {
+      "index": 10456,
+      "passcode": 60303245,
+      "score": 0.0016339
+     },
+     {
+      "index": 11076,
+      "passcode": 58071334,
+      "score": 0.0010657
+     },
+     {
+      "index": 13920,
+      "passcode": 24311372,
+      "score": 0.0009775
+     },
+     {
+      "index": 2779,
+      "passcode": 38033121,
+      "score": 0.0009525
+     },
+     {
+      "index": 12133,
+      "passcode": 32731036,
+      "score": 0.0008411
+     },
+     {
+      "index": 9357,
+      "passcode": 24094653,
+      "score": 0.0007852
+     },
+     {
+      "index": 6479,
+      "passcode": 93170499,
+      "score": 0.0007716
+     },
+     {
+      "index": 10496,
+      "passcode": 11962031,
+      "score": 0.0007688
+     },
+     {
+      "index": 8259,
+      "passcode": 79194594,
+      "score": 0.0007513
+     },
+     {
+      "index": 4975,
+      "passcode": 51831560,
+      "score": 0.0007086
+     },
+     {
+      "index": 4310,
+      "passcode": 98642179,
+      "score": 0.0006201
+     },
+     {
+      "index": 4676,
+      "passcode": 80889750,
+      "score": 0.0006178
+     },
+     {
+      "index": 1737,
+      "passcode": 95841282,
+      "score": 0.0006151
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0600.jpg",
@@ -3065,83 +5441,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0600_02.png",
-   "candidates": [
-    {
-     "index": 4930,
-     "passcode": 30190809,
-     "score": 0.0793684
-    },
-    {
-     "index": 1631,
-     "passcode": 78193831,
-     "score": 0.0034773
-    },
-    {
-     "index": 9749,
-     "passcode": 52543404,
-     "score": 0.0009043
-    },
-    {
-     "index": 903,
-     "passcode": 14148099,
-     "score": 0.0008153
-    },
-    {
-     "index": 13162,
-     "passcode": 22499463,
-     "score": 0.0007613
-    },
-    {
-     "index": 907,
-     "passcode": 15317640,
-     "score": 0.0006851
-    },
-    {
-     "index": 10793,
-     "passcode": 3244563,
-     "score": 0.0006357
-    },
-    {
-     "index": 255,
-     "passcode": 9888196,
-     "score": 0.0006317
-    },
-    {
-     "index": 5046,
-     "passcode": 16828633,
-     "score": 0.0006133
-    },
-    {
-     "index": 662,
-     "passcode": 28985331,
-     "score": 0.0006122
-    },
-    {
-     "index": 2735,
-     "passcode": 88643579,
-     "score": 0.0005994
-    },
-    {
-     "index": 10516,
-     "passcode": 73648243,
-     "score": 0.0005857
-    },
-    {
-     "index": 6010,
-     "passcode": 73018302,
-     "score": 0.0005699
-    },
-    {
-     "index": 766,
-     "passcode": 7913375,
-     "score": 0.0005556
-    },
-    {
-     "index": 3624,
-     "passcode": 54813225,
-     "score": 0.000546
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 4930,
+      "passcode": 30190809,
+      "score": 0.0793684
+     },
+     {
+      "index": 1631,
+      "passcode": 78193831,
+      "score": 0.0034773
+     },
+     {
+      "index": 9749,
+      "passcode": 52543404,
+      "score": 0.0009043
+     },
+     {
+      "index": 903,
+      "passcode": 14148099,
+      "score": 0.0008153
+     },
+     {
+      "index": 13162,
+      "passcode": 22499463,
+      "score": 0.0007613
+     },
+     {
+      "index": 907,
+      "passcode": 15317640,
+      "score": 0.0006851
+     },
+     {
+      "index": 10793,
+      "passcode": 3244563,
+      "score": 0.0006357
+     },
+     {
+      "index": 255,
+      "passcode": 9888196,
+      "score": 0.0006317
+     },
+     {
+      "index": 5046,
+      "passcode": 16828633,
+      "score": 0.0006133
+     },
+     {
+      "index": 662,
+      "passcode": 28985331,
+      "score": 0.0006122
+     },
+     {
+      "index": 2735,
+      "passcode": 88643579,
+      "score": 0.0005994
+     },
+     {
+      "index": 10516,
+      "passcode": 73648243,
+      "score": 0.0005857
+     },
+     {
+      "index": 6010,
+      "passcode": 73018302,
+      "score": 0.0005699
+     },
+     {
+      "index": 766,
+      "passcode": 7913375,
+      "score": 0.0005556
+     },
+     {
+      "index": 3624,
+      "passcode": 54813225,
+      "score": 0.000546
+     }
+    ],
+    "fp32": [
+     {
+      "index": 4930,
+      "passcode": 30190809,
+      "score": 0.1264073
+     },
+     {
+      "index": 1631,
+      "passcode": 78193831,
+      "score": 0.0034641
+     },
+     {
+      "index": 907,
+      "passcode": 15317640,
+      "score": 0.0008469
+     },
+     {
+      "index": 9749,
+      "passcode": 52543404,
+      "score": 0.0007274
+     },
+     {
+      "index": 903,
+      "passcode": 14148099,
+      "score": 0.0006775
+     },
+     {
+      "index": 5046,
+      "passcode": 16828633,
+      "score": 0.0006656
+     },
+     {
+      "index": 13162,
+      "passcode": 22499463,
+      "score": 0.0006606
+     },
+     {
+      "index": 5037,
+      "passcode": 68505803,
+      "score": 0.000658
+     },
+     {
+      "index": 10793,
+      "passcode": 3244563,
+      "score": 0.0006285
+     },
+     {
+      "index": 849,
+      "passcode": 91989718,
+      "score": 0.0005933
+     },
+     {
+      "index": 662,
+      "passcode": 28985331,
+      "score": 0.0005858
+     },
+     {
+      "index": 10908,
+      "passcode": 74388798,
+      "score": 0.0005798
+     },
+     {
+      "index": 3624,
+      "passcode": 54813225,
+      "score": 0.0005664
+     },
+     {
+      "index": 11143,
+      "passcode": 93138457,
+      "score": 0.0005581
+     },
+     {
+      "index": 766,
+      "passcode": 7913375,
+      "score": 0.0005424
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0600.jpg",
@@ -3166,83 +5621,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0600_03.png",
-   "candidates": [
-    {
-     "index": 12529,
-     "passcode": 79875176,
-     "score": 0.0278778
-    },
-    {
-     "index": 1371,
-     "passcode": 30576089,
-     "score": 0.0021084
-    },
-    {
-     "index": 11807,
-     "passcode": 94145683,
-     "score": 0.0011163
-    },
-    {
-     "index": 12964,
-     "passcode": 38527680,
-     "score": 0.0008911
-    },
-    {
-     "index": 7623,
-     "passcode": 27182739,
-     "score": 0.0008606
-    },
-    {
-     "index": 3818,
-     "passcode": 85507811,
-     "score": 0.000804
-    },
-    {
-     "index": 9289,
-     "passcode": 8653757,
-     "score": 0.0007829
-    },
-    {
-     "index": 4220,
-     "passcode": 55766177,
-     "score": 0.000662
-    },
-    {
-     "index": 13795,
-     "passcode": 30398342,
-     "score": 0.0006554
-    },
-    {
-     "index": 12898,
-     "passcode": 33250142,
-     "score": 0.0006422
-    },
-    {
-     "index": 11436,
-     "passcode": 76636978,
-     "score": 0.0006033
-    },
-    {
-     "index": 4771,
-     "passcode": 36956512,
-     "score": 0.0005666
-    },
-    {
-     "index": 11347,
-     "passcode": 13890468,
-     "score": 0.0005602
-    },
-    {
-     "index": 12851,
-     "passcode": 58293343,
-     "score": 0.000549
-    },
-    {
-     "index": 2086,
-     "passcode": 94192409,
-     "score": 0.0005466
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 12529,
+      "passcode": 79875176,
+      "score": 0.0278778
+     },
+     {
+      "index": 1371,
+      "passcode": 30576089,
+      "score": 0.0021084
+     },
+     {
+      "index": 11807,
+      "passcode": 94145683,
+      "score": 0.0011163
+     },
+     {
+      "index": 12964,
+      "passcode": 38527680,
+      "score": 0.0008911
+     },
+     {
+      "index": 7623,
+      "passcode": 27182739,
+      "score": 0.0008606
+     },
+     {
+      "index": 3818,
+      "passcode": 85507811,
+      "score": 0.000804
+     },
+     {
+      "index": 9289,
+      "passcode": 8653757,
+      "score": 0.0007829
+     },
+     {
+      "index": 4220,
+      "passcode": 55766177,
+      "score": 0.000662
+     },
+     {
+      "index": 13795,
+      "passcode": 30398342,
+      "score": 0.0006554
+     },
+     {
+      "index": 12898,
+      "passcode": 33250142,
+      "score": 0.0006422
+     },
+     {
+      "index": 11436,
+      "passcode": 76636978,
+      "score": 0.0006033
+     },
+     {
+      "index": 4771,
+      "passcode": 36956512,
+      "score": 0.0005666
+     },
+     {
+      "index": 11347,
+      "passcode": 13890468,
+      "score": 0.0005602
+     },
+     {
+      "index": 12851,
+      "passcode": 58293343,
+      "score": 0.000549
+     },
+     {
+      "index": 2086,
+      "passcode": 94192409,
+      "score": 0.0005466
+     }
+    ],
+    "fp32": [
+     {
+      "index": 12529,
+      "passcode": 79875176,
+      "score": 0.0504564
+     },
+     {
+      "index": 1371,
+      "passcode": 30576089,
+      "score": 0.0018292
+     },
+     {
+      "index": 11807,
+      "passcode": 94145683,
+      "score": 0.0011967
+     },
+     {
+      "index": 3818,
+      "passcode": 85507811,
+      "score": 0.0010937
+     },
+     {
+      "index": 9289,
+      "passcode": 8653757,
+      "score": 0.0008439
+     },
+     {
+      "index": 7623,
+      "passcode": 27182739,
+      "score": 0.0008373
+     },
+     {
+      "index": 12898,
+      "passcode": 33250142,
+      "score": 0.0007034
+     },
+     {
+      "index": 4220,
+      "passcode": 55766177,
+      "score": 0.0006734
+     },
+     {
+      "index": 12964,
+      "passcode": 38527680,
+      "score": 0.0006527
+     },
+     {
+      "index": 2236,
+      "passcode": 72664875,
+      "score": 0.0006487
+     },
+     {
+      "index": 12227,
+      "passcode": 86099788,
+      "score": 0.0006444
+     },
+     {
+      "index": 2086,
+      "passcode": 94192409,
+      "score": 0.0006349
+     },
+     {
+      "index": 3849,
+      "passcode": 25366484,
+      "score": 0.0006146
+     },
+     {
+      "index": 12851,
+      "passcode": 58293343,
+      "score": 0.0005667
+     },
+     {
+      "index": 4353,
+      "passcode": 70538272,
+      "score": 0.0005657
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0600.jpg",
@@ -3267,83 +5801,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0600_04.png",
-   "candidates": [
-    {
-     "index": 1691,
-     "passcode": 11384280,
-     "score": 0.1599545
-    },
-    {
-     "index": 6025,
-     "passcode": 2118022,
-     "score": 0.0015329
-    },
-    {
-     "index": 10445,
-     "passcode": 66602787,
-     "score": 0.0009055
-    },
-    {
-     "index": 2293,
-     "passcode": 7093411,
-     "score": 0.0008461
-    },
-    {
-     "index": 4218,
-     "passcode": 72328962,
-     "score": 0.0008267
-    },
-    {
-     "index": 3060,
-     "passcode": 80186010,
-     "score": 0.0008087
-    },
-    {
-     "index": 10638,
-     "passcode": 71746462,
-     "score": 0.0008016
-    },
-    {
-     "index": 13591,
-     "passcode": 36304921,
-     "score": 0.0007974
-    },
-    {
-     "index": 6676,
-     "passcode": 5817857,
-     "score": 0.0007843
-    },
-    {
-     "index": 5900,
-     "passcode": 64501875,
-     "score": 0.0007727
-    },
-    {
-     "index": 5506,
-     "passcode": 24317029,
-     "score": 0.0007608
-    },
-    {
-     "index": 3814,
-     "passcode": 35809262,
-     "score": 0.0007477
-    },
-    {
-     "index": 4993,
-     "passcode": 69140098,
-     "score": 0.0007304
-    },
-    {
-     "index": 11316,
-     "passcode": 49328340,
-     "score": 0.0007281
-    },
-    {
-     "index": 1378,
-     "passcode": 23995346,
-     "score": 0.0007211
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 1691,
+      "passcode": 11384280,
+      "score": 0.1599545
+     },
+     {
+      "index": 6025,
+      "passcode": 2118022,
+      "score": 0.0015329
+     },
+     {
+      "index": 10445,
+      "passcode": 66602787,
+      "score": 0.0009055
+     },
+     {
+      "index": 2293,
+      "passcode": 7093411,
+      "score": 0.0008461
+     },
+     {
+      "index": 4218,
+      "passcode": 72328962,
+      "score": 0.0008267
+     },
+     {
+      "index": 3060,
+      "passcode": 80186010,
+      "score": 0.0008087
+     },
+     {
+      "index": 10638,
+      "passcode": 71746462,
+      "score": 0.0008016
+     },
+     {
+      "index": 13591,
+      "passcode": 36304921,
+      "score": 0.0007974
+     },
+     {
+      "index": 6676,
+      "passcode": 5817857,
+      "score": 0.0007843
+     },
+     {
+      "index": 5900,
+      "passcode": 64501875,
+      "score": 0.0007727
+     },
+     {
+      "index": 5506,
+      "passcode": 24317029,
+      "score": 0.0007608
+     },
+     {
+      "index": 3814,
+      "passcode": 35809262,
+      "score": 0.0007477
+     },
+     {
+      "index": 4993,
+      "passcode": 69140098,
+      "score": 0.0007304
+     },
+     {
+      "index": 11316,
+      "passcode": 49328340,
+      "score": 0.0007281
+     },
+     {
+      "index": 1378,
+      "passcode": 23995346,
+      "score": 0.0007211
+     }
+    ],
+    "fp32": [
+     {
+      "index": 1691,
+      "passcode": 11384280,
+      "score": 0.2291668
+     },
+     {
+      "index": 6025,
+      "passcode": 2118022,
+      "score": 0.0017059
+     },
+     {
+      "index": 10445,
+      "passcode": 66602787,
+      "score": 0.0009303
+     },
+     {
+      "index": 3060,
+      "passcode": 80186010,
+      "score": 0.0008018
+     },
+     {
+      "index": 5506,
+      "passcode": 24317029,
+      "score": 0.0007997
+     },
+     {
+      "index": 2778,
+      "passcode": 46986414,
+      "score": 0.0007924
+     },
+     {
+      "index": 10638,
+      "passcode": 71746462,
+      "score": 0.0007892
+     },
+     {
+      "index": 1378,
+      "passcode": 23995346,
+      "score": 0.0007681
+     },
+     {
+      "index": 1016,
+      "passcode": 18246479,
+      "score": 0.0007659
+     },
+     {
+      "index": 2082,
+      "passcode": 43417563,
+      "score": 0.0007497
+     },
+     {
+      "index": 665,
+      "passcode": 90374791,
+      "score": 0.0007408
+     },
+     {
+      "index": 13591,
+      "passcode": 36304921,
+      "score": 0.0007332
+     },
+     {
+      "index": 2876,
+      "passcode": 50501121,
+      "score": 0.0007169
+     },
+     {
+      "index": 3761,
+      "passcode": 94977269,
+      "score": 0.0007094
+     },
+     {
+      "index": 6676,
+      "passcode": 5817857,
+      "score": 0.00069
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0600.jpg",
@@ -3368,83 +5981,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0600_05.png",
-   "candidates": [
-    {
-     "index": 14,
-     "passcode": 86198326,
-     "score": 0.3160588
-    },
-    {
-     "index": 12399,
-     "passcode": 47594192,
-     "score": 0.0006393
-    },
-    {
-     "index": 11244,
-     "passcode": 29114773,
-     "score": 0.000548
-    },
-    {
-     "index": 4857,
-     "passcode": 52340274,
-     "score": 0.0005255
-    },
-    {
-     "index": 11612,
-     "passcode": 18114794,
-     "score": 0.0004693
-    },
-    {
-     "index": 3307,
-     "passcode": 42021064,
-     "score": 0.0004409
-    },
-    {
-     "index": 2670,
-     "passcode": 25140659,
-     "score": 0.0004369
-    },
-    {
-     "index": 1063,
-     "passcode": 36916401,
-     "score": 0.0004264
-    },
-    {
-     "index": 779,
-     "passcode": 88301833,
-     "score": 0.0004215
-    },
-    {
-     "index": 340,
-     "passcode": 25396150,
-     "score": 0.0004197
-    },
-    {
-     "index": 902,
-     "passcode": 975299,
-     "score": 0.0004123
-    },
-    {
-     "index": 6361,
-     "passcode": 36539330,
-     "score": 0.0004118
-    },
-    {
-     "index": 3843,
-     "passcode": 41436536,
-     "score": 0.0003843
-    },
-    {
-     "index": 11916,
-     "passcode": 83962752,
-     "score": 0.0003593
-    },
-    {
-     "index": 3398,
-     "passcode": 67724434,
-     "score": 0.0003578
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 14,
+      "passcode": 86198326,
+      "score": 0.3160588
+     },
+     {
+      "index": 12399,
+      "passcode": 47594192,
+      "score": 0.0006393
+     },
+     {
+      "index": 11244,
+      "passcode": 29114773,
+      "score": 0.000548
+     },
+     {
+      "index": 4857,
+      "passcode": 52340274,
+      "score": 0.0005255
+     },
+     {
+      "index": 11612,
+      "passcode": 18114794,
+      "score": 0.0004693
+     },
+     {
+      "index": 3307,
+      "passcode": 42021064,
+      "score": 0.0004409
+     },
+     {
+      "index": 2670,
+      "passcode": 25140659,
+      "score": 0.0004369
+     },
+     {
+      "index": 1063,
+      "passcode": 36916401,
+      "score": 0.0004264
+     },
+     {
+      "index": 779,
+      "passcode": 88301833,
+      "score": 0.0004215
+     },
+     {
+      "index": 340,
+      "passcode": 25396150,
+      "score": 0.0004197
+     },
+     {
+      "index": 902,
+      "passcode": 975299,
+      "score": 0.0004123
+     },
+     {
+      "index": 6361,
+      "passcode": 36539330,
+      "score": 0.0004118
+     },
+     {
+      "index": 3843,
+      "passcode": 41436536,
+      "score": 0.0003843
+     },
+     {
+      "index": 11916,
+      "passcode": 83962752,
+      "score": 0.0003593
+     },
+     {
+      "index": 3398,
+      "passcode": 67724434,
+      "score": 0.0003578
+     }
+    ],
+    "fp32": [
+     {
+      "index": 14,
+      "passcode": 86198326,
+      "score": 0.3750127
+     },
+     {
+      "index": 12399,
+      "passcode": 47594192,
+      "score": 0.0004961
+     },
+     {
+      "index": 3843,
+      "passcode": 41436536,
+      "score": 0.0004521
+     },
+     {
+      "index": 1063,
+      "passcode": 36916401,
+      "score": 0.0004416
+     },
+     {
+      "index": 902,
+      "passcode": 975299,
+      "score": 0.0004313
+     },
+     {
+      "index": 4857,
+      "passcode": 52340274,
+      "score": 0.0004072
+     },
+     {
+      "index": 2670,
+      "passcode": 25140659,
+      "score": 0.0004015
+     },
+     {
+      "index": 11612,
+      "passcode": 18114794,
+      "score": 0.0003901
+     },
+     {
+      "index": 11244,
+      "passcode": 29114773,
+      "score": 0.000385
+     },
+     {
+      "index": 12223,
+      "passcode": 11163040,
+      "score": 0.0003772
+     },
+     {
+      "index": 5636,
+      "passcode": 90207654,
+      "score": 0.0003749
+     },
+     {
+      "index": 3398,
+      "passcode": 67724434,
+      "score": 0.000371
+     },
+     {
+      "index": 3307,
+      "passcode": 42021064,
+      "score": 0.0003454
+     },
+     {
+      "index": 779,
+      "passcode": 88301833,
+      "score": 0.0003376
+     },
+     {
+      "index": 2252,
+      "passcode": 50277355,
+      "score": 0.000329
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0600.jpg",
@@ -3469,83 +6161,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0600_06.png",
-   "candidates": [
-    {
-     "index": 7996,
-     "passcode": 44095762,
-     "score": 0.8791322
-    },
-    {
-     "index": 8230,
-     "passcode": 5318639,
-     "score": 8.29e-05
-    },
-    {
-     "index": 2792,
-     "passcode": 20522190,
-     "score": 5.92e-05
-    },
-    {
-     "index": 2226,
-     "passcode": 80321197,
-     "score": 5.78e-05
-    },
-    {
-     "index": 1135,
-     "passcode": 15471265,
-     "score": 5.68e-05
-    },
-    {
-     "index": 3993,
-     "passcode": 45283341,
-     "score": 5.11e-05
-    },
-    {
-     "index": 9770,
-     "passcode": 13486638,
-     "score": 4.69e-05
-    },
-    {
-     "index": 6466,
-     "passcode": 65430834,
-     "score": 4.45e-05
-    },
-    {
-     "index": 951,
-     "passcode": 80584548,
-     "score": 4.32e-05
-    },
-    {
-     "index": 7018,
-     "passcode": 35014241,
-     "score": 4.31e-05
-    },
-    {
-     "index": 5992,
-     "passcode": 93191801,
-     "score": 4.27e-05
-    },
-    {
-     "index": 3234,
-     "passcode": 42149850,
-     "score": 4.18e-05
-    },
-    {
-     "index": 10823,
-     "passcode": 89563150,
-     "score": 3.92e-05
-    },
-    {
-     "index": 12391,
-     "passcode": 36361633,
-     "score": 3.84e-05
-    },
-    {
-     "index": 10065,
-     "passcode": 60634565,
-     "score": 3.83e-05
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 7996,
+      "passcode": 44095762,
+      "score": 0.8791322
+     },
+     {
+      "index": 8230,
+      "passcode": 5318639,
+      "score": 8.29e-05
+     },
+     {
+      "index": 2792,
+      "passcode": 20522190,
+      "score": 5.92e-05
+     },
+     {
+      "index": 2226,
+      "passcode": 80321197,
+      "score": 5.78e-05
+     },
+     {
+      "index": 1135,
+      "passcode": 15471265,
+      "score": 5.68e-05
+     },
+     {
+      "index": 3993,
+      "passcode": 45283341,
+      "score": 5.11e-05
+     },
+     {
+      "index": 9770,
+      "passcode": 13486638,
+      "score": 4.69e-05
+     },
+     {
+      "index": 6466,
+      "passcode": 65430834,
+      "score": 4.45e-05
+     },
+     {
+      "index": 951,
+      "passcode": 80584548,
+      "score": 4.32e-05
+     },
+     {
+      "index": 7018,
+      "passcode": 35014241,
+      "score": 4.31e-05
+     },
+     {
+      "index": 5992,
+      "passcode": 93191801,
+      "score": 4.27e-05
+     },
+     {
+      "index": 3234,
+      "passcode": 42149850,
+      "score": 4.18e-05
+     },
+     {
+      "index": 10823,
+      "passcode": 89563150,
+      "score": 3.92e-05
+     },
+     {
+      "index": 12391,
+      "passcode": 36361633,
+      "score": 3.84e-05
+     },
+     {
+      "index": 10065,
+      "passcode": 60634565,
+      "score": 3.83e-05
+     }
+    ],
+    "fp32": [
+     {
+      "index": 7996,
+      "passcode": 44095762,
+      "score": 0.8924468
+     },
+     {
+      "index": 8230,
+      "passcode": 5318639,
+      "score": 6.4e-05
+     },
+     {
+      "index": 2792,
+      "passcode": 20522190,
+      "score": 6.13e-05
+     },
+     {
+      "index": 3993,
+      "passcode": 45283341,
+      "score": 4.75e-05
+     },
+     {
+      "index": 1135,
+      "passcode": 15471265,
+      "score": 4.46e-05
+     },
+     {
+      "index": 2226,
+      "passcode": 80321197,
+      "score": 4.38e-05
+     },
+     {
+      "index": 6466,
+      "passcode": 65430834,
+      "score": 3.9e-05
+     },
+     {
+      "index": 11333,
+      "passcode": 8324284,
+      "score": 3.75e-05
+     },
+     {
+      "index": 10946,
+      "passcode": 67457739,
+      "score": 3.69e-05
+     },
+     {
+      "index": 951,
+      "passcode": 80584548,
+      "score": 3.62e-05
+     },
+     {
+      "index": 5992,
+      "passcode": 93191801,
+      "score": 3.54e-05
+     },
+     {
+      "index": 7018,
+      "passcode": 35014241,
+      "score": 3.48e-05
+     },
+     {
+      "index": 10823,
+      "passcode": 89563150,
+      "score": 3.42e-05
+     },
+     {
+      "index": 5715,
+      "passcode": 18144507,
+      "score": 3.39e-05
+     },
+     {
+      "index": 9770,
+      "passcode": 13486638,
+      "score": 3.35e-05
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0600.jpg",
@@ -3570,83 +6341,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0600_07.png",
-   "candidates": [
-    {
-     "index": 8085,
-     "passcode": 83764719,
-     "score": 0.9189018
-    },
-    {
-     "index": 9286,
-     "passcode": 72044448,
-     "score": 9.75e-05
-    },
-    {
-     "index": 8088,
-     "passcode": 74848038,
-     "score": 9.59e-05
-    },
-    {
-     "index": 12597,
-     "passcode": 25573054,
-     "score": 5.78e-05
-    },
-    {
-     "index": 8565,
-     "passcode": 69610924,
-     "score": 5.21e-05
-    },
-    {
-     "index": 6456,
-     "passcode": 60800381,
-     "score": 5.09e-05
-    },
-    {
-     "index": 7979,
-     "passcode": 55985014,
-     "score": 3.9e-05
-    },
-    {
-     "index": 12136,
-     "passcode": 90488465,
-     "score": 3.59e-05
-    },
-    {
-     "index": 9125,
-     "passcode": 19619755,
-     "score": 3.55e-05
-    },
-    {
-     "index": 12969,
-     "passcode": 66399653,
-     "score": 3.4e-05
-    },
-    {
-     "index": 803,
-     "passcode": 17994645,
-     "score": 3.33e-05
-    },
-    {
-     "index": 7248,
-     "passcode": 59344077,
-     "score": 3.2e-05
-    },
-    {
-     "index": 6034,
-     "passcode": 67517351,
-     "score": 2.94e-05
-    },
-    {
-     "index": 4825,
-     "passcode": 66889139,
-     "score": 2.81e-05
-    },
-    {
-     "index": 4922,
-     "passcode": 69802283,
-     "score": 2.79e-05
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 8085,
+      "passcode": 83764719,
+      "score": 0.9189018
+     },
+     {
+      "index": 9286,
+      "passcode": 72044448,
+      "score": 9.75e-05
+     },
+     {
+      "index": 8088,
+      "passcode": 74848038,
+      "score": 9.59e-05
+     },
+     {
+      "index": 12597,
+      "passcode": 25573054,
+      "score": 5.78e-05
+     },
+     {
+      "index": 8565,
+      "passcode": 69610924,
+      "score": 5.21e-05
+     },
+     {
+      "index": 6456,
+      "passcode": 60800381,
+      "score": 5.09e-05
+     },
+     {
+      "index": 7979,
+      "passcode": 55985014,
+      "score": 3.9e-05
+     },
+     {
+      "index": 12136,
+      "passcode": 90488465,
+      "score": 3.59e-05
+     },
+     {
+      "index": 9125,
+      "passcode": 19619755,
+      "score": 3.55e-05
+     },
+     {
+      "index": 12969,
+      "passcode": 66399653,
+      "score": 3.4e-05
+     },
+     {
+      "index": 803,
+      "passcode": 17994645,
+      "score": 3.33e-05
+     },
+     {
+      "index": 7248,
+      "passcode": 59344077,
+      "score": 3.2e-05
+     },
+     {
+      "index": 6034,
+      "passcode": 67517351,
+      "score": 2.94e-05
+     },
+     {
+      "index": 4825,
+      "passcode": 66889139,
+      "score": 2.81e-05
+     },
+     {
+      "index": 4922,
+      "passcode": 69802283,
+      "score": 2.79e-05
+     }
+    ],
+    "fp32": [
+     {
+      "index": 8085,
+      "passcode": 83764719,
+      "score": 0.9133547
+     },
+     {
+      "index": 9286,
+      "passcode": 72044448,
+      "score": 9.21e-05
+     },
+     {
+      "index": 8088,
+      "passcode": 74848038,
+      "score": 7.63e-05
+     },
+     {
+      "index": 12597,
+      "passcode": 25573054,
+      "score": 5.08e-05
+     },
+     {
+      "index": 6456,
+      "passcode": 60800381,
+      "score": 5e-05
+     },
+     {
+      "index": 8565,
+      "passcode": 69610924,
+      "score": 4.46e-05
+     },
+     {
+      "index": 12969,
+      "passcode": 66399653,
+      "score": 3.77e-05
+     },
+     {
+      "index": 12136,
+      "passcode": 90488465,
+      "score": 3.73e-05
+     },
+     {
+      "index": 6034,
+      "passcode": 67517351,
+      "score": 3.69e-05
+     },
+     {
+      "index": 7979,
+      "passcode": 55985014,
+      "score": 3.59e-05
+     },
+     {
+      "index": 9222,
+      "passcode": 93224848,
+      "score": 3.45e-05
+     },
+     {
+      "index": 9125,
+      "passcode": 19619755,
+      "score": 3.28e-05
+     },
+     {
+      "index": 7248,
+      "passcode": 59344077,
+      "score": 3.2e-05
+     },
+     {
+      "index": 4825,
+      "passcode": 66889139,
+      "score": 3.17e-05
+     },
+     {
+      "index": 1260,
+      "passcode": 2009101,
+      "score": 3.17e-05
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0600.jpg",
@@ -3671,83 +6521,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0600_08.png",
-   "candidates": [
-    {
-     "index": 2201,
-     "passcode": 74458486,
-     "score": 0.0357806
-    },
-    {
-     "index": 10418,
-     "passcode": 3441553,
-     "score": 0.0006943
-    },
-    {
-     "index": 12151,
-     "passcode": 17688543,
-     "score": 0.0006501
-    },
-    {
-     "index": 11155,
-     "passcode": 63012333,
-     "score": 0.0006403
-    },
-    {
-     "index": 3361,
-     "passcode": 67464807,
-     "score": 0.0006361
-    },
-    {
-     "index": 11880,
-     "passcode": 47741109,
-     "score": 0.0006199
-    },
-    {
-     "index": 1023,
-     "passcode": 60530944,
-     "score": 0.0006129
-    },
-    {
-     "index": 1682,
-     "passcode": 16970158,
-     "score": 0.0005812
-    },
-    {
-     "index": 8101,
-     "passcode": 22123627,
-     "score": 0.0005414
-    },
-    {
-     "index": 2086,
-     "passcode": 94192409,
-     "score": 0.0005081
-    },
-    {
-     "index": 9629,
-     "passcode": 10780049,
-     "score": 0.0004802
-    },
-    {
-     "index": 1224,
-     "passcode": 79409334,
-     "score": 0.0004633
-    },
-    {
-     "index": 10793,
-     "passcode": 3244563,
-     "score": 0.0004605
-    },
-    {
-     "index": 1319,
-     "passcode": 16984449,
-     "score": 0.0004542
-    },
-    {
-     "index": 521,
-     "passcode": 58921041,
-     "score": 0.0004531
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 2201,
+      "passcode": 74458486,
+      "score": 0.0357806
+     },
+     {
+      "index": 10418,
+      "passcode": 3441553,
+      "score": 0.0006943
+     },
+     {
+      "index": 12151,
+      "passcode": 17688543,
+      "score": 0.0006501
+     },
+     {
+      "index": 11155,
+      "passcode": 63012333,
+      "score": 0.0006403
+     },
+     {
+      "index": 3361,
+      "passcode": 67464807,
+      "score": 0.0006361
+     },
+     {
+      "index": 11880,
+      "passcode": 47741109,
+      "score": 0.0006199
+     },
+     {
+      "index": 1023,
+      "passcode": 60530944,
+      "score": 0.0006129
+     },
+     {
+      "index": 1682,
+      "passcode": 16970158,
+      "score": 0.0005812
+     },
+     {
+      "index": 8101,
+      "passcode": 22123627,
+      "score": 0.0005414
+     },
+     {
+      "index": 2086,
+      "passcode": 94192409,
+      "score": 0.0005081
+     },
+     {
+      "index": 9629,
+      "passcode": 10780049,
+      "score": 0.0004802
+     },
+     {
+      "index": 1224,
+      "passcode": 79409334,
+      "score": 0.0004633
+     },
+     {
+      "index": 10793,
+      "passcode": 3244563,
+      "score": 0.0004605
+     },
+     {
+      "index": 1319,
+      "passcode": 16984449,
+      "score": 0.0004542
+     },
+     {
+      "index": 521,
+      "passcode": 58921041,
+      "score": 0.0004531
+     }
+    ],
+    "fp32": [
+     {
+      "index": 2201,
+      "passcode": 74458486,
+      "score": 0.0423708
+     },
+     {
+      "index": 1023,
+      "passcode": 60530944,
+      "score": 0.0009023
+     },
+     {
+      "index": 10418,
+      "passcode": 3441553,
+      "score": 0.0006979
+     },
+     {
+      "index": 3361,
+      "passcode": 67464807,
+      "score": 0.0006436
+     },
+     {
+      "index": 1682,
+      "passcode": 16970158,
+      "score": 0.0006381
+     },
+     {
+      "index": 12151,
+      "passcode": 17688543,
+      "score": 0.0006193
+     },
+     {
+      "index": 1224,
+      "passcode": 79409334,
+      "score": 0.0006062
+     },
+     {
+      "index": 11155,
+      "passcode": 63012333,
+      "score": 0.0005412
+     },
+     {
+      "index": 1319,
+      "passcode": 16984449,
+      "score": 0.0005221
+     },
+     {
+      "index": 2930,
+      "passcode": 72060415,
+      "score": 0.0004999
+     },
+     {
+      "index": 3658,
+      "passcode": 7409792,
+      "score": 0.0004833
+     },
+     {
+      "index": 11880,
+      "passcode": 47741109,
+      "score": 0.0004734
+     },
+     {
+      "index": 8101,
+      "passcode": 22123627,
+      "score": 0.0004638
+     },
+     {
+      "index": 2086,
+      "passcode": 94192409,
+      "score": 0.0004637
+     },
+     {
+      "index": 10962,
+      "passcode": 57019473,
+      "score": 0.0004367
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0600.jpg",
@@ -3772,83 +6701,162 @@
    ],
    "rotation": 0,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0600_09.png",
-   "candidates": [
-    {
-     "index": 10045,
-     "passcode": 50185950,
-     "score": 0.0679998
-    },
-    {
-     "index": 9141,
-     "passcode": 69181753,
-     "score": 0.0025995
-    },
-    {
-     "index": 13547,
-     "passcode": 57116033,
-     "score": 0.0022673
-    },
-    {
-     "index": 6756,
-     "passcode": 40640057,
-     "score": 0.0017841
-    },
-    {
-     "index": 9101,
-     "passcode": 19050066,
-     "score": 0.001497
-    },
-    {
-     "index": 6764,
-     "passcode": 40817915,
-     "score": 0.0014914
-    },
-    {
-     "index": 5580,
-     "passcode": 85555787,
-     "score": 0.0013991
-    },
-    {
-     "index": 2892,
-     "passcode": 1035143,
-     "score": 0.0013354
-    },
-    {
-     "index": 12186,
-     "passcode": 20065322,
-     "score": 0.0012053
-    },
-    {
-     "index": 3075,
-     "passcode": 89086566,
-     "score": 0.0009913
-    },
-    {
-     "index": 6751,
-     "passcode": 44632120,
-     "score": 0.0009825
-    },
-    {
-     "index": 1098,
-     "passcode": 16255442,
-     "score": 0.0009202
-    },
-    {
-     "index": 12487,
-     "passcode": 18063928,
-     "score": 0.000907
-    },
-    {
-     "index": 6928,
-     "passcode": 86223870,
-     "score": 0.0008392
-    },
-    {
-     "index": 6760,
-     "passcode": 7021574,
-     "score": 0.0008387
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 10045,
+      "passcode": 50185950,
+      "score": 0.0679998
+     },
+     {
+      "index": 9141,
+      "passcode": 69181753,
+      "score": 0.0025995
+     },
+     {
+      "index": 13547,
+      "passcode": 57116033,
+      "score": 0.0022673
+     },
+     {
+      "index": 6756,
+      "passcode": 40640057,
+      "score": 0.0017841
+     },
+     {
+      "index": 9101,
+      "passcode": 19050066,
+      "score": 0.001497
+     },
+     {
+      "index": 6764,
+      "passcode": 40817915,
+      "score": 0.0014914
+     },
+     {
+      "index": 5580,
+      "passcode": 85555787,
+      "score": 0.0013991
+     },
+     {
+      "index": 2892,
+      "passcode": 1035143,
+      "score": 0.0013354
+     },
+     {
+      "index": 12186,
+      "passcode": 20065322,
+      "score": 0.0012053
+     },
+     {
+      "index": 3075,
+      "passcode": 89086566,
+      "score": 0.0009913
+     },
+     {
+      "index": 6751,
+      "passcode": 44632120,
+      "score": 0.0009825
+     },
+     {
+      "index": 1098,
+      "passcode": 16255442,
+      "score": 0.0009202
+     },
+     {
+      "index": 12487,
+      "passcode": 18063928,
+      "score": 0.000907
+     },
+     {
+      "index": 6928,
+      "passcode": 86223870,
+      "score": 0.0008392
+     },
+     {
+      "index": 6760,
+      "passcode": 7021574,
+      "score": 0.0008387
+     }
+    ],
+    "fp32": [
+     {
+      "index": 10045,
+      "passcode": 50185950,
+      "score": 0.0907258
+     },
+     {
+      "index": 9141,
+      "passcode": 69181753,
+      "score": 0.002574
+     },
+     {
+      "index": 6756,
+      "passcode": 40640057,
+      "score": 0.0025197
+     },
+     {
+      "index": 13547,
+      "passcode": 57116033,
+      "score": 0.00202
+     },
+     {
+      "index": 6764,
+      "passcode": 40817915,
+      "score": 0.0018048
+     },
+     {
+      "index": 12186,
+      "passcode": 20065322,
+      "score": 0.0015317
+     },
+     {
+      "index": 9101,
+      "passcode": 19050066,
+      "score": 0.0014419
+     },
+     {
+      "index": 2892,
+      "passcode": 1035143,
+      "score": 0.0014076
+     },
+     {
+      "index": 3075,
+      "passcode": 89086566,
+      "score": 0.0012272
+     },
+     {
+      "index": 6751,
+      "passcode": 44632120,
+      "score": 0.0011564
+     },
+     {
+      "index": 5580,
+      "passcode": 85555787,
+      "score": 0.0010939
+     },
+     {
+      "index": 2986,
+      "passcode": 69579761,
+      "score": 0.0010074
+     },
+     {
+      "index": 1098,
+      "passcode": 16255442,
+      "score": 0.0010068
+     },
+     {
+      "index": 12487,
+      "passcode": 18063928,
+      "score": 0.0008902
+     },
+     {
+      "index": 6759,
+      "passcode": 34873741,
+      "score": 0.0008545
+     }
+    ]
+   }
   },
   {
    "image": "crates/draw-core/tests/fixtures/detect/video_frame_0600.jpg",
@@ -3873,83 +6881,162 @@
    ],
    "rotation": 180,
    "crop": "crates/draw-core/tests/fixtures/classify/crop_video_frame_0600_10.png",
-   "candidates": [
-    {
-     "index": 782,
-     "passcode": 14558127,
-     "score": 0.0022767
-    },
-    {
-     "index": 906,
-     "passcode": 84257883,
-     "score": 0.0012914
-    },
-    {
-     "index": 3160,
-     "passcode": 81674782,
-     "score": 0.0012354
-    },
-    {
-     "index": 863,
-     "passcode": 37970940,
-     "score": 0.0010508
-    },
-    {
-     "index": 4411,
-     "passcode": 373085,
-     "score": 0.0009966
-    },
-    {
-     "index": 5666,
-     "passcode": 31122090,
-     "score": 0.000988
-    },
-    {
-     "index": 6678,
-     "passcode": 45041488,
-     "score": 0.0009669
-    },
-    {
-     "index": 8727,
-     "passcode": 40398073,
-     "score": 0.0009583
-    },
-    {
-     "index": 7310,
-     "passcode": 40252269,
-     "score": 0.000831
-    },
-    {
-     "index": 11338,
-     "passcode": 26517393,
-     "score": 0.0006719
-    },
-    {
-     "index": 2283,
-     "passcode": 23950192,
-     "score": 0.0006545
-    },
-    {
-     "index": 6976,
-     "passcode": 47297616,
-     "score": 0.0006538
-    },
-    {
-     "index": 3801,
-     "passcode": 79979666,
-     "score": 0.0006386
-    },
-    {
-     "index": 5407,
-     "passcode": 13504844,
-     "score": 0.0006348
-    },
-    {
-     "index": 3070,
-     "passcode": 62980542,
-     "score": 0.0006266
-    }
-   ]
+   "candidates": {
+    "int8": [
+     {
+      "index": 782,
+      "passcode": 14558127,
+      "score": 0.0022767
+     },
+     {
+      "index": 906,
+      "passcode": 84257883,
+      "score": 0.0012914
+     },
+     {
+      "index": 3160,
+      "passcode": 81674782,
+      "score": 0.0012354
+     },
+     {
+      "index": 863,
+      "passcode": 37970940,
+      "score": 0.0010508
+     },
+     {
+      "index": 4411,
+      "passcode": 373085,
+      "score": 0.0009966
+     },
+     {
+      "index": 5666,
+      "passcode": 31122090,
+      "score": 0.000988
+     },
+     {
+      "index": 6678,
+      "passcode": 45041488,
+      "score": 0.0009669
+     },
+     {
+      "index": 8727,
+      "passcode": 40398073,
+      "score": 0.0009583
+     },
+     {
+      "index": 7310,
+      "passcode": 40252269,
+      "score": 0.000831
+     },
+     {
+      "index": 11338,
+      "passcode": 26517393,
+      "score": 0.0006719
+     },
+     {
+      "index": 2283,
+      "passcode": 23950192,
+      "score": 0.0006545
+     },
+     {
+      "index": 6976,
+      "passcode": 47297616,
+      "score": 0.0006538
+     },
+     {
+      "index": 3801,
+      "passcode": 79979666,
+      "score": 0.0006386
+     },
+     {
+      "index": 5407,
+      "passcode": 13504844,
+      "score": 0.0006348
+     },
+     {
+      "index": 3070,
+      "passcode": 62980542,
+      "score": 0.0006266
+     }
+    ],
+    "fp32": [
+     {
+      "index": 782,
+      "passcode": 14558127,
+      "score": 0.002915
+     },
+     {
+      "index": 5666,
+      "passcode": 31122090,
+      "score": 0.0013228
+     },
+     {
+      "index": 8727,
+      "passcode": 40398073,
+      "score": 0.0012258
+     },
+     {
+      "index": 6678,
+      "passcode": 45041488,
+      "score": 0.0010662
+     },
+     {
+      "index": 906,
+      "passcode": 84257883,
+      "score": 0.0010456
+     },
+     {
+      "index": 4411,
+      "passcode": 373085,
+      "score": 0.0010315
+     },
+     {
+      "index": 3160,
+      "passcode": 81674782,
+      "score": 0.0009387
+     },
+     {
+      "index": 7310,
+      "passcode": 40252269,
+      "score": 0.000806
+     },
+     {
+      "index": 863,
+      "passcode": 37970940,
+      "score": 0.0007652
+     },
+     {
+      "index": 3986,
+      "passcode": 7407724,
+      "score": 0.0007614
+     },
+     {
+      "index": 3070,
+      "passcode": 62980542,
+      "score": 0.0006813
+     },
+     {
+      "index": 3801,
+      "passcode": 79979666,
+      "score": 0.0006702
+     },
+     {
+      "index": 5599,
+      "passcode": 68007326,
+      "score": 0.000629
+     },
+     {
+      "index": 7385,
+      "passcode": 79629370,
+      "score": 0.0006241
+     },
+     {
+      "index": 11338,
+      "passcode": 26517393,
+      "score": 0.0006128
+     }
+    ]
+   }
   }
  ]
 }

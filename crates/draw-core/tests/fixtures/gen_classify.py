@@ -2,12 +2,19 @@
 
 For every reference box of the detection fixtures (`detect/golden.json`, written by
 `gen_detect.py`), this script makes the card's 224x224 crop with OpenCV, picks its
-orientation, runs the pinned `vit_int8.onnx` (the exact file listed in
-`ModelManifest::PINNED`) through onnxruntime on it, and writes:
+orientation with the pinned `vit_int8.onnx`, runs both `vit_int8.onnx` and
+`vit_fp32.onnx` (the exact files listed in `ModelManifest::PINNED`) through
+onnxruntime on the upright crop, and writes:
 
 - `classify/crop_<image>_<box>.png`: the upright crop, lossless RGB;
 - `classify/golden.json`: per crop, the quad it was warped from, the rotation chosen,
-  and the top-k candidates (passcode and score).
+  and each model's top-k candidates (passcode and score).
+
+Why two models: ONNX Runtime builds disagree on the int8 ViT. On these crops, the
+prebuilt runtime that draw-core's `ort` downloads scores the int8 top-1 up to 0.2 lower
+than Python's onnxruntime does, on the identical input tensor (the top-1 card itself
+almost always agrees). On the fp32 ViT the two agree within about 2e-3. So draw-core
+checks its scores against the fp32 reference, and only the top-1 against the int8 one.
 
 The crops follow draw2's browser pipeline (`docs/scripts/pipeline.js`), the reference
 for draw-core:
@@ -32,13 +39,13 @@ How to regenerate (from the repo root, in the throwaway environment of `gen_dete
     uv venv --python 3.12 .venv-fixtures
     VIRTUAL_ENV=.venv-fixtures uv pip install onnxruntime opencv-python numpy
     mkdir -p .models
-    for f in vit_int8.onnx cardnames_onnx.json; do
+    for f in vit_int8.onnx vit_fp32.onnx cardnames_onnx.json; do
       curl -fL -o .models/$f \
         https://huggingface.co/HichTala/draw2/resolve/7a690eecf6aef5c812ba9a5a1d3e1ced4968b5b3/onnx/$f
     done
     .venv-fixtures/bin/python -I crates/draw-core/tests/fixtures/gen_classify.py .models
 
-The URLs are `ModelManifest::PINNED.url(...)` for the int8 classifier and its labels;
+The URLs are `ModelManifest::PINNED.url(...)` for the classifiers and their labels;
 if the manifest moves to another commit, update them here and in the SHA-256 values
 below.
 
@@ -56,9 +63,12 @@ import cv2
 import numpy as np
 import onnxruntime
 
-# Must match the int8 entries in crates/draw-core/src/manifest.rs.
-MODEL_FILE = "vit_int8.onnx"
-MODEL_SHA256 = "f2da9ce6b2c02498e0c9f8fc0b7817eeebd88bfe8491c8c7f83055dfd57e5b4a"
+# Must match the classifier entries in crates/draw-core/src/manifest.rs. The int8 model
+# also picks each crop's rotation.
+MODELS = {
+    "int8": ("vit_int8.onnx", "f2da9ce6b2c02498e0c9f8fc0b7817eeebd88bfe8491c8c7f83055dfd57e5b4a"),
+    "fp32": ("vit_fp32.onnx", "8e6b63c64e081f6f5326adf0c758247bb88764224c2380d547e9c9005e574ca4"),
+}
 LABELS_FILE = "cardnames_onnx.json"
 LABELS_SHA256 = "70d13d586eee498b33ee493b48cd564fbffcb99b0476897978de1fd7d856f639"
 
@@ -157,13 +167,26 @@ def classify(session, crop: np.ndarray) -> tuple:
 
 def main() -> None:
     if len(sys.argv) != 2:
-        sys.exit(f"usage: {sys.argv[0]} <models dir with {MODEL_FILE}, {LABELS_FILE}>")
+        files = ", ".join([*(file for file, _ in MODELS.values()), LABELS_FILE])
+        sys.exit(f"usage: {sys.argv[0]} <models dir with {files}>")
     models_dir = Path(sys.argv[1])
-    model = verified(models_dir, MODEL_FILE, MODEL_SHA256)
     labels = json.loads(verified(models_dir, LABELS_FILE, LABELS_SHA256).read_text())
-    session = onnxruntime.InferenceSession(
-        str(model), providers=["CPUExecutionProvider"]
-    )
+    sessions = {
+        name: onnxruntime.InferenceSession(
+            str(verified(models_dir, file, sha)), providers=["CPUExecutionProvider"]
+        )
+        for name, (file, sha) in MODELS.items()
+    }
+
+    def candidates(top: list) -> list:
+        return [
+            {
+                "index": i,
+                "passcode": int(labels[str(i)]["card_id"]),
+                "score": round(score, 7),
+            }
+            for i, score in top
+        ]
 
     OUT_DIR.mkdir(exist_ok=True)
     for old in OUT_DIR.glob("crop_*.png"):
@@ -177,7 +200,8 @@ def main() -> None:
         stem = Path(image["path"]).stem
         for index, box in enumerate(image["boxes"]):
             quad = portrait_quad(box["corners"])
-            rotation, upright, top = classify(session, warp(rgb, quad))
+            rotation, upright, top = classify(sessions["int8"], warp(rgb, quad))
+            fp32_top = top_k(sessions["fp32"], upright)
             png = OUT_DIR / f"crop_{stem}_{index:02d}.png"
             cv2.imwrite(
                 str(png),
@@ -191,24 +215,26 @@ def main() -> None:
                     "quad": [[round(x, 4), round(y, 4)] for x, y in quad.tolist()],
                     "rotation": rotation,
                     "crop": png.relative_to(REPO_ROOT).as_posix(),
-                    "candidates": [
-                        {
-                            "index": i,
-                            "passcode": int(labels[str(i)]["card_id"]),
-                            "score": round(score, 7),
-                        }
-                        for i, score in top
-                    ],
+                    "candidates": {
+                        "int8": candidates(top),
+                        "fp32": candidates(fp32_top),
+                    },
                 }
             )
-            best = labels[str(top[0][0])]
-            print(f"{png.name}: {rotation:3d}° {best['label']} {top[0][1]:.4f}")
+            best = labels[str(top[0][0])]["label"]
+            fp32_best = labels[str(fp32_top[0][0])]["label"]
+            print(
+                f"{png.name}: {rotation:3d}° int8 {best} {top[0][1]:.4f},"
+                f" fp32 {fp32_best} {fp32_top[0][1]:.4f}"
+            )
 
     golden = {
         "generator": "crates/draw-core/tests/fixtures/gen_classify.py",
         "onnxruntime": onnxruntime.__version__,
         "opencv": cv2.__version__,
-        "model": {"file": MODEL_FILE, "sha256": MODEL_SHA256},
+        "models": {
+            name: {"file": file, "sha256": sha} for name, (file, sha) in MODELS.items()
+        },
         "labels": {"file": LABELS_FILE, "sha256": LABELS_SHA256},
         "top_k": TOP_K,
         "crops": crops,
